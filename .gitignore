@@ -1,4 +1,3 @@
-*.class
-
-# Ignore macOS tracking files
-.DS_STORE
+_site
+.sass-cache
+.jekyll-metadata
