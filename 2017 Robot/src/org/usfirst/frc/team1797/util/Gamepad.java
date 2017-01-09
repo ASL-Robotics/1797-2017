@@ -61,12 +61,12 @@ public class Gamepad extends Joystick {
 	 * 
 	 * @return if upper d-pad button is pressed
 	 */
-	public boolean getRawDPadUp() {
+	public boolean getRawDPadNorth() {
 		return getPOV() == 0;
 	}
 
-	public DPadButton getDPadUp() {
-		return new DPadButton(this, DPadButton.Direction.UP);
+	public DPadButton getDPadNorth() {
+		return new DPadButton(this, DPadButton.Direction.NORTH);
 	}
 
 	/**
@@ -74,12 +74,12 @@ public class Gamepad extends Joystick {
 	 * 
 	 * @return if the lower d-pad button is pressed
 	 */
-	public boolean getRawDPadDown() {
+	public boolean getRawDPadSouth() {
 		return getPOV() == 180;
 	}
 
-	public DPadButton getDPadDown() {
-		return new DPadButton(this, DPadButton.Direction.DOWN);
+	public DPadButton getDPadSouth() {
+		return new DPadButton(this, DPadButton.Direction.SOUTH);
 	}
 
 	/**
@@ -87,12 +87,12 @@ public class Gamepad extends Joystick {
 	 * 
 	 * @return if the left d-pad button is pressed
 	 */
-	public boolean getRawDPadLeft() {
+	public boolean getRawDPadWest() {
 		return getPOV() == 270;
 	}
 
-	public DPadButton getDPadLeft() {
-		return new DPadButton(this, DPadButton.Direction.LEFT);
+	public DPadButton getDPadWest() {
+		return new DPadButton(this, DPadButton.Direction.WEST);
 	}
 
 	/**
@@ -100,12 +100,64 @@ public class Gamepad extends Joystick {
 	 * 
 	 * @return if the right d-pad button is pressed
 	 */
-	public boolean getRawDPadRight() {
+	public boolean getRawDPadEast() {
 		return getPOV() == 90;
 	}
 
-	public DPadButton getDPadRight() {
-		return new DPadButton(this, DPadButton.Direction.RIGHT);
+	public DPadButton getDPadEast() {
+		return new DPadButton(this, DPadButton.Direction.EAST);
+	}
+	
+	/**
+	 * The upper-right d-pad button.
+	 * 
+	 * @return if upper d-pad button is pressed
+	 */
+	public boolean getRawDPadNorthEast() {
+		return getPOV() == 0;
+	}
+
+	public DPadButton getDPadNorthEast() {
+		return new DPadButton(this, DPadButton.Direction.NORTHEAST);
+	}
+
+	/**
+	 * The lower-right d-pad button.
+	 * 
+	 * @return if the lower d-pad button is pressed
+	 */
+	public boolean getRawDPadSouthEast() {
+		return getPOV() == 180;
+	}
+
+	public DPadButton getDPadSouthEast() {
+		return new DPadButton(this, DPadButton.Direction.SOUTHEAST);
+	}
+
+	/**
+	 * The upper-left d-pad button.
+	 * 
+	 * @return if the left d-pad button is pressed
+	 */
+	public boolean getRawDPadNorthWest() {
+		return getPOV() == 270;
+	}
+
+	public DPadButton getDPadNorthWest() {
+		return new DPadButton(this, DPadButton.Direction.NORTHWEST);
+	}
+
+	/**
+	 * The lower-left d-pad button.
+	 * 
+	 * @return if the right d-pad button is pressed
+	 */
+	public boolean getRawDPadSouthWest() {
+		return getPOV() == 90;
+	}
+
+	public DPadButton getDPadSouthWest() {
+		return new DPadButton(this, DPadButton.Direction.SOUTHWEST);
 	}
 
 	/**
@@ -266,7 +318,7 @@ public class Gamepad extends Joystick {
 
 	public static class DPadButton extends Button {
 		public static enum Direction {
-			UP, DOWN, LEFT, RIGHT
+			NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH,SOUTHWEST,WEST,NORTHWEST
 		}
 
 		private Gamepad gamepad;
@@ -279,14 +331,22 @@ public class Gamepad extends Joystick {
 
 		public boolean get() {
 			switch (direction) {
-			case UP:
-				return gamepad.getRawDPadUp();
-			case DOWN:
-				return gamepad.getRawDPadDown();
-			case LEFT:
-				return gamepad.getRawDPadLeft();
-			case RIGHT:
-				return gamepad.getRawDPadRight();
+			case NORTH:
+				return gamepad.getRawDPadNorth();
+			case EAST:
+				return gamepad.getRawDPadSouth();
+			case SOUTH:
+				return gamepad.getRawDPadWest();
+			case WEST:
+				return gamepad.getRawDPadEast();
+			case NORTHEAST:
+				return gamepad.getRawDPadNorth();
+			case SOUTHEAST:
+				return gamepad.getRawDPadSouth();
+			case NORTHWEST:
+				return gamepad.getRawDPadWest();
+			case SOUTHWEST:
+				return gamepad.getRawDPadEast();
 			default: // Never reached
 				return false;
 			}
