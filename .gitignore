@@ -2,3 +2,6 @@
 
 # Ignore macOS tracking files
 .DS_STORE
+
+**/build
+**/dist
