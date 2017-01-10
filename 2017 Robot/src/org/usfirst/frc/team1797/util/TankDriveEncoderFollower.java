@@ -67,14 +67,13 @@ public class TankDriveEncoderFollower {
 	 *            The acceleration term for feedforward control.
 	 * @param kAn
 	 *            The angle term for feedback control. Tune this last.
+	 *            
+	 * TODO: generate left and right trajectories
 	 */
 
-	public TankDriveEncoderFollower(Trajectory source, double drivetrainWidth, Gyro gyro, Encoder leftEncoder,
+	public TankDriveEncoderFollower(Trajectory left, Trajectory right, Gyro gyro, Encoder leftEncoder,
 			Encoder rightEncoder, RobotDrive robotDrive, double kp, double kd, double kv, double kAc, double kAn) {
 
-		TankModifier tankModifier = new TankModifier(source).modify(drivetrainWidth);
-		leftTrajectory = tankModifier.getLeftTrajectory();
-		rightTrajectory = tankModifier.getRightTrajectory();
 
 		this.leftEncoder = leftEncoder;
 		this.rightEncoder = rightEncoder;
@@ -82,8 +81,8 @@ public class TankDriveEncoderFollower {
 
 		this.robotDrive = robotDrive;
 
-		dt = source.get(0).dt;
-		length = source.length();
+		dt = left.get(0).dt;
+		length = left.length();
 
 		this.kp = kp;
 		this.kd = kd;
