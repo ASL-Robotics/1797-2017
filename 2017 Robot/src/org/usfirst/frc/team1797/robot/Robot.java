@@ -1,16 +1,15 @@
 
 package org.usfirst.frc.team1797.robot;
 
+import org.usfirst.frc.team1797.robot.commands.DefaultAutoCommand;
+import org.usfirst.frc.team1797.robot.subsystems.ExampleSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team1797.robot.commands.DefaultAutoCommand;
-import org.usfirst.frc.team1797.robot.commands.PickUpGearCommand;
-import org.usfirst.frc.team1797.robot.subsystems.ExampleSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -107,11 +106,20 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
+	public void testInit(){
+		TestBoardMap.init();
+	}
+	
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
 	public void testPeriodic() {
+		TestBoardMap.TB_MOTOR_1.set(oi.testController.getLeftX());
+		TestBoardMap.TB_MOTOR_2.set(oi.testController.getLeftY());
+		TestBoardMap.TB_MOTOR_3.set(oi.testController.getRightX());
+		TestBoardMap.TB_MOTOR_4.set(oi.testController.getRightY());
+		
 		LiveWindow.run();
 	}
 }
