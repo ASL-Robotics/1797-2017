@@ -18,7 +18,7 @@ public class Drivetrain extends Subsystem {
 		INSTANCE = new Drivetrain(RobotMap.driverStick, 0, 1, 2, 3);
 	}
 	
-	// Polymorphism, yay! We may need to switch to TalonSRXs later, in which case we should 
+	// Polymorphism, yay! We may need to switch to TalonSRXs later, in which case we can just switch out classes in the constructor
 	private SpeedController left1, left2, right1, right2;
 	private RobotDrive drive;
 	private DriveType driveType;
