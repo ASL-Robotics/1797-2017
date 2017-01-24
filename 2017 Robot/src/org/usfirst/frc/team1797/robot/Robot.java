@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		chooser.addDefault("Default Auto", new DefaultAutoCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		//SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -106,6 +106,7 @@ public class Robot extends IterativeRobot {
 
 	public void testInit(){
 		TestBoardMap.init();
+		SmartDashboard.putNumber("Encoder",TestBoardMap.TB_ENC_1.get());
 	}
 	
 	/**
@@ -117,7 +118,6 @@ public class Robot extends IterativeRobot {
 		TestBoardMap.TB_MOTOR_2.set(oi.testController.getLeftY());
 		TestBoardMap.TB_MOTOR_3.set(oi.testController.getRightX());
 		TestBoardMap.TB_MOTOR_4.set(oi.testController.getRightY());
-		
 		LiveWindow.run();
 	}
 }
