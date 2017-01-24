@@ -3,6 +3,7 @@ package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.DefaultAutoCommand;
 import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1797.robot.subsystems.Gear;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,6 +25,7 @@ public class Robot extends IterativeRobot {
 
 	// Instantiate required subsystems here and only here
 	public static Drivetrain drivetrain;
+	public static Gear gear;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
