@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.DefaultAutoCommand;
+import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,6 +22,9 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 
+	// Instantiate required subsystems here and only here
+	public static Drivetrain drivetrain;
+
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -33,7 +37,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		chooser.addDefault("Default Auto", new DefaultAutoCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		//SmartDashboard.putData("Auto mode", chooser);
+		// SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -105,11 +109,11 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	public void testInit(){
+	public void testInit() {
 		TestBoardMap.init();
-		SmartDashboard.putNumber("Encoder",TestBoardMap.TB_ENC_1.get());
+		SmartDashboard.putNumber("Encoder", TestBoardMap.TB_ENC_1.get());
 	}
-	
+
 	/**
 	 * This function is called periodically during test mode
 	 */

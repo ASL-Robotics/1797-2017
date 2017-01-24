@@ -2,7 +2,9 @@ package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.subsystems.ClimbSystem;
 import org.usfirst.frc.team1797.robot.subsystems.GearIntake;
-import org.usfirst.frc.team1797.util.Gamepad;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.VictorSP;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -22,11 +24,32 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 	public static final GearIntake GEARINTAKE = new GearIntake();
 	public static final ClimbSystem CLIMBSYSTEM = new ClimbSystem();
-	public static Gamepad driverStick, operatorStick;
+	
+	
+	//Components necessary for Drivetrain
+	public static VictorSP DRIVETRAIN_LEFT, DRIVETRAIN_RIGHT;
+	
+	//Components necessary for Active Gear
+	public static VictorSP GEAR_LEFT_INTAKE, GEAR_RIGHT_INTAKE;
+	public static DoubleSolenoid GEAR_LIFT_PISTON;
+	
+	//Components necessary for Climber
+	public static VictorSP CLIMBER;
 	
 	public static void init(){
-		driverStick = new Gamepad(0);
-		operatorStick = new Gamepad(1);
+		
+		//Drivetrain
+		DRIVETRAIN_LEFT = new VictorSP(0);
+		DRIVETRAIN_RIGHT = new VictorSP(1);
+		
+		//Active Gear
+		GEAR_LEFT_INTAKE = new VictorSP(2);
+		GEAR_RIGHT_INTAKE = new VictorSP(3);
+		GEAR_LIFT_PISTON = new DoubleSolenoid(0,1);
+		
+		//Climber
+		CLIMBER = new VictorSP(4);
+		
 	}
 
 }
