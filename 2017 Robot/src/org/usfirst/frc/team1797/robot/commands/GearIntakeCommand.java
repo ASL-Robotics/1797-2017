@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1797.robot.commands;
 
-import org.usfirst.frc.team1797.robot.RobotMap;
+import org.usfirst.frc.team1797.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -12,27 +12,27 @@ public class GearIntakeCommand extends Command {
     public GearIntakeCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(RobotMap.GEARINTAKE);
+    	requires(Robot.gear);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	RobotMap.GEARINTAKE.intakeGear();
+    	Robot.gear.intakeGear();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(RobotMap.GEARINTAKE.getGearIntakeTime() + 5000 <= System.currentTimeMillis()){
+    	if(Robot.gear.getGearIntakeTime() + 5000 <= System.currentTimeMillis()){
     		
     	} else {
-    		RobotMap.GEARINTAKE.gearWheelsOff();
-    		RobotMap.GEARINTAKE.clawUp();
+    		Robot.gear.gearWheelsOff();
+    		Robot.gear.clawUp();
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(RobotMap.GEARINTAKE.getLastActuation() + 1000 <= System.currentTimeMillis()){
+    	if(Robot.gear.getLastActuation() + 1000 <= System.currentTimeMillis()){
     		return true;
     	} else {
     		return false;
@@ -41,12 +41,12 @@ public class GearIntakeCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	RobotMap.GEARINTAKE.clawPistonOff();
+    	Robot.gear.clawPistonOff();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	RobotMap.GEARINTAKE.clawPistonOff();
+    	Robot.gear.clawPistonOff();
     }
 }

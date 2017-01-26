@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
+import org.usfirst.frc.team1797.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -7,34 +9,36 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class GearIntake extends Subsystem {
+public class Gear extends Subsystem {
 	// Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	private VictorSP leftGearWheel, rightGearWheel;
+	private VictorSP leftIntake, rightIntake;
 	private DoubleSolenoid gearPiston;
+	
 	private long lastActuation;
 	private long gearIntakeTime;
 	
-	public GearIntake(){
-		leftGearWheel = new VictorSP(2);
-		rightGearWheel = new VictorSP(3);
-		gearPiston = new DoubleSolenoid(0,1);
+	public Gear(){
+		leftIntake = RobotMap.GEAR_LEFT_INTAKE;
+		rightIntake = RobotMap.GEAR_RIGHT_INTAKE;
+		gearPiston = RobotMap.GEAR_LIFT_PISTON;
+		
 		lastActuation = Long.MAX_VALUE;
 		gearIntakeTime = Long.MAX_VALUE;
 	}
 	public void intakeGear(){
-		leftGearWheel.set(.5);
-		rightGearWheel.set(-.5);
+		leftIntake.set(.5);
+		rightIntake.set(-.5);
 		gearIntakeTime = System.currentTimeMillis();
 	}
 	public void outtakeGear(){
-		leftGearWheel.set(-.5);
-		rightGearWheel.set(.5);
+		leftIntake.set(-.5);
+		rightIntake.set(.5);
 	}
 	public void gearWheelsOff(){
-		leftGearWheel.set(0);
-		rightGearWheel.set(0);
+		leftIntake.set(0);
+		rightIntake.set(0);
 		gearIntakeTime = Long.MAX_VALUE;
 	}
 	public void clawUp(){

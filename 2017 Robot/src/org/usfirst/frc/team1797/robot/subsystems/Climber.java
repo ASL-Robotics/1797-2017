@@ -6,13 +6,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class ClimbSystem extends Subsystem {
+public class Climber extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
 	private VictorSP climber;
 	
-	public ClimbSystem(){
+	public Climber(){
 		climber = new VictorSP(4);
 	}
 	public void climb(){

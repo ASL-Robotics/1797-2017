@@ -1,8 +1,5 @@
 package org.usfirst.frc.team1797.robot;
 
-import org.usfirst.frc.team1797.robot.subsystems.ClimbSystem;
-import org.usfirst.frc.team1797.robot.subsystems.GearIntake;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -22,8 +19,6 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
-	public static final GearIntake GEARINTAKE = new GearIntake();
-	public static final ClimbSystem CLIMBSYSTEM = new ClimbSystem();
 	
 	
 	//Components necessary for Drivetrain
