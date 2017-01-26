@@ -9,15 +9,13 @@ import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team1797.robot.RobotMap;
 
 import edu.wpi.cscore.CvSink;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /**
  *
  */
-public class GripSubsystem extends Subsystem {
+public class GripSubsystem extends PIDSubsystem {
 
-	public static final GripSubsystem INSTANCE;
 	private GripPipeline pipeline;
 	private Rect[] boundingRects;
 	private CvSink sink;
@@ -30,13 +28,15 @@ public class GripSubsystem extends Subsystem {
 	static {
 		LEFT_CENTER_PIXEL = (CAMERA_WIDTH >> 1) - 1;
 	}
-
-	static {
-		INSTANCE = new GripSubsystem();
-	}
+	
+	// Set up all constants for PID
+	// TODO: tune PID for vision tracking
+	public static final double KP = 0;
+	public static final double KI = 0;
+	public static final double KD = 0;
 
 	public GripSubsystem() {
-		super();
+		super(KP, KI, KD);
 		pipeline = new GripPipeline();
 		boundingRects = new Rect[2];
 		sink = RobotMap.CAMERA_SERVER.getVideo("Front Camera");
@@ -80,5 +80,16 @@ public class GripSubsystem extends Subsystem {
 			System.out.println("Error: there are not 2 rectangles in frame!");
 			return -1;
 		}
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		return getCurrentCenterX();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		//TODO: Add ultrasonic component and vision component to determine robot trajetctory
+		
 	}
 }
