@@ -54,6 +54,10 @@ public class Drivetrain extends Subsystem {
 		robotDrive.drive(0, 0);
 	}
 	
+	public void setMotors(double leftValue, double rightValue) {
+		robotDrive.drive(leftValue, rightValue);
+	}
+	
 	private enum DriveType {
 		TANK, ARCADE;
 	}
