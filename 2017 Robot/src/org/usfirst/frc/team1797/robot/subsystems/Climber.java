@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
+import org.usfirst.frc.team1797.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -13,7 +15,7 @@ public class Climber extends Subsystem {
 	private VictorSP climber;
 	
 	public Climber(){
-		climber = new VictorSP(4);
+		climber = RobotMap.CLIMBER;
 	}
 	public void climb(){
 		climber.set(.1);
