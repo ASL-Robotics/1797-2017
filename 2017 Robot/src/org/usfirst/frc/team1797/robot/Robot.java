@@ -29,6 +29,7 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static Gear gear;
 	public static Climber climber;
+	public static GripSubsystem grip;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -46,6 +47,7 @@ public class Robot extends IterativeRobot {
 		gear = new Gear();
 		drivetrain = new Drivetrain();
 		climber = new Climber();
+		grip = new GripSubsystem();
 	}
 
 	/**

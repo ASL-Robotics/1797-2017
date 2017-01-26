@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1797.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -31,6 +33,11 @@ public class RobotMap {
 	//Components necessary for Climber
 	public static VictorSP CLIMBER;
 	
+	//Components necessary for Vision
+	public static CameraServer CAMERA_SERVER;
+	public static final int FRONT_CAMERA_PORT = 0;
+	public static UsbCamera FRONT_CAMERA;
+	
 	public static void init(){
 		
 		//Drivetrain
@@ -45,6 +52,9 @@ public class RobotMap {
 		//Climber
 		CLIMBER = new VictorSP(4);
 		
+		//Vision
+		CAMERA_SERVER = CameraServer.getInstance();
+		FRONT_CAMERA = CAMERA_SERVER.startAutomaticCapture("Front Camera", FRONT_CAMERA_PORT);
 	}
 
 }
