@@ -35,7 +35,7 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	public static Gamepad driverController, operatorController, testController;
+	public Gamepad driverController, operatorController, testController;
 	
 	public OI(){
 		driverController = new Gamepad(0);

@@ -5,6 +5,7 @@ import org.usfirst.frc.team1797.robot.commands.DefaultAutoCommand;
 import org.usfirst.frc.team1797.robot.subsystems.Climber;
 import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1797.robot.subsystems.Gear;
+import org.usfirst.frc.team1797.vision.GripSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -40,8 +41,11 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		chooser.addDefault("Default Auto", new DefaultAutoCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		// SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData("Auto mode", chooser);
+		
+		gear = new Gear();
+		drivetrain = new Drivetrain();
+		climber = new Climber();
 	}
 
 	/**
@@ -74,15 +78,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -97,10 +92,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -114,8 +105,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void testInit() {
-		TestBoardMap.init();
-		SmartDashboard.putNumber("Encoder", TestBoardMap.TB_ENC_1.get());
 	}
 
 	/**
@@ -123,10 +112,5 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		TestBoardMap.TB_MOTOR_1.set(oi.testController.getLeftX());
-		TestBoardMap.TB_MOTOR_2.set(oi.testController.getLeftY());
-		TestBoardMap.TB_MOTOR_3.set(oi.testController.getRightX());
-		TestBoardMap.TB_MOTOR_4.set(oi.testController.getRightY());
-		LiveWindow.run();
 	}
 }
