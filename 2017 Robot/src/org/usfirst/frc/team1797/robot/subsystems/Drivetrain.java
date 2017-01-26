@@ -17,6 +17,12 @@ public class Drivetrain extends Subsystem {
 	
 	private DriveType driveType;
 	
+	public static final Drivetrain INSTANCE;
+	
+	static {
+		INSTANCE = new Drivetrain();
+	}
+	
 	private Drivetrain() {
 		leftControl = RobotMap.DRIVETRAIN_LEFT;
 		rightControl = RobotMap.DRIVETRAIN_RIGHT;
