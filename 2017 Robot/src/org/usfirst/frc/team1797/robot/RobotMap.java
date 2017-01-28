@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -30,7 +31,7 @@ public class RobotMap {
 	// Components necessary for Drivetrain
 	public static VictorSP DRIVETRAIN_VICTOR_LEFT, DRIVETRAIN_VICTOR_RIGHT;
 	public static Encoder DRIVETRAIN_ENCODER_LEFT, DRIVETRAIN_ENCODER_RIGHT;
-	public static Gyro DRIVETRAIN_GYRO;
+	public static ADXRS450_Gyro DRIVETRAIN_GYRO;
 
 	// Components necessary for Active Gear
 	public static VictorSP GEAR_INTAKE, GEAR_RIGHT_INTAKE;
@@ -51,10 +52,13 @@ public class RobotMap {
 		DRIVETRAIN_VICTOR_RIGHT = new VictorSP(1);
 
 		DRIVETRAIN_ENCODER_LEFT = new Encoder(0, 1);
+		SmartDashboard.putData("Drivetrain Left Encoder", DRIVETRAIN_ENCODER_LEFT);
 		DRIVETRAIN_ENCODER_RIGHT = new Encoder(2, 3);
+		SmartDashboard.putData("Drivetrain Right Encoder", DRIVETRAIN_ENCODER_RIGHT);
 
 		DRIVETRAIN_GYRO = new ADXRS450_Gyro();
-
+		SmartDashboard.putData("Drivetrain Right Encoder", DRIVETRAIN_GYRO);
+  
 		// Active Gear
 		GEAR_INTAKE = new VictorSP(2);
 		GEAR_PISTON = new DoubleSolenoid(0, 1);

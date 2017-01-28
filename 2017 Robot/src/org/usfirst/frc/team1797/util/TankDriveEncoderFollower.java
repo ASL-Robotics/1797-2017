@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
-import jaci.pathfinder.modifiers.TankModifier;
 
 /**
  * The TankDriveEncoderFollower is a utility class designed work with
