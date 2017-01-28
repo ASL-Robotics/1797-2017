@@ -1,9 +1,12 @@
 package org.usfirst.frc.team1797.robot;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -12,47 +15,54 @@ import edu.wpi.first.wpilibj.VictorSP;
  * floating around.
  */
 public class RobotMap {
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
 
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
-	
-	
-	//Components necessary for Drivetrain
-	public static VictorSP DRIVETRAIN_LEFT, DRIVETRAIN_RIGHT;
-	
-	//Components necessary for Active Gear
-	public static VictorSP GEAR_LEFT_INTAKE, GEAR_RIGHT_INTAKE;
-	public static DoubleSolenoid GEAR_LIFT_PISTON;
-	
-	//Components necessary for Climber
+	/*
+	 * PWM: 0 - DT Victor Left; 1 - DT Victor Right; 2 - GEAR Intake; 3 -
+	 * CLIMBER;
+	 * 
+	 * DIO: 0 - DT Encoder Left; 1 - DT Encoder Left; 2 - DT Encoder Right; 3 -
+	 * DT Encoder Right;
+	 * 
+	 * PCM: 0 - GEAR Piston, 1 - GEAR Piston;
+	 * 
+	 */
+
+	// Components necessary for Drivetrain
+	public static VictorSP DRIVETRAIN_VICTOR_LEFT, DRIVETRAIN_VICTOR_RIGHT;
+	public static Encoder DRIVETRAIN_ENCODER_LEFT, DRIVETRAIN_ENCODER_RIGHT;
+	public static Gyro DRIVETRAIN_GYRO;
+
+	// Components necessary for Active Gear
+	public static VictorSP GEAR_INTAKE, GEAR_RIGHT_INTAKE;
+	public static DoubleSolenoid GEAR_PISTON;
+
+	// Components necessary for Climber
 	public static VictorSP CLIMBER;
-	
-	//Components necessary for Vision
+
+	// Components necessary for Vision
 	public static CameraServer CAMERA_SERVER;
 	public static final int FRONT_CAMERA_PORT = 0;
 	public static UsbCamera FRONT_CAMERA;
-	
-	public static void init(){
-		
-		//Drivetrain
-		DRIVETRAIN_LEFT = new VictorSP(0);
-		DRIVETRAIN_RIGHT = new VictorSP(1);
-		
-		//Active Gear
-		GEAR_LEFT_INTAKE = new VictorSP(2);
-		GEAR_RIGHT_INTAKE = new VictorSP(3);
-		GEAR_LIFT_PISTON = new DoubleSolenoid(0,1);
-		
-		//Climber
-		CLIMBER = new VictorSP(4);
-		
-		//Vision
+
+	public static void init() {
+
+		// Drivetrain
+		DRIVETRAIN_VICTOR_LEFT = new VictorSP(0);
+		DRIVETRAIN_VICTOR_RIGHT = new VictorSP(1);
+
+		DRIVETRAIN_ENCODER_LEFT = new Encoder(0, 1);
+		DRIVETRAIN_ENCODER_RIGHT = new Encoder(2, 3);
+
+		DRIVETRAIN_GYRO = new ADXRS450_Gyro();
+
+		// Active Gear
+		GEAR_INTAKE = new VictorSP(2);
+		GEAR_PISTON = new DoubleSolenoid(0, 1);
+
+		// Climber
+		CLIMBER = new VictorSP(3);
+
+		// Vision
 		CAMERA_SERVER = CameraServer.getInstance();
 		FRONT_CAMERA = CAMERA_SERVER.startAutomaticCapture("Front Camera", FRONT_CAMERA_PORT);
 	}

@@ -19,8 +19,8 @@ public class Drivetrain extends Subsystem {
 	
 	
 	public Drivetrain() {
-		leftControl = RobotMap.DRIVETRAIN_LEFT;
-		rightControl = RobotMap.DRIVETRAIN_RIGHT;
+		leftControl = RobotMap.DRIVETRAIN_VICTOR_LEFT;
+		rightControl = RobotMap.DRIVETRAIN_VICTOR_RIGHT;
 		robotDrive = new RobotDrive(leftControl,rightControl);
 		
 		driveType = DriveType.TANK;
