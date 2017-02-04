@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveDefaultCommand extends Command {
 	
     public DriveDefaultCommand() {
-        this.requires(Robot.drivetrain);
+        requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time

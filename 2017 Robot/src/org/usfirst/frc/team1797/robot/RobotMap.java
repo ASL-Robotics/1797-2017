@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1797.robot;
 
+import org.usfirst.frc.team1797.util.AnalogForceResistor;
+import org.usfirst.frc.team1797.util.AnalogUltrasonicSensor;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -31,10 +34,12 @@ public class RobotMap {
 	public static VictorSP DRIVETRAIN_VICTOR_LEFT, DRIVETRAIN_VICTOR_RIGHT;
 	public static Encoder DRIVETRAIN_ENCODER_LEFT, DRIVETRAIN_ENCODER_RIGHT;
 	public static ADXRS450_Gyro DRIVETRAIN_GYRO;
+	public static AnalogUltrasonicSensor DRIVETRAIN_ULTRASONIC;
 
 	// Components necessary for Active Gear
 	public static VictorSP GEAR_INTAKE;
 	public static DoubleSolenoid GEAR_PISTON;
+	public static AnalogForceResistor GEAR_FORCE_LEFT, GEAR_FORCE_RIGHT;
 
 	// Components necessary for Climber
 	public static VictorSP CLIMBER;
@@ -58,9 +63,15 @@ public class RobotMap {
 		DRIVETRAIN_GYRO = new ADXRS450_Gyro();
 		SmartDashboard.putData("Drivetrain Gyro", DRIVETRAIN_GYRO);
 
+		DRIVETRAIN_ULTRASONIC = new AnalogUltrasonicSensor(0);
+		
+		
 		// Active Gear
 		GEAR_INTAKE = new VictorSP(2);
 		GEAR_PISTON = new DoubleSolenoid(0, 1);
+		
+		GEAR_FORCE_LEFT = new AnalogForceResistor(2);
+		GEAR_FORCE_RIGHT = new AnalogForceResistor(3);
 
 		// Climber
 		CLIMBER = new VictorSP(3);

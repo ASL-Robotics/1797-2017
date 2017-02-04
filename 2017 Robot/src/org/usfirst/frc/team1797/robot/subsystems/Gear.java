@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
 import org.usfirst.frc.team1797.robot.RobotMap;
+import org.usfirst.frc.team1797.util.AnalogForceResistor;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -11,54 +12,63 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Gear extends Subsystem {
 	// Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	
+	// here. Call these from Commands.
+
 	private VictorSP intake;
-	private DoubleSolenoid gearPiston;
+	private DoubleSolenoid piston;
+
+	private AnalogForceResistor leftForce, rightForce;
+	
 	
 	private long lastActuation;
-	private long gearIntakeTime;
-	
-	public Gear(){
+
+	public Gear() {
 		intake = RobotMap.GEAR_INTAKE;
-		gearPiston = RobotMap.GEAR_PISTON;
-		
+		piston = RobotMap.GEAR_PISTON;
+
 		lastActuation = Long.MAX_VALUE;
-		gearIntakeTime = Long.MAX_VALUE;
+		
+		leftForce = RobotMap.GEAR_FORCE_LEFT;
+		rightForce = RobotMap.GEAR_FORCE_RIGHT;
 	}
-	public void intakeGear(){
+
+	public void intakeGear() {
 		intake.set(.5);
-		gearIntakeTime = System.currentTimeMillis();
 	}
-	public void outtakeGear(){
+
+	public void outtakeGear() {
 		intake.set(-.5);
 	}
-	public void gearWheelsOff(){
+
+	public void intakeOff() {
 		intake.set(0);
-		gearIntakeTime = Long.MAX_VALUE;
 	}
-	public void clawUp(){
-		gearPiston.set(DoubleSolenoid.Value.kForward);
-		lastActuation = System.currentTimeMillis();
-	}
-	public void clawDown(){
-		gearPiston.set(DoubleSolenoid.Value.kReverse);
-		lastActuation = System.currentTimeMillis();
-	}
-	public void clawPistonOff(){
-		gearPiston.set(DoubleSolenoid.Value.kOff);
-		lastActuation = Long.MAX_VALUE;
-	}
-	public long getLastActuation(){
-		return lastActuation;
-	}
-	public long getGearIntakeTime(){
-		return gearIntakeTime;
+
+	public boolean isIn(){
+		return (leftForce.getVoltage() >= 2.5 || rightForce.getVoltage() >= 2.5);
 	}
 	
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
-}
+	public void clawUp() {
+		piston.set(DoubleSolenoid.Value.kForward);
+		lastActuation = System.currentTimeMillis();
+	}
 
+	public void clawDown() {
+		piston.set(DoubleSolenoid.Value.kReverse);
+		lastActuation = System.currentTimeMillis();
+	}
+
+	public void clawPistonOff() {
+		piston.set(DoubleSolenoid.Value.kOff);
+		lastActuation = Long.MAX_VALUE;
+	}
+
+	public long getLastActuation() {
+		return lastActuation;
+	}
+	
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
+}
