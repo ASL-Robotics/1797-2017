@@ -20,7 +20,7 @@ public class GripSubsystem extends PIDSubsystem {
 	private Rect[] boundingRects;
 	private CvSink sink;
 	private Mat currentFrame;
-	
+
 	// Set up all the contstants for vision tracking
 	public static final int CAMERA_WIDTH = 160;
 	public static final int LEFT_CENTER_PIXEL;
@@ -28,7 +28,7 @@ public class GripSubsystem extends PIDSubsystem {
 	static {
 		LEFT_CENTER_PIXEL = (CAMERA_WIDTH >> 1) - 1;
 	}
-	
+
 	// Set up all constants for PID
 	// TODO: tune PID for vision tracking
 	public static final double KP = 0;
@@ -76,7 +76,8 @@ public class GripSubsystem extends PIDSubsystem {
 			int rect1centerx = boundingRects[1].x + (boundingRects[1].width >> 1);
 			return (rect0centerx + rect1centerx) >> 1;
 		} catch (NullPointerException e) {
-			// Kaito thinks we shouldn't worry about it if there are not 2 rectangles in frame
+			// Kaito thinks we shouldn't worry about it if there are not 2
+			// rectangles in frame
 			System.out.println("Error: there are not 2 rectangles in frame!");
 			return -1;
 		}
@@ -89,7 +90,8 @@ public class GripSubsystem extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		//TODO: Add ultrasonic component and vision component to determine robot trajetctory
-		
+		// TODO: Add ultrasonic component and vision component to determine
+		// robot trajetctory
+
 	}
 }

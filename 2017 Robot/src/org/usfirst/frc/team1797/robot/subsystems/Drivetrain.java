@@ -37,8 +37,10 @@ public class Drivetrain extends Subsystem {
 		switch (driveType) {
 		case TANK:
 			robotDrive.tankDrive(leftValue, rightValue);
+			break;
 		case ARCADE:
 			robotDrive.arcadeDrive(leftValue,rightValue);
+			break;
 		default: System.out.println("Error: no drive type selected");
 			break;
 		}

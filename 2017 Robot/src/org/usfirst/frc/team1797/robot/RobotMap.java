@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -34,7 +33,7 @@ public class RobotMap {
 	public static ADXRS450_Gyro DRIVETRAIN_GYRO;
 
 	// Components necessary for Active Gear
-	public static VictorSP GEAR_INTAKE, GEAR_RIGHT_INTAKE;
+	public static VictorSP GEAR_INTAKE;
 	public static DoubleSolenoid GEAR_PISTON;
 
 	// Components necessary for Climber
@@ -57,8 +56,8 @@ public class RobotMap {
 		SmartDashboard.putData("Drivetrain Right Encoder", DRIVETRAIN_ENCODER_RIGHT);
 
 		DRIVETRAIN_GYRO = new ADXRS450_Gyro();
-		SmartDashboard.putData("Drivetrain Right Encoder", DRIVETRAIN_GYRO);
-  
+		SmartDashboard.putData("Drivetrain Gyro", DRIVETRAIN_GYRO);
+
 		// Active Gear
 		GEAR_INTAKE = new VictorSP(2);
 		GEAR_PISTON = new DoubleSolenoid(0, 1);

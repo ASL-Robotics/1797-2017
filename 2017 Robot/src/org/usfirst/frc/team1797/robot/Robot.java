@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static Gear gear;
 	public static Climber climber;
-	public static GripSubsystem grip;
+	//public static GripSubsystem grip;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -44,10 +44,10 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", new DefaultAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		
-		gear = new Gear();
 		drivetrain = new Drivetrain();
+		gear = new Gear();
 		climber = new Climber();
-		grip = new GripSubsystem();
+		//grip = new GripSubsystem();
 	}
 
 	/**
