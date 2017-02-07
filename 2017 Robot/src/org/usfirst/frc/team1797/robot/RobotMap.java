@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,8 +32,10 @@ public class RobotMap {
 	 */
 
 	// Components necessary for Drivetrain
-	public static VictorSP DRIVETRAIN_VICTOR_LEFT, DRIVETRAIN_VICTOR_RIGHT;
+	public static RobotDrive DRIVETRAIN_ROBOT_DRIVE;
+
 	public static Encoder DRIVETRAIN_ENCODER_LEFT, DRIVETRAIN_ENCODER_RIGHT;
+
 	public static ADXRS450_Gyro DRIVETRAIN_GYRO;
 	public static AnalogUltrasonicSensor DRIVETRAIN_ULTRASONIC;
 
@@ -52,24 +55,25 @@ public class RobotMap {
 	public static void init() {
 
 		// Drivetrain
-		DRIVETRAIN_VICTOR_LEFT = new VictorSP(0);
-		DRIVETRAIN_VICTOR_RIGHT = new VictorSP(1);
+		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0, 1);
 
 		DRIVETRAIN_ENCODER_LEFT = new Encoder(0, 1);
+		DRIVETRAIN_ENCODER_LEFT.setDistancePerPulse(0.0481);
 		SmartDashboard.putData("Drivetrain Left Encoder", DRIVETRAIN_ENCODER_LEFT);
+		
 		DRIVETRAIN_ENCODER_RIGHT = new Encoder(2, 3);
+		DRIVETRAIN_ENCODER_RIGHT.setDistancePerPulse(0.0481);
 		SmartDashboard.putData("Drivetrain Right Encoder", DRIVETRAIN_ENCODER_RIGHT);
 
 		DRIVETRAIN_GYRO = new ADXRS450_Gyro();
 		SmartDashboard.putData("Drivetrain Gyro", DRIVETRAIN_GYRO);
 
 		DRIVETRAIN_ULTRASONIC = new AnalogUltrasonicSensor(0);
-		
-		
+
 		// Active Gear
 		GEAR_INTAKE = new VictorSP(2);
 		GEAR_PISTON = new DoubleSolenoid(0, 1);
-		
+
 		GEAR_FORCE_LEFT = new AnalogForceResistor(2);
 		GEAR_FORCE_RIGHT = new AnalogForceResistor(3);
 
@@ -77,8 +81,8 @@ public class RobotMap {
 		CLIMBER = new VictorSP(3);
 
 		// Vision
-		CAMERA_SERVER = CameraServer.getInstance();
-		FRONT_CAMERA = CAMERA_SERVER.startAutomaticCapture("Front Camera", FRONT_CAMERA_PORT);
+		//CAMERA_SERVER = CameraServer.getInstance();
+		//FRONT_CAMERA = CAMERA_SERVER.startAutomaticCapture("Front Camera", FRONT_CAMERA_PORT);
 	}
 
 }

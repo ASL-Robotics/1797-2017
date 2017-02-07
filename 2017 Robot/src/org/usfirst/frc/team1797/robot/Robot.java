@@ -8,6 +8,7 @@ import org.usfirst.frc.team1797.robot.subsystems.Gear;
 import org.usfirst.frc.team1797.vision.GripSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
