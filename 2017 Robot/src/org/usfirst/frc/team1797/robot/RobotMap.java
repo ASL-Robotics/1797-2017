@@ -3,9 +3,7 @@ package org.usfirst.frc.team1797.robot;
 import org.usfirst.frc.team1797.util.AnalogForceResistor;
 import org.usfirst.frc.team1797.util.AnalogUltrasonicSensor;
 
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -23,7 +21,7 @@ public class RobotMap {
 	/*
 	 * PWM: 0 - DT Victor Left; 1 - DT Victor Right; 2 - GEAR Intake; 3 -
 	 * CLIMBER;
-	 * 
+	 *  
 	 * DIO: 0 - DT Encoder Left; 1 - DT Encoder Left; 2 - DT Encoder Right; 3 -
 	 * DT Encoder Right;
 	 * 
@@ -47,11 +45,6 @@ public class RobotMap {
 	// Components necessary for Climber
 	public static VictorSP CLIMBER;
 
-	// Components necessary for Vision
-	public static CameraServer CAMERA_SERVER;
-	public static final int FRONT_CAMERA_PORT = 0;
-	public static UsbCamera FRONT_CAMERA;
-
 	public static void init() {
 
 		// Drivetrain
@@ -60,7 +53,7 @@ public class RobotMap {
 		DRIVETRAIN_ENCODER_LEFT = new Encoder(0, 1);
 		DRIVETRAIN_ENCODER_LEFT.setDistancePerPulse(0.0481);
 		SmartDashboard.putData("Drivetrain Left Encoder", DRIVETRAIN_ENCODER_LEFT);
-		
+
 		DRIVETRAIN_ENCODER_RIGHT = new Encoder(2, 3);
 		DRIVETRAIN_ENCODER_RIGHT.setDistancePerPulse(0.0481);
 		SmartDashboard.putData("Drivetrain Right Encoder", DRIVETRAIN_ENCODER_RIGHT);
@@ -79,10 +72,6 @@ public class RobotMap {
 
 		// Climber
 		CLIMBER = new VictorSP(3);
-
-		// Vision
-		//CAMERA_SERVER = CameraServer.getInstance();
-		//FRONT_CAMERA = CAMERA_SERVER.startAutomaticCapture("Front Camera", FRONT_CAMERA_PORT);
 	}
 
 }

@@ -40,7 +40,6 @@ public class OI {
 	public OI(){
 		driverController = new Gamepad(0);
 		operatorController = new Gamepad(1);
-		testController = new Gamepad(2);
 	}
 	
 }

@@ -17,11 +17,11 @@ public class Climber extends Subsystem {
 	public Climber(){
 		climber = RobotMap.CLIMBER;
 	}
-	public void climb(){
-		climber.set(.1);
+	public void ascend(){
+		climber.set(1);
 	}
 	public void descend(){
-		climber.set(-.1);
+		climber.set(-1);
 	}
 	public void stopClimb(){
 		climber.set(0);

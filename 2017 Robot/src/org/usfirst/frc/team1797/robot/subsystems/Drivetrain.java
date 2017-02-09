@@ -21,7 +21,7 @@ public class Drivetrain extends Subsystem {
 
 	// Motion Profile
 	private Trajectory leftTraj, rightTraj;
-	private double kp, kd, kv, kAc, kAn, dt;
+	private final double kp, kd, kv, kAc, kAn, dt;
 	private double lastLeftError, lastRightError;
 
 	private int i;
@@ -35,7 +35,7 @@ public class Drivetrain extends Subsystem {
 
 		driveType = DriveType.TANK;
 
-		kp = 1;
+		kp = 0;
 		kd = 0;
 		kv = 0;
 		kAc = 0;
