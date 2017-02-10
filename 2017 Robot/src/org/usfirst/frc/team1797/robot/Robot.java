@@ -40,13 +40,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		RobotMap.init();
-		oi = new OI();
+
 		chooser.addDefault("Default Auto", new DefaultAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		drivetrain = new Drivetrain();
 		gear = new Gear();
 		climber = new Climber();
+		
+		oi = new OI();
 	}
 
 	/**

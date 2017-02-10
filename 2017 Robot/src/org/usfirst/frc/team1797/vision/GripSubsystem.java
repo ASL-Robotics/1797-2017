@@ -39,7 +39,7 @@ public class GripSubsystem extends PIDSubsystem {
 		super(KP, KI, KD);
 		pipeline = new GripPipeline();
 		boundingRects = new Rect[2];
-		sink = RobotMap.CAMERA_SERVER.getVideo("Front Camera");
+		//sink = RobotMap.CAMERA_SERVER.getVideo("Front Camera");
 		currentFrame = new Mat();
 	}
 

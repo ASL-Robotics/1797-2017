@@ -65,7 +65,8 @@ public class Drivetrain extends Subsystem {
 
 	// Acceleration Test
 
-	public void write(File file) {
+	public void accel(File file) {
+		robotDrive.tankDrive(1,1);
 		BufferedWriter bw;
 		try {
 			bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
