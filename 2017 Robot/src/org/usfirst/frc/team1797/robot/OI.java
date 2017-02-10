@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1797.robot;
 
+import org.usfirst.frc.team1797.robot.commands.AccelTest;
 import org.usfirst.frc.team1797.util.Gamepad;
 
 /**
@@ -40,6 +41,9 @@ public class OI {
 	public OI(){
 		driverController = new Gamepad(0);
 		operatorController = new Gamepad(1);
+		
+		//Testing
+		driverController.getLeftButton().whenPressed(new AccelTest());
 	}
 	
 }

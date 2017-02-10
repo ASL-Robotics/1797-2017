@@ -1,10 +1,17 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.DriveDefaultCommand;
 
+import edu.wpi.first.wpilibj.ADXL362;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import jaci.pathfinder.Trajectory;
@@ -17,7 +24,7 @@ public class Drivetrain extends Subsystem {
 	private RobotDrive robotDrive;
 	private Encoder leftEncoder, rightEncoder;
 	private Gyro gyro;
-	private DriveType driveType;
+	private ADXL362 accel;
 
 	// Motion Profile
 	private Trajectory leftTraj, rightTraj;
@@ -33,7 +40,7 @@ public class Drivetrain extends Subsystem {
 		leftEncoder = RobotMap.DRIVETRAIN_ENCODER_LEFT;
 		rightEncoder = RobotMap.DRIVETRAIN_ENCODER_RIGHT;
 
-		driveType = DriveType.TANK;
+		accel = RobotMap.DRIVETRAIN_ACCEL;
 
 		kp = 0;
 		kd = 0;
@@ -45,35 +52,32 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
 		this.setDefaultCommand(new DriveDefaultCommand());
 	}
 
 	public void teleopDrive(double leftValue, double rightValue) {
-		switch (driveType) {
-		case TANK:
-			robotDrive.tankDrive(leftValue, rightValue);
-			break;
-		case ARCADE:
-			robotDrive.arcadeDrive(leftValue, rightValue);
-			break;
-		default:
-			System.out.println("Error: no drive type selected");
-			break;
-		}
+		robotDrive.arcadeDrive(leftValue, rightValue);
 	}
 
 	public void resetDriveMotors() {
 		robotDrive.drive(0, 0);
 	}
 
-	public void setMotors(double leftValue, double rightValue) {
-		robotDrive.drive(leftValue, rightValue);
+	// Acceleration Test
+
+	public void write(File file) {
+		BufferedWriter bw;
+		try {
+			bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+			bw.write(Timer.getFPGATimestamp() + "\t" + accel.getX() + "\t" + accel.getY() + "\t" + accel.getZ() + "\n");
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// Motion Profile
-	// Help! I got stuck in the coding factory! Pls send help!
-
 	public void setTrajectories(Trajectory leftTraj, Trajectory rightTraj) {
 		this.leftTraj = leftTraj;
 		this.rightTraj = rightTraj;
@@ -116,9 +120,5 @@ public class Drivetrain extends Subsystem {
 
 	public boolean isDone() {
 		return i > trajLength;
-	}
-
-	private enum DriveType {
-		TANK, ARCADE;
 	}
 }
