@@ -29,9 +29,8 @@ public class RobotMap {
 	 * DIO: 0 - DT Encoder Left; 1 - DT Encoder Left; 2 - DT Encoder Right; 3 -
 	 * DT Encoder Right;
 	 * 
-	 * PCM: 0 - GEAR Piston, 1 - GEAR Piston, 2 - PASSIVEGEAR Block 1, 3 - PASSIVEGEAR Block 1,
-	 *  4 - PASSIVEGEAR Block 2, 5 - PASSIVEGEAR Block 2, 6 - PASSIVEGEAR Hold 1, 7 - PASSIVEGEAR Hold 1,
-	 *  8 - PASSIVEGEAR Hold 2, 9 - PASSIVEGEAR Hold 2;
+	 * PCM: 0 - GEAR Piston, 1 - GEAR Piston, 2 - PASSIVEGEAR Block, 3 - PASSIVEGEAR Block,
+	 *  4 - PASSIVEGEAR Hold, 5 - PASSIVEGEAR Hold;
 	 * 
 	 */
 
@@ -56,7 +55,7 @@ public class RobotMap {
 	public static VictorSP CLIMBER;
 	
 	// Components necessary for Passive Gear
-	public static DoubleSolenoid PASSIVEGEAR_BLOCK_1, PASSIVEGEAR_BLOCK_2, PASSIVEGEAR_HOLD_1, PASSIVEGEAR_HOLD_2;
+	public static DoubleSolenoid PASSIVEGEAR_BLOCK, PASSIVEGEAR_HOLD;
 	
 	// Components necessary for Shooter
 	
@@ -96,10 +95,8 @@ public class RobotMap {
 		CLIMBER = new VictorSP(3);
 		
 		//Passive Gear
-		PASSIVEGEAR_BLOCK_1 = new DoubleSolenoid(2, 3);
-		PASSIVEGEAR_BLOCK_2 = new DoubleSolenoid(4, 5);
-		PASSIVEGEAR_HOLD_1 = new DoubleSolenoid(6, 7);
-		PASSIVEGEAR_HOLD_2 = new DoubleSolenoid(8, 9);
+		PASSIVEGEAR_BLOCK = new DoubleSolenoid(2, 3);
+		PASSIVEGEAR_HOLD = new DoubleSolenoid(4, 5);
 		
 		// Shooter
 		
