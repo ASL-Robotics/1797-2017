@@ -5,7 +5,7 @@ package org.usfirst.frc.team1797.vision;
 
 /**
  * @author Will
- *
+ * @deprecated
  */
 public class HSVRange {
 	double hMin, hMax, sMin, sMax, vMin, vMax;

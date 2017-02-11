@@ -10,7 +10,7 @@ import org.opencv.imgproc.Imgproc;
 
 /**
  * @author Will
- *
+ * @deprecated
  */
 public class Vision {
 	/**

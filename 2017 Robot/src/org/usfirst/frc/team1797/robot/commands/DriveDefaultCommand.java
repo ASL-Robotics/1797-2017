@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1797.robot.commands;
 
-import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1797.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,11 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class DriveDefaultCommand extends Command {
-	Drivetrain drivetrain;
 	
     public DriveDefaultCommand() {
-    	drivetrain = Drivetrain.INSTANCE;
-        this.requires(drivetrain);
+        requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +19,7 @@ public class DriveDefaultCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	drivetrain.teleopDrive();
+    	Robot.drivetrain.teleopDrive(Robot.oi.driverController.getLeftY(),Robot.oi.driverController.getRightY());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -37,6 +35,6 @@ public class DriveDefaultCommand extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	drivetrain.resetDriveMotors();
+    	Robot.drivetrain.resetDriveMotors();
     }
 }

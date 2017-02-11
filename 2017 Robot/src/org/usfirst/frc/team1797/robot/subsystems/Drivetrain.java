@@ -2,63 +2,120 @@ package org.usfirst.frc.team1797.robot.subsystems;
 
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.DriveDefaultCommand;
-import org.usfirst.frc.team1797.util.Gamepad;
 
+import edu.wpi.first.wpilibj.ADXL362;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Trajectory.Segment;
 
 /**
  *
  */
 public class Drivetrain extends Subsystem {
-	public static final Drivetrain INSTANCE;
-	static {
-		INSTANCE = new Drivetrain(RobotMap.driverStick, 0, 1, 2, 3);
-	}
-	
-	// Polymorphism, yay! We may need to switch to TalonSRXs later, in which case we can just switch out classes in the constructor
-	private SpeedController left1, left2, right1, right2;
-	private RobotDrive drive;
-	private DriveType driveType;
-	private Gamepad drivePad;
-	
-	private Drivetrain(Gamepad gamepad, int portLeft1, int portLeft2, int portRight1, int portRight2) {
-		left1 = new VictorSP(portLeft1);
-		left2 = new VictorSP(portLeft2);
-		right1 = new VictorSP(portRight1);
-		right2 = new VictorSP(portRight2);
-		drive = new RobotDrive(left1, left2, right1, right2);
-		driveType = DriveType.TANK;
-		drivePad = gamepad;
-	}
-	
+	private RobotDrive robotDrive;
+	private Encoder leftEncoder, rightEncoder;
+	private Gyro gyro;
+	private ADXL362 accel;
+	private NetworkTable networktable;
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        this.setDefaultCommand(new DriveDefaultCommand());
-    }
+	// Motion Profile
+	private Trajectory leftTraj, rightTraj;
+	private final double kp, kd, kv, kAc, kAn, dt;
+	private double lastLeftError, lastRightError;
 
+	private int i;
+	private double trajLength;
 
-	public void teleopDrive() {
-		switch (driveType) {
-		case TANK:
-			drive.tankDrive(drivePad.getLeftY(), drivePad.getRightY());
-		case ARCADE:
-			drive.arcadeDrive(drivePad.getLeftY(), drivePad.getLeftX());
-		default: System.out.println("Error: no drive type selected");
-			break;
-		}
+	public Drivetrain() {
+		robotDrive = RobotMap.DRIVETRAIN_ROBOT_DRIVE;
+
+		leftEncoder = RobotMap.DRIVETRAIN_ENCODER_LEFT;
+		rightEncoder = RobotMap.DRIVETRAIN_ENCODER_RIGHT;
+
+		gyro = RobotMap.DRIVETRAIN_GYRO;
+		
+		accel = RobotMap.DRIVETRAIN_ACCEL;
+
+		networktable = RobotMap.NETWORKTABLE;
+		
+		kp = 0;
+		kd = 0;
+		kv = 0;
+		kAc = 0;
+		kAn = 0;
+		dt = 0.02;
+		i = 0;
 	}
 
+	public void initDefaultCommand() {
+		this.setDefaultCommand(new DriveDefaultCommand());
+	}
+
+	public void teleopDrive(double leftValue, double rightValue) {
+		robotDrive.arcadeDrive(leftValue, rightValue);
+	}
 
 	public void resetDriveMotors() {
-		drive.drive(0, 0);
+		robotDrive.drive(0, 0);
 	}
-	
-	private enum DriveType {
-		TANK, ARCADE;
+
+	// Acceleration Test
+
+	public void accel() {
+		robotDrive.tankDrive(1, 1);
+		networktable.putNumber("Time",Timer.getFPGATimestamp());
+		networktable.putNumber("X Accel", accel.getX());
+		networktable.putNumber("Y Accel", accel.getY());
+		networktable.putNumber("Z Accel", accel.getZ());
+	}
+
+	// Motion Profile
+	public void setTrajectories(Trajectory leftTraj, Trajectory rightTraj) {
+		this.leftTraj = leftTraj;
+		this.rightTraj = rightTraj;
+
+		trajLength = leftTraj.length();
+	}
+
+	public void resetSensors() {
+		leftEncoder.reset();
+		rightEncoder.reset();
+		gyro.reset();
+
+		lastLeftError = 0;
+		lastRightError = 0;
+		i = 0;
+	}
+
+	public void runProfile() {
+		Segment leftSeg = leftTraj.get(i);
+		Segment rightSeg = rightTraj.get(i);
+
+		// Error Calculation
+		double leftError = leftSeg.position - leftEncoder.getDistance();
+		double rightError = rightSeg.position - rightEncoder.getDistance();
+		double angleError = leftSeg.heading - Math.toRadians(gyro.getAngle());
+
+		// Term Calculation
+		double leftValue = kv * leftSeg.velocity + kAc * leftSeg.acceleration + kp * leftError
+				+ kd * (leftError - lastLeftError) / dt + kAn * angleError;
+		double rightValue = kv * rightSeg.velocity + kAc * rightSeg.acceleration + kp * rightError
+				+ kd * (rightError - lastRightError) / dt - kAn * angleError;
+
+		robotDrive.tankDrive(leftValue, rightValue);
+
+		lastLeftError = leftError;
+		lastRightError = rightError;
+
+		i++;
+	}
+
+	public boolean isDone() {
+		return i > trajLength;
 	}
 }
-

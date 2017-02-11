@@ -107,7 +107,7 @@ public class Gamepad extends Joystick {
 	public DPadButton getDPadEast() {
 		return new DPadButton(this, DPadButton.Direction.EAST);
 	}
-	
+
 	/**
 	 * The upper-right d-pad button.
 	 * 
@@ -318,7 +318,7 @@ public class Gamepad extends Joystick {
 
 	public static class DPadButton extends Button {
 		public static enum Direction {
-			NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH,SOUTHWEST,WEST,NORTHWEST
+			NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST
 		}
 
 		private Gamepad gamepad;

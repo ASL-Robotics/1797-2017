@@ -1,12 +1,16 @@
 package org.usfirst.frc.team1797.robot;
 
+import org.usfirst.frc.team1797.robot.commands.AccelTest;
 import org.usfirst.frc.team1797.util.Gamepad;
+import org.usfirst.frc.team1797.util.XBox360;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	
+	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -35,10 +39,15 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	public Gamepad testController;
+	public XBox360 driverController;
+	public Gamepad operatorController;
 	
 	public OI(){
-		testController = new Gamepad(2);
+		driverController = new XBox360(0);
+		operatorController = new Gamepad(1);
+		
+		//Testing
+		driverController.getXButton().whileHeld(new AccelTest());
 	}
 	
 }
