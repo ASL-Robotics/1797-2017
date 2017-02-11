@@ -1,12 +1,5 @@
 package org.usfirst.frc.team1797.robot;
 
-<<<<<<< HEAD
-import org.usfirst.frc.team1797.robot.subsystems.BallIntakeSystem;
-import org.usfirst.frc.team1797.robot.subsystems.ClimbSystem;
-import org.usfirst.frc.team1797.robot.subsystems.GearIntake;
-import org.usfirst.frc.team1797.robot.subsystems.PassiveGearSystem;
-import org.usfirst.frc.team1797.util.Gamepad;
-=======
 import org.usfirst.frc.team1797.util.AnalogForceResistor;
 import org.usfirst.frc.team1797.util.AnalogUltrasonicSensor;
 
@@ -19,7 +12,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
->>>>>>> branch 'master' of https://github.com/Phoenix-1797/-Insert-Robot-Name-.git
+
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -29,17 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class RobotMap {
 
-<<<<<<< HEAD
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
-	public static final GearIntake GEARINTAKE = new GearIntake();
-	public static final ClimbSystem CLIMBSYSTEM = new ClimbSystem();
-	public static final PassiveGearSystem PASSIVEGEARSYSTEM = new PassiveGearSystem();
-	public static final BallIntakeSystem BALLINTAKESYSTEM = new BallIntakeSystem();
-	public static Gamepad driverStick, operatorStick;
-=======
 	/*
 	 * PWM: 0 - DT Victor Left; 1 - DT Victor Right; 2 - GEAR Intake; 3 -
 	 * CLIMBER;
@@ -53,7 +35,6 @@ public class RobotMap {
 
 	//Network Table
 	public static NetworkTable NETWORKTABLE;
->>>>>>> branch 'master' of https://github.com/Phoenix-1797/-Insert-Robot-Name-.git
 	
 	// Components necessary for Drivetrain
 	public static RobotDrive DRIVETRAIN_ROBOT_DRIVE;

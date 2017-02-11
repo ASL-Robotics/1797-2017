@@ -5,26 +5,22 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
+import edu.wpi.first.wpilibj.networktables.*;
 
 public class AccelerationLogger {
 
 	static File data;
 
 	public static void main(String[] args) {
-//		init();
-//		while (true) {
-//			run();
-//			try {
-//				Thread.sleep(50);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		run();
-
+		init();
+		while (true) {
+			run();
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void init() {
