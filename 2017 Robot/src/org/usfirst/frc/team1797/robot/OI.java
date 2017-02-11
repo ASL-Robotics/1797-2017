@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.AccelTest;
+import org.usfirst.frc.team1797.robot.commands.ClimbCommand;
+import org.usfirst.frc.team1797.robot.commands.DescendCommand;
 import org.usfirst.frc.team1797.util.Gamepad;
 import org.usfirst.frc.team1797.util.XBox360;
 
@@ -48,6 +50,8 @@ public class OI {
 		
 		//Testing
 		driverController.getXButton().whileHeld(new AccelTest());
+		driverController.getYButton().whileHeld(new ClimbCommand());
+		driverController.getAButton().whileHeld(new DescendCommand());
 	}
 	
 }

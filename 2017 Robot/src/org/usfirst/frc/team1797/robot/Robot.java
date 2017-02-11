@@ -2,9 +2,11 @@
 package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.DefaultAutoCommand;
+import org.usfirst.frc.team1797.robot.subsystems.BallIntakeSystem;
 import org.usfirst.frc.team1797.robot.subsystems.Climber;
 import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1797.robot.subsystems.Gear;
+import org.usfirst.frc.team1797.robot.subsystems.PassiveGear;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,6 +29,9 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static Gear gear;
 	public static Climber climber;
+	public static PassiveGear passivegear;
+	public static BallIntakeSystem storage;
+	
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -45,6 +50,8 @@ public class Robot extends IterativeRobot {
 		drivetrain = new Drivetrain();
 		gear = new Gear();
 		climber = new Climber();
+		passivegear = new PassiveGear();
+		storage = new BallIntakeSystem();
 		
 		oi = new OI();
 	}

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class PassiveGearSystem extends Subsystem {
+public class PassiveGear extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -14,7 +14,7 @@ public class PassiveGearSystem extends Subsystem {
 	private long lastActuationBlock, lastActuationHold;
 	private boolean blocked, held;
 	
-	public PassiveGearSystem(){
+	public PassiveGear(){
 		blockPiston1 = new DoubleSolenoid(2, 3);
 		blockPiston2 = new DoubleSolenoid(4, 5);
 		holdPiston1 = new DoubleSolenoid(6, 7);
@@ -36,7 +36,7 @@ public class PassiveGearSystem extends Subsystem {
 		lastActuationBlock = System.currentTimeMillis();
 		blocked = false;
 	}
-	public void stopBlockPistons(){
+	public void stopBlocker(){
 		blockPiston1.set(DoubleSolenoid.Value.kOff);
 		blockPiston2.set(DoubleSolenoid.Value.kOff);
 		lastActuationBlock = Long.MAX_VALUE;
@@ -53,7 +53,7 @@ public class PassiveGearSystem extends Subsystem {
 		lastActuationHold = System.currentTimeMillis();
 		held = false;
 	}
-	public void stopHoldPistons(){
+	public void stopHolder(){
 		holdPiston1.set(DoubleSolenoid.Value.kOff);
 		holdPiston1.set(DoubleSolenoid.Value.kOff);
 		lastActuationHold = System.currentTimeMillis();
@@ -64,10 +64,10 @@ public class PassiveGearSystem extends Subsystem {
 	public long getLastActuationBlock(){
 		return lastActuationBlock;
 	}
-	public boolean getBlocked(){
+	public boolean isBlocked(){
 		return blocked;
 	}
-	public boolean getHeld(){
+	public boolean isHeld(){
 		return held;
 	}
 	

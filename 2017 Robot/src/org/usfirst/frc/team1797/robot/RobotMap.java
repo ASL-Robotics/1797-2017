@@ -34,7 +34,7 @@ public class RobotMap {
 	 */
 
 	//Network Table
-	public static NetworkTable NETWORKTABLE;
+	public static NetworkTable NETWORKTABLE; 
 	
 	// Components necessary for Drivetrain
 	public static RobotDrive DRIVETRAIN_ROBOT_DRIVE;
@@ -52,6 +52,11 @@ public class RobotMap {
 
 	// Components necessary for Climber
 	public static VictorSP CLIMBER;
+	
+	// Components necessary for Passive Gear
+	public static DoubleSolenoid PASSIVEGEAR_HOLDER, PASSIVEGEAR_BLOCKER;
+	
+	//Components necessary for Shooter
 
 	public static void init() {
 		//Network
@@ -84,6 +89,14 @@ public class RobotMap {
 
 		// Climber
 		CLIMBER = new VictorSP(3);
+		
+		//Passive Gear
+		PASSIVEGEAR_HOLDER = new DoubleSolenoid(2,3);
+		PASSIVEGEAR_BLOCKER = new DoubleSolenoid(4,5);
+		
+		//Shooter
+		
+		
 	}
 
 }

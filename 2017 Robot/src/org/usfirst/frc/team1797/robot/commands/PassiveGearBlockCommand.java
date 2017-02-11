@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1797.robot.commands;
 
+import org.usfirst.frc.team1797.robot.Robot;
 import org.usfirst.frc.team1797.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,16 +13,16 @@ public class PassiveGearBlockCommand extends Command {
     public PassiveGearBlockCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(RobotMap.PASSIVEGEARSYSTEM);
+    	requires(Robot.passivegear);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if(RobotMap.PASSIVEGEARSYSTEM.getBlocked() == true){
-    		RobotMap.PASSIVEGEARSYSTEM.unblock();
-    	} else {
-    		RobotMap.PASSIVEGEARSYSTEM.block();
-    	}
+    	if(Robot.passivegear.isBlocked())
+    		Robot.passivegear.unblock();
+    	else 
+    		Robot.passivegear.block();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -30,21 +31,17 @@ public class PassiveGearBlockCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(RobotMap.PASSIVEGEARSYSTEM.getLastActuationBlock() + 1000 < System.currentTimeMillis()){
-    		return true;
-    	} else {
-    		return false;
-    	}
+    	return Robot.passivegear.getLastActuationBlock() + 1000 < System.currentTimeMillis();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	RobotMap.PASSIVEGEARSYSTEM.stopBlockPistons();
+    	interrupted();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	RobotMap.PASSIVEGEARSYSTEM.stopBlockPistons();
+    	Robot.passivegear.stopBlocker();
     }
 }

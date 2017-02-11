@@ -15,7 +15,7 @@ public class Gear extends Subsystem {
 	// here. Call these from Commands.
 
 	private VictorSP intake;
-	private DoubleSolenoid piston;
+	private DoubleSolenoid lifter;
 
 	private AnalogForceResistor leftForce, rightForce;
 	
@@ -24,7 +24,7 @@ public class Gear extends Subsystem {
 
 	public Gear() {
 		intake = RobotMap.GEAR_INTAKE;
-		piston = RobotMap.GEAR_PISTON;
+		lifter = RobotMap.GEAR_PISTON;
 
 		lastActuation = Long.MAX_VALUE;
 		
@@ -33,11 +33,11 @@ public class Gear extends Subsystem {
 	}
 
 	public void intakeGear() {
-		intake.set(.5);
+		intake.set(1);
 	}
 
 	public void outtakeGear() {
-		intake.set(-.5);
+		intake.set(-1);
 	}
 
 	public void intakeOff() {
@@ -49,17 +49,17 @@ public class Gear extends Subsystem {
 	}
 	
 	public void clawUp() {
-		piston.set(DoubleSolenoid.Value.kForward);
+		lifter.set(DoubleSolenoid.Value.kForward);
 		lastActuation = System.currentTimeMillis();
 	}
 
 	public void clawDown() {
-		piston.set(DoubleSolenoid.Value.kReverse);
+		lifter.set(DoubleSolenoid.Value.kReverse);
 		lastActuation = System.currentTimeMillis();
 	}
 
 	public void clawPistonOff() {
-		piston.set(DoubleSolenoid.Value.kOff);
+		lifter.set(DoubleSolenoid.Value.kOff);
 		lastActuation = Long.MAX_VALUE;
 	}
 
