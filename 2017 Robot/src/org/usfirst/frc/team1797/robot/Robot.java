@@ -5,10 +5,8 @@ import org.usfirst.frc.team1797.robot.commands.DefaultAutoCommand;
 import org.usfirst.frc.team1797.robot.subsystems.Climber;
 import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1797.robot.subsystems.Gear;
-import org.usfirst.frc.team1797.vision.GripSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -40,7 +38,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		RobotMap.init();
-
+	
 		chooser.addDefault("Default Auto", new DefaultAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		

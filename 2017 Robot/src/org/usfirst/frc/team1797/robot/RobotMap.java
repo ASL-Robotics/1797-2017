@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -32,6 +32,9 @@ public class RobotMap {
 	 * 
 	 */
 
+	//Network Table
+	public static NetworkTable NETWORKTABLE;
+	
 	// Components necessary for Drivetrain
 	public static RobotDrive DRIVETRAIN_ROBOT_DRIVE;
 
@@ -50,7 +53,9 @@ public class RobotMap {
 	public static VictorSP CLIMBER;
 
 	public static void init() {
-
+		//Network
+		NETWORKTABLE = NetworkTable.getTable("Network Table");
+		
 		// Drivetrain
 		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0, 1);
 

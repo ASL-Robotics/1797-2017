@@ -1,10 +1,5 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.DriveDefaultCommand;
 
@@ -14,6 +9,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
 
@@ -25,6 +21,7 @@ public class Drivetrain extends Subsystem {
 	private Encoder leftEncoder, rightEncoder;
 	private Gyro gyro;
 	private ADXL362 accel;
+	private NetworkTable networktable;
 
 	// Motion Profile
 	private Trajectory leftTraj, rightTraj;
@@ -40,8 +37,12 @@ public class Drivetrain extends Subsystem {
 		leftEncoder = RobotMap.DRIVETRAIN_ENCODER_LEFT;
 		rightEncoder = RobotMap.DRIVETRAIN_ENCODER_RIGHT;
 
+		gyro = RobotMap.DRIVETRAIN_GYRO;
+		
 		accel = RobotMap.DRIVETRAIN_ACCEL;
 
+		networktable = RobotMap.NETWORKTABLE;
+		
 		kp = 0;
 		kd = 0;
 		kv = 0;
@@ -65,17 +66,12 @@ public class Drivetrain extends Subsystem {
 
 	// Acceleration Test
 
-	public void accel(File file) {
-		robotDrive.tankDrive(1,1);
-		BufferedWriter bw;
-		try {
-			bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
-			bw.write(Timer.getFPGATimestamp() + "\t" + accel.getX() + "\t" + accel.getY() + "\t" + accel.getZ() + "\n");
-			bw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void accel() {
+		robotDrive.tankDrive(1, 1);
+		networktable.putNumber("Time",Timer.getFPGATimestamp());
+		networktable.putNumber("X Accel", accel.getX());
+		networktable.putNumber("Y Accel", accel.getY());
+		networktable.putNumber("Z Accel", accel.getZ());
 	}
 
 	// Motion Profile

@@ -47,7 +47,7 @@ public class OI {
 		operatorController = new Gamepad(1);
 		
 		//Testing
-		driverController.getXButton().whenPressed(new AccelTest());
+		driverController.getXButton().whileHeld(new AccelTest());
 	}
 	
 }
