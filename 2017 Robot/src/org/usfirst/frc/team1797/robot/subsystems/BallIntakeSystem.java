@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
+import org.usfirst.frc.team1797.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -13,8 +15,8 @@ public class BallIntakeSystem extends Subsystem {
 	private VictorSP intake, cam;
 	
 	public BallIntakeSystem(){
-		intake = new VictorSP(4);
-		cam = new VictorSP(5) ;
+		intake = RobotMap.BALLINTAKE_INTAKE;
+		cam = RobotMap.BALLINTAKE_CAM;
 	}
 	public void intake(){
 		intake.set(1);

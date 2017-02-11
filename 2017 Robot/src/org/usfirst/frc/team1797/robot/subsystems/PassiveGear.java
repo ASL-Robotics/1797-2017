@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
+import org.usfirst.frc.team1797.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -15,10 +17,10 @@ public class PassiveGear extends Subsystem {
 	private boolean blocked, held;
 	
 	public PassiveGear(){
-		blockPiston1 = new DoubleSolenoid(2, 3);
-		blockPiston2 = new DoubleSolenoid(4, 5);
-		holdPiston1 = new DoubleSolenoid(6, 7);
-		holdPiston2 = new DoubleSolenoid(8, 9);
+		blockPiston1 = RobotMap.PASSIVEGEAR_BLOCK_1;
+		blockPiston2 = RobotMap.PASSIVEGEAR_BLOCK_2;
+		holdPiston1 = RobotMap.PASSIVEGEAR_HOLD_1;
+		holdPiston2 = RobotMap.PASSIVEGEAR_HOLD_2;
 		lastActuationBlock = Long.MAX_VALUE;
 		lastActuationHold = Long.MAX_VALUE;
 		blocked = false;
