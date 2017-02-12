@@ -27,11 +27,12 @@ public class RobotMap {
 	/*
 	 * PWM: 0 - DRIVETRAIN Victor Left (x2); 1 - DRIVETRAIN Victor Right (x2); 2
 	 * - FLOORGEAR Intake; 3 - CLIMBER (x2); 4 - STORAGE Intake (x2); 5 -
-	 * STORAGE Agitator;
+	 * STORAGE Agitator; 6 - SHOOTER Conveyor; 7 - SHOOTER Wheels (x2)
 	 * 
 	 * DIO: 0,1 - DRIVETRAIN Encoder Left; 2,3 - DRIVETRAIN Encoder Right;
 	 * 
-	 * ANALOG: 0 - DRIVETRAIN Ultrasonic; 1 - FLOORGEAR Force Left; 2 - FLOORGEAR Force Right
+	 * ANALOG: 0 - DRIVETRAIN Ultrasonic; 1 - FLOORGEAR Force Left; 2 -
+	 * FLOORGEAR Force Right
 	 * 
 	 * PCM: 0,1 - FLOORGEAR Lifter; 2,3 - FLOORGEAR Blocker; 4,5 - SLOTGEAR
 	 * Holder
@@ -116,6 +117,8 @@ public class RobotMap {
 		STORAGE_AGITATOR = new VictorSP(5);
 
 		// Shooter
+		SHOOTER_CONVEYOR = new VictorSP(6);
+		SHOOTER_WHEELS = new VictorSP(7);
 	}
 
 }
