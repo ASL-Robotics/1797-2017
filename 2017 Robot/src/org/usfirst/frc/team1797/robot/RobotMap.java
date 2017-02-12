@@ -25,15 +25,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotMap {
 
 	/*
-	 * PWM: 0 - DT Victor Left; 1 - DT Victor Right; 2 - GEAR Intake; 3 -
-	 * CLIMBER, 4 - BALLINTAKE Intake, 5 - BALLINTAKE Cam;
+	 * PWM: 0 - DRIVETRAIN Victor Left (x2); 1 - DRIVETRAIN Victor Right (x2); 2
+	 * - FLOORGEAR Intake; 3 - CLIMBER (x2); 4 - STORAGE Intake (x2); 5 -
+	 * STORAGE Agitator;
 	 * 
-	 * DIO: 0 - DT Encoder Left; 1 - DT Encoder Left; 2 - DT Encoder Right; 3 -
-	 * DT Encoder Right;
+	 * DIO: 0,1 - DRIVETRAIN Encoder Left; 2,3 - DRIVETRAIN Encoder Right;
 	 * 
-	 * PCM: 0 - GEAR Piston, 1 - GEAR Piston, 2 - PASSIVEGEAR Block, 3 -
-	 * PASSIVEGEAR Block, 4 - PASSIVEGEAR Hold, 5 - PASSIVEGEAR Hold;
+	 * ANALOG: 0 - DRIVETRAIN Ultrasonic; 1 - FLOORGEAR Force Left; 2 - FLOORGEAR Force Right
 	 * 
+	 * PCM: 0,1 - FLOORGEAR Lifter; 2,3 - FLOORGEAR Blocker; 4,5 - SLOTGEAR
+	 * Holder
 	 */
 
 	// Componenets necessary for Auto Chooser
@@ -66,6 +67,7 @@ public class RobotMap {
 	public static VictorSP STORAGE_AGITATOR, STORAGE_INTAKE;
 
 	// Components necessary for Shooter
+	public static VictorSP SHOOTER_CONVEYOR, SHOOTER_WHEELS;
 
 	public static void init() {
 
@@ -95,9 +97,10 @@ public class RobotMap {
 
 		DRIVETRAIN_ULTRASONIC = new AnalogUltrasonicSensor(0);
 
-		// Active Gear
+		// Floor Gear
 		FLOORGEAR_INTAKE = new VictorSP(2);
 		FLOORGEAR_LIFTER = new DoubleSolenoid(0, 1);
+		FLOORGEAR_BLOCKER = new DoubleSolenoid(2, 3);
 
 		FLOORGEAR_FORCE_LEFT = new AnalogForceResistor(1);
 		FLOORGEAR_FORCE_RIGHT = new AnalogForceResistor(2);
@@ -106,14 +109,13 @@ public class RobotMap {
 		CLIMBER = new VictorSP(3);
 
 		// Passive Gear
-		FLOORGEAR_BLOCKER = new DoubleSolenoid(2, 3);
 		SLOTGEAR_HOLDER = new DoubleSolenoid(4, 5);
 
-		// Shooter
-
-		// Ball Intake
+		// Storage
 		STORAGE_INTAKE = new VictorSP(4);
 		STORAGE_AGITATOR = new VictorSP(5);
+
+		// Shooter
 	}
 
 }

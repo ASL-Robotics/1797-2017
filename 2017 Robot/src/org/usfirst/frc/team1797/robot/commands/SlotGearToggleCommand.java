@@ -7,18 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SlotGearHoldCommand extends Command {
+public class SlotGearToggleCommand extends Command {
 
-	public SlotGearHoldCommand() {
+	public SlotGearToggleCommand() {
 		requires(Robot.slotgear);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (Robot.slotgear.isHolding())
-			Robot.slotgear.holderDown();
-		else
-			Robot.slotgear.holderUp();
+		Robot.slotgear.toggleHolder();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

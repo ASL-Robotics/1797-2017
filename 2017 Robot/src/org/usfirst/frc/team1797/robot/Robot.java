@@ -1,18 +1,16 @@
 
 package org.usfirst.frc.team1797.robot;
 
-import org.usfirst.frc.team1797.robot.commands.AutoDefaultCommand;
-import org.usfirst.frc.team1797.robot.subsystems.Storage;
 import org.usfirst.frc.team1797.robot.subsystems.Climber;
 import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1797.robot.subsystems.FloorGear;
+import org.usfirst.frc.team1797.robot.subsystems.Shooter;
 import org.usfirst.frc.team1797.robot.subsystems.SlotGear;
+import org.usfirst.frc.team1797.robot.subsystems.Storage;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,10 +29,10 @@ public class Robot extends IterativeRobot {
 	public static Climber climber;
 	public static SlotGear slotgear;
 	public static Storage storage;
+	public static Shooter shooter;
 	
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -49,6 +47,7 @@ public class Robot extends IterativeRobot {
 		climber = new Climber();
 		slotgear = new SlotGear();
 		storage = new Storage();
+		shooter = new Shooter();
 		
 		oi = new OI();
 	}
@@ -82,7 +81,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = RobotMap.AUTO_CHOOSER.getSelected();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}
@@ -107,15 +106,5 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-	}
-
-	public void testInit() {
-	}
-
-	/**
-	 * This function is called periodically during test mode
-	 */
-	@Override
-	public void testPeriodic() {
 	}
 }

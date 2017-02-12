@@ -12,32 +12,29 @@ public class SlotGear extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	private DoubleSolenoid  holdPiston;
-	private long  lastActuationHolder;
+	private DoubleSolenoid holdPiston;
+	private long lastActuation;
 
 	public SlotGear() {
 		holdPiston = RobotMap.SLOTGEAR_HOLDER;
-		lastActuationHolder = Long.MAX_VALUE;
+		lastActuation = Long.MAX_VALUE;
 	}
 
-	// Holder
-	public void holderDown() {
-		holdPiston.set(DoubleSolenoid.Value.kForward);
-		lastActuationHolder = System.currentTimeMillis();
-	}
-
-	public void holderUp() {
-		holdPiston.set(DoubleSolenoid.Value.kReverse);
-		lastActuationHolder = System.currentTimeMillis();
+	public void toggleHolder() {
+		if (holdPiston.get() == DoubleSolenoid.Value.kReverse)
+			holdPiston.set(DoubleSolenoid.Value.kForward);
+		else
+			holdPiston.set(DoubleSolenoid.Value.kReverse);
+		lastActuation = System.currentTimeMillis();
 	}
 
 	public void holderOff() {
 		holdPiston.set(DoubleSolenoid.Value.kOff);
-		lastActuationHolder = System.currentTimeMillis();
+		lastActuation = Long.MAX_VALUE;
 	}
 
 	public boolean isDone() {
-		return System.currentTimeMillis() + 1000 > lastActuationHolder;
+		return System.currentTimeMillis() + 1000 > lastActuation;
 	}
 
 	public boolean isHolding() {

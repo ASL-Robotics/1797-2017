@@ -97,9 +97,10 @@ public class FloorGear extends Subsystem {
 	public boolean isBlocking() {
 		return blockPiston.get() == DoubleSolenoid.Value.kForward;
 	}
-	
-	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 }
