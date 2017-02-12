@@ -100,7 +100,7 @@ public class XBox360 extends Joystick {
 
 	public DPadButton getWest() {
 		return new DPadButton(this, DPadButton.Direction.WEST);
-	} 
+	}
 
 	public DPadButton getNorthWest() {
 		return new DPadButton(this, DPadButton.Direction.NORTHWEST);
@@ -121,9 +121,26 @@ public class XBox360 extends Joystick {
 
 		@Override
 		public boolean get() {
-			// TODO Auto-generated method stub
-			return false;
+			switch (direction) {
+			case NORTH:
+				return joystick.getPOV() == 0;
+			case NORTHEAST:
+				return joystick.getPOV() == 45;
+			case EAST:
+				return joystick.getPOV() == 90;
+			case SOUTHEAST:
+				return joystick.getPOV() == 135;
+			case SOUTH:
+				return joystick.getPOV() == 180;
+			case SOUTHWEST:
+				return joystick.getPOV() == 225;
+			case WEST:
+				return joystick.getPOV() == 270;
+			case NORTHWEST:
+				return joystick.getPOV() == 315;
+			default: // Never reached
+				return false;
+			}
 		}
-
 	}
 }

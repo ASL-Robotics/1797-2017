@@ -7,21 +7,19 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class BallOuttakeCommand extends Command {
-
-    public BallOuttakeCommand() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.storage);
+public class DrivetrainDefaultCommand extends Command {
+	
+    public DrivetrainDefaultCommand() {
+        requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.storage.outtake();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.drivetrain.teleopDrive(Robot.oi.driverController.getLeftY(),Robot.oi.driverController.getRightX());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -37,6 +35,6 @@ public class BallOuttakeCommand extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.storage.stopIntake();
+    	Robot.drivetrain.resetDriveMotors();
     }
 }

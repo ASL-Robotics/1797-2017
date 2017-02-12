@@ -1,16 +1,15 @@
 package org.usfirst.frc.team1797.robot.commands;
 
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * The PickUpGearCommand is designed to pick up a gear from the ground automatically.
+ * The DefaultAutoCommand will be our default auto command.
  * 
  * @author will_vauclain@asl.org
  */
-public class PickUpGearCommand extends CommandGroup {
+public class AutoDefaultCommand extends CommandGroup {
 
-    public PickUpGearCommand() {
+    public AutoDefaultCommand() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -27,7 +26,5 @@ public class PickUpGearCommand extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
-    	}
     }
-
+}

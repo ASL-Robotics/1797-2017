@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1797.robot;
 
+import org.usfirst.frc.team1797.robot.commands.AutoDefaultCommand;
 import org.usfirst.frc.team1797.util.AnalogForceResistor;
 import org.usfirst.frc.team1797.util.AnalogUltrasonicSensor;
 
@@ -9,10 +10,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -25,18 +27,21 @@ public class RobotMap {
 	/*
 	 * PWM: 0 - DT Victor Left; 1 - DT Victor Right; 2 - GEAR Intake; 3 -
 	 * CLIMBER, 4 - BALLINTAKE Intake, 5 - BALLINTAKE Cam;
-	 *  
+	 * 
 	 * DIO: 0 - DT Encoder Left; 1 - DT Encoder Left; 2 - DT Encoder Right; 3 -
 	 * DT Encoder Right;
 	 * 
-	 * PCM: 0 - GEAR Piston, 1 - GEAR Piston, 2 - PASSIVEGEAR Block, 3 - PASSIVEGEAR Block,
-	 *  4 - PASSIVEGEAR Hold, 5 - PASSIVEGEAR Hold;
+	 * PCM: 0 - GEAR Piston, 1 - GEAR Piston, 2 - PASSIVEGEAR Block, 3 -
+	 * PASSIVEGEAR Block, 4 - PASSIVEGEAR Hold, 5 - PASSIVEGEAR Hold;
 	 * 
 	 */
 
-	//Network Table
-	public static NetworkTable NETWORKTABLE; 
-	
+	// Componenets necessary for Auto Chooser
+	public static SendableChooser<Command> AUTO_CHOOSER;
+
+	// Components necessary for Network Table
+	public static NetworkTable NETWORKTABLE;
+
 	// Components necessary for Drivetrain
 	public static RobotDrive DRIVETRAIN_ROBOT_DRIVE;
 
@@ -46,26 +51,31 @@ public class RobotMap {
 	public static ADXL362 DRIVETRAIN_ACCEL;
 	public static AnalogUltrasonicSensor DRIVETRAIN_ULTRASONIC;
 
-	// Components necessary for Active Gear
-	public static VictorSP GEAR_INTAKE;
-	public static DoubleSolenoid GEAR_PISTON;
-	public static AnalogForceResistor GEAR_FORCE_LEFT, GEAR_FORCE_RIGHT;
+	// Components necessary for Floor Gear
+	public static VictorSP FLOORGEAR_INTAKE;
+	public static DoubleSolenoid FLOORGEAR_LIFTER, FLOORGEAR_BLOCKER;
+	public static AnalogForceResistor FLOORGEAR_FORCE_LEFT, FLOORGEAR_FORCE_RIGHT;
 
 	// Components necessary for Climber
 	public static VictorSP CLIMBER;
-	
+
 	// Components necessary for Passive Gear
-	public static DoubleSolenoid PASSIVEGEAR_BLOCK, PASSIVEGEAR_HOLD;
-	
+	public static DoubleSolenoid SLOTGEAR_HOLDER;
+
+	// Components necessary for Storage
+	public static VictorSP STORAGE_AGITATOR, STORAGE_INTAKE;
+
 	// Components necessary for Shooter
-	
-	// Components necessary for Ball Intake
-	public static VictorSP BALLINTAKE_CAM, BALLINTAKE_INTAKE;
-	
+
 	public static void init() {
-		//Network
+
+		// Auto Chooser
+		AUTO_CHOOSER.addDefault("Default Auto", new AutoDefaultCommand());
+		SmartDashboard.putData("Auto mode", AUTO_CHOOSER);
+
+		// Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");
-		
+
 		// Drivetrain
 		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0, 1);
 
@@ -81,28 +91,29 @@ public class RobotMap {
 		SmartDashboard.putData("Drivetrain Gyro", DRIVETRAIN_GYRO);
 
 		DRIVETRAIN_ACCEL = new ADXL362(Range.k8G);
-		
+		SmartDashboard.putData("Drivetrain Accelerometer", DRIVETRAIN_ACCEL);
+
 		DRIVETRAIN_ULTRASONIC = new AnalogUltrasonicSensor(0);
 
 		// Active Gear
-		GEAR_INTAKE = new VictorSP(2);
-		GEAR_PISTON = new DoubleSolenoid(0, 1);
+		FLOORGEAR_INTAKE = new VictorSP(2);
+		FLOORGEAR_LIFTER = new DoubleSolenoid(0, 1);
 
-		GEAR_FORCE_LEFT = new AnalogForceResistor(1);
-		GEAR_FORCE_RIGHT = new AnalogForceResistor(2);
+		FLOORGEAR_FORCE_LEFT = new AnalogForceResistor(1);
+		FLOORGEAR_FORCE_RIGHT = new AnalogForceResistor(2);
 
 		// Climber
 		CLIMBER = new VictorSP(3);
-		
-		//Passive Gear
-		PASSIVEGEAR_BLOCK = new DoubleSolenoid(2, 3);
-		PASSIVEGEAR_HOLD = new DoubleSolenoid(4, 5);
-		
+
+		// Passive Gear
+		FLOORGEAR_BLOCKER = new DoubleSolenoid(2, 3);
+		SLOTGEAR_HOLDER = new DoubleSolenoid(4, 5);
+
 		// Shooter
-		
+
 		// Ball Intake
-		BALLINTAKE_INTAKE = new VictorSP(4);
-		BALLINTAKE_CAM = new VictorSP(5);
+		STORAGE_INTAKE = new VictorSP(4);
+		STORAGE_AGITATOR = new VictorSP(5);
 	}
 
 }

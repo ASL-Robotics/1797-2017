@@ -5,11 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import edu.wpi.first.wpilibj.networktables.*;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class AccelerationLogger {
-
-	static File data;
+public class AccelerationLog {
+	public static File data;
 
 	public static void main(String[] args) {
 		init();

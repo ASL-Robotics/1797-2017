@@ -7,11 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class AccelTest extends Command {
+public class ClimberDefaultCommand extends Command {
 
-
-	public AccelTest() {
-		requires(Robot.drivetrain);
+	public ClimberDefaultCommand() {
+		requires(Robot.climber);
 	}
 
 	// Called just before this Command runs the first time
@@ -20,7 +19,7 @@ public class AccelTest extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drivetrain.accel();
+		Robot.climber.climb(Robot.oi.driverController.getRightTrigger());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -30,11 +29,12 @@ public class AccelTest extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.drivetrain.resetDriveMotors();
+		interrupted();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		Robot.climber.stopClimb();
 	}
 }

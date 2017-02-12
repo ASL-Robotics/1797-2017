@@ -1,12 +1,12 @@
 
 package org.usfirst.frc.team1797.robot;
 
-import org.usfirst.frc.team1797.robot.commands.DefaultAutoCommand;
-import org.usfirst.frc.team1797.robot.subsystems.BallIntakeSystem;
+import org.usfirst.frc.team1797.robot.commands.AutoDefaultCommand;
+import org.usfirst.frc.team1797.robot.subsystems.Storage;
 import org.usfirst.frc.team1797.robot.subsystems.Climber;
 import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team1797.robot.subsystems.Gear;
-import org.usfirst.frc.team1797.robot.subsystems.PassiveGear;
+import org.usfirst.frc.team1797.robot.subsystems.FloorGear;
+import org.usfirst.frc.team1797.robot.subsystems.SlotGear;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,10 +27,10 @@ public class Robot extends IterativeRobot {
 
 	// Instantiate required subsystems here and only here
 	public static Drivetrain drivetrain;
-	public static Gear gear;
+	public static FloorGear floorgear;
 	public static Climber climber;
-	public static PassiveGear passivegear;
-	public static BallIntakeSystem storage;
+	public static SlotGear slotgear;
+	public static Storage storage;
 	
 
 	Command autonomousCommand;
@@ -44,14 +44,11 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		RobotMap.init();
 	
-		chooser.addDefault("Default Auto", new DefaultAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
-		
 		drivetrain = new Drivetrain();
-		gear = new Gear();
+		floorgear = new FloorGear();
 		climber = new Climber();
-		passivegear = new PassiveGear();
-		storage = new BallIntakeSystem();
+		slotgear = new SlotGear();
+		storage = new Storage();
 		
 		oi = new OI();
 	}

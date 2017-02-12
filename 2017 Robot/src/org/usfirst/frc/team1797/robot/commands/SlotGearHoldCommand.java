@@ -7,20 +7,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class PassiveGearHoldCommand extends Command {
+public class SlotGearHoldCommand extends Command {
 
-	public PassiveGearHoldCommand() {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
-		requires(Robot.passivegear);
+	public SlotGearHoldCommand() {
+		requires(Robot.slotgear);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (Robot.passivegear.isHeld())
-			Robot.passivegear.holdGear();
+		if (Robot.slotgear.isHolding())
+			Robot.slotgear.holderDown();
 		else
-			Robot.passivegear.releaseGear();
+			Robot.slotgear.holderUp();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -29,7 +27,7 @@ public class PassiveGearHoldCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.passivegear.getLastActuationHold() + 1000 <= System.currentTimeMillis();
+		return Robot.slotgear.isDone();
 	}
 
 	// Called once after isFinished returns true
@@ -40,6 +38,6 @@ public class PassiveGearHoldCommand extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.passivegear.stopHolder();
+		Robot.slotgear.holderOff();
 	}
 }

@@ -3,13 +3,13 @@ package org.usfirst.frc.team1797.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * The DefaultAutoCommand will be our default auto command.
+ * The PlaceGearCommand is designed to place a gear automatically.
  * 
  * @author will_vauclain@asl.org
  */
-public class DefaultAutoCommand extends CommandGroup {
+public class PlaceGearCommandGroup extends CommandGroup {
 
-    public DefaultAutoCommand() {
+    public PlaceGearCommandGroup() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

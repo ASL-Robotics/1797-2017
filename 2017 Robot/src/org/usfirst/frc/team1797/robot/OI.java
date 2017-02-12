@@ -1,8 +1,7 @@
 package org.usfirst.frc.team1797.robot;
 
-import org.usfirst.frc.team1797.robot.commands.AccelTest;
-import org.usfirst.frc.team1797.robot.commands.ClimbCommand;
-import org.usfirst.frc.team1797.robot.commands.DescendCommand;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainAccelTest;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainShiftGearCommand;
 import org.usfirst.frc.team1797.util.Gamepad;
 import org.usfirst.frc.team1797.util.XBox360;
 
@@ -48,10 +47,11 @@ public class OI {
 		driverController = new XBox360(0);
 		operatorController = new Gamepad(1);
 		
+		//Driver
+		driverController.getLeftStick().whenPressed(new DrivetrainShiftGearCommand());
+		
 		//Testing
-		driverController.getXButton().whileHeld(new AccelTest());
-		driverController.getYButton().whileHeld(new ClimbCommand());
-		driverController.getAButton().whileHeld(new DescendCommand());
+		driverController.getXButton().whileHeld(new DrivetrainAccelTest());
 	}
 	
 }
