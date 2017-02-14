@@ -15,7 +15,7 @@ public class Waypoints {
 
 		Waypoint[] points = new Waypoint[] { RED_AW_1, RED_AS_1 };
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC,
-				Trajectory.Config.SAMPLES_HIGH, 0.02, 120, 120, 120);
+				Trajectory.Config.SAMPLES_HIGH, 0.02, 81.91756301, 1028.564955, 41323.18051);
 
 		Trajectory traj = Pathfinder.generate(points, config);
 

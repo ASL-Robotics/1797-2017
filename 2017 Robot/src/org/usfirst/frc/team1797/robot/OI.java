@@ -2,7 +2,6 @@ package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.DrivetrainAccelTest;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainShiftGearCommand;
-import org.usfirst.frc.team1797.util.Gamepad;
 import org.usfirst.frc.team1797.util.XBox360;
 
 /**
@@ -41,11 +40,11 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	public XBox360 driverController;
-	public Gamepad operatorController;
+	public XBox360 	 operatorController;
 	
 	public OI(){
 		driverController = new XBox360(0);
-		operatorController = new Gamepad(1);
+		operatorController = new XBox360(1);
 		
 		//Driver
 		driverController.getLeftStick().whenPressed(new DrivetrainShiftGearCommand());

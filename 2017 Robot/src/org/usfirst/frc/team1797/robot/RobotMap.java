@@ -4,14 +4,16 @@ import org.usfirst.frc.team1797.robot.commands.AutoDefaultCommand;
 import org.usfirst.frc.team1797.util.AnalogForceResistor;
 import org.usfirst.frc.team1797.util.AnalogUltrasonicSensor;
 
-import edu.wpi.first.wpilibj.ADXL362;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,8 +51,7 @@ public class RobotMap {
 
 	public static Encoder DRIVETRAIN_ENCODER_LEFT, DRIVETRAIN_ENCODER_RIGHT;
 
-	public static ADXRS450_Gyro DRIVETRAIN_GYRO;
-	public static ADXL362 DRIVETRAIN_ACCEL;
+	public static Gyro DRIVETRAIN_GYRO;
 	public static AnalogUltrasonicSensor DRIVETRAIN_ULTRASONIC;
 
 	// Components necessary for Floor Gear
@@ -70,31 +71,29 @@ public class RobotMap {
 	// Components necessary for Shooter
 	public static VictorSP SHOOTER_CONVEYOR, SHOOTER_WHEELS;
 
+	// Components necessary for Vision
+	public static CameraServer VISION_SERVER;
+	public static UsbCamera VISION_CAMERA, VISION_CAMERA_BACK;
+
 	public static void init() {
 
 		// Auto Chooser
+		AUTO_CHOOSER = new SendableChooser<Command>();
 		AUTO_CHOOSER.addDefault("Default Auto", new AutoDefaultCommand());
 		SmartDashboard.putData("Auto mode", AUTO_CHOOSER);
-
-		// Network
-		NETWORKTABLE = NetworkTable.getTable("Network Table");
 
 		// Drivetrain
 		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0, 1);
 
 		DRIVETRAIN_ENCODER_LEFT = new Encoder(0, 1);
 		DRIVETRAIN_ENCODER_LEFT.setDistancePerPulse(0.0481);
-		SmartDashboard.putData("Drivetrain Left Encoder", DRIVETRAIN_ENCODER_LEFT);
 
-		DRIVETRAIN_ENCODER_RIGHT = new Encoder(2, 3);
+		DRIVETRAIN_ENCODER_RIGHT = new Encoder(2, 3, true);
 		DRIVETRAIN_ENCODER_RIGHT.setDistancePerPulse(0.0481);
-		SmartDashboard.putData("Drivetrain Right Encoder", DRIVETRAIN_ENCODER_RIGHT);
 
 		DRIVETRAIN_GYRO = new ADXRS450_Gyro();
-		SmartDashboard.putData("Drivetrain Gyro", DRIVETRAIN_GYRO);
-
-		DRIVETRAIN_ACCEL = new ADXL362(Range.k8G);
-		SmartDashboard.putData("Drivetrain Accelerometer", DRIVETRAIN_ACCEL);
+		DRIVETRAIN_GYRO.reset();
+		DRIVETRAIN_GYRO.calibrate();
 
 		DRIVETRAIN_ULTRASONIC = new AnalogUltrasonicSensor(0);
 
@@ -119,6 +118,16 @@ public class RobotMap {
 		// Shooter
 		SHOOTER_CONVEYOR = new VictorSP(6);
 		SHOOTER_WHEELS = new VictorSP(7);
+
+		// Vision
+		VISION_SERVER = CameraServer.getInstance();
+		VISION_CAMERA = VISION_SERVER.startAutomaticCapture("FRONT", 0);
+		VISION_CAMERA.setResolution(640, 480);
+		VISION_CAMERA.setExposureManual(10);
+
+		// Network
+		NETWORKTABLE = NetworkTable.getTable("Network Table");
+
 	}
 
 }

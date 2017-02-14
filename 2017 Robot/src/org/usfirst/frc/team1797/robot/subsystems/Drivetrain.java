@@ -3,11 +3,11 @@ package org.usfirst.frc.team1797.robot.subsystems;
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainDefaultCommand;
 
-import edu.wpi.first.wpilibj.ADXL362;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +21,6 @@ public class Drivetrain extends Subsystem {
 	private RobotDrive robotDrive;
 	private Encoder leftEncoder, rightEncoder;
 	private Gyro gyro;
-	private ADXL362 accel;
 	private NetworkTable networktable;
 
 	private boolean highGear;
@@ -41,9 +40,7 @@ public class Drivetrain extends Subsystem {
 		rightEncoder = RobotMap.DRIVETRAIN_ENCODER_RIGHT;
 
 		gyro = RobotMap.DRIVETRAIN_GYRO;
-
-		accel = RobotMap.DRIVETRAIN_ACCEL;
-
+		
 		networktable = RobotMap.NETWORKTABLE;
 
 		highGear = true;
@@ -63,21 +60,23 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void teleopDrive(double moveValue, double rotateValue) {
+		rotateValue *= 0.5;
+
 		// Dead Space
 		moveValue = Math.abs(moveValue) > 0.05 ? moveValue : 0;
 		rotateValue = Math.abs(rotateValue) > 0.05 ? rotateValue : 0;
 
 		// "Gear" Mode
 		moveValue = highGear ? moveValue : moveValue * 0.5;
-		rotateValue = highGear ?rotateValue : rotateValue * 0.5;
+		rotateValue = highGear ? rotateValue : rotateValue * 0.5;
 
 		robotDrive.arcadeDrive(moveValue, rotateValue);
 	}
 
-	public void shiftGearMode(){
+	public void shiftGearMode() {
 		highGear = !highGear;
 	}
-	
+
 	public void resetDriveMotors() {
 		robotDrive.drive(0, 0);
 	}
@@ -87,9 +86,8 @@ public class Drivetrain extends Subsystem {
 	public void accel() {
 		robotDrive.tankDrive(1, 1);
 		networktable.putNumber("Time", Timer.getFPGATimestamp());
-		networktable.putNumber("X Accel", accel.getX());
-		networktable.putNumber("Y Accel", accel.getY());
-		networktable.putNumber("Z Accel", accel.getZ());
+		networktable.putNumber("Left", leftEncoder.getDistance());
+		networktable.putNumber("Right", rightEncoder.getDistance());
 	}
 
 	// Motion Profile
