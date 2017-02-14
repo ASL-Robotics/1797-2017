@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -47,11 +47,12 @@ public class RobotMap {
 	public static NetworkTable NETWORKTABLE;
 
 	// Components necessary for Drivetrain
+	public static VictorSP DRIVETRAIN_LEFT_DRIVE, DRIVETRAIN_RIGHT_DRIVE;
 	public static RobotDrive DRIVETRAIN_ROBOT_DRIVE;
 
 	public static Encoder DRIVETRAIN_ENCODER_LEFT, DRIVETRAIN_ENCODER_RIGHT;
 
-	public static Gyro DRIVETRAIN_GYRO;
+	public static ADXRS450_Gyro DRIVETRAIN_GYRO;
 	public static AnalogUltrasonicSensor DRIVETRAIN_ULTRASONIC;
 
 	// Components necessary for Floor Gear
@@ -70,10 +71,12 @@ public class RobotMap {
 
 	// Components necessary for Shooter
 	public static VictorSP SHOOTER_CONVEYOR, SHOOTER_WHEELS;
+	public static Encoder SHOOTER_ENCODER;
+	public static PIDController SHOOTER_PID;
 
 	// Components necessary for Vision
 	public static CameraServer VISION_SERVER;
-	public static UsbCamera VISION_CAMERA, VISION_CAMERA_BACK;
+	public static UsbCamera VISION_CAMERA;
 
 	public static void init() {
 
@@ -83,7 +86,8 @@ public class RobotMap {
 		SmartDashboard.putData("Auto mode", AUTO_CHOOSER);
 
 		// Drivetrain
-		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0, 1);
+		DRIVETRAIN_LEFT_DRIVE = new VictorSP(0);
+		DRIVETRAIN_RIGHT_DRIVE = new VictorSP(1);
 
 		DRIVETRAIN_ENCODER_LEFT = new Encoder(0, 1);
 		DRIVETRAIN_ENCODER_LEFT.setDistancePerPulse(0.0481);
@@ -94,9 +98,9 @@ public class RobotMap {
 		DRIVETRAIN_GYRO = new ADXRS450_Gyro();
 		DRIVETRAIN_GYRO.reset();
 		DRIVETRAIN_GYRO.calibrate();
-
+		
 		DRIVETRAIN_ULTRASONIC = new AnalogUltrasonicSensor(0);
-
+		
 		// Floor Gear
 		FLOORGEAR_INTAKE = new VictorSP(2);
 		FLOORGEAR_LIFTER = new DoubleSolenoid(0, 1);
@@ -118,6 +122,9 @@ public class RobotMap {
 		// Shooter
 		SHOOTER_CONVEYOR = new VictorSP(6);
 		SHOOTER_WHEELS = new VictorSP(7);
+		SHOOTER_ENCODER = new Encoder(4, 5);
+		SHOOTER_ENCODER.setPIDSourceType(PIDSourceType.kRate);
+		SHOOTER_PID = new PIDController(1, 0, 0, SHOOTER_ENCODER, SHOOTER_WHEELS);
 
 		// Vision
 		VISION_SERVER = CameraServer.getInstance();

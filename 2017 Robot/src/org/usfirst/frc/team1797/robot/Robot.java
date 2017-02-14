@@ -8,7 +8,6 @@ import org.usfirst.frc.team1797.robot.subsystems.Shooter;
 import org.usfirst.frc.team1797.robot.subsystems.SlotGear;
 import org.usfirst.frc.team1797.robot.subsystems.Storage;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -31,8 +30,6 @@ public class Robot extends IterativeRobot {
 	public static SlotGear slotgear;
 	public static Storage storage;
 	public static Shooter shooter;
-
-	DigitalInput l1, l2, r1, r2;
 
 	Command autonomousCommand;
 

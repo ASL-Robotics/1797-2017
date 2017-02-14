@@ -2,6 +2,7 @@ package org.usfirst.frc.team1797.robot.subsystems;
 
 import org.usfirst.frc.team1797.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -10,11 +11,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Shooter extends Subsystem {
 
-	private VictorSP conveyor, wheels;
+	private VictorSP conveyor;
+	private PIDController pid;
 
 	public Shooter() {
 		conveyor = RobotMap.SHOOTER_CONVEYOR;
-		wheels = RobotMap.SHOOTER_WHEELS;
+		pid = RobotMap.SHOOTER_PID;
 	}
 	
 	public void conveyorOn(){
@@ -26,11 +28,11 @@ public class Shooter extends Subsystem {
 	}
 	
 	public void wheelsOn(){
-		wheels.set(1);
+		pid.enable();
 	}
 	
 	public void wheelsOff(){
-		wheels.set(0);
+		pid.disable();
 	}
 
 	@Override

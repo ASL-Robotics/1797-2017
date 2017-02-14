@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,12 +24,19 @@ public class Drivetrain extends Subsystem {
 
 	private boolean highGear;
 
+	private int i;
+
+	// Gyro
+	private final double gyro_kp, gyro_ki, gyro_kd;
+	private double gyroIntegral, lastGyro, setpoint;
+	private boolean setpointIsSet;
+
 	// Motion Profile
 	private Trajectory leftTraj, rightTraj;
-	private final double kp, kd, kv, kAc, kAn, dt;
-	private double lastLeftError, lastRightError;
 
-	private int i;
+	private final double mp_kp, mp_kd, mp_kv_left, mp_kv_right, mp_kAc, mp_kAn, dt;
+	private double lastLeft, lastRight;
+
 	private double trajLength;
 
 	public Drivetrain() {
@@ -40,19 +46,26 @@ public class Drivetrain extends Subsystem {
 		rightEncoder = RobotMap.DRIVETRAIN_ENCODER_RIGHT;
 
 		gyro = RobotMap.DRIVETRAIN_GYRO;
-		
+
 		networktable = RobotMap.NETWORKTABLE;
 
 		highGear = true;
 		SmartDashboard.putBoolean("DRIVETRAIN: High Gear", highGear);
 
-		kp = 0;
-		kd = 0;
-		kv = 0;
-		kAc = 0;
-		kAn = 0;
+		setpointIsSet = false;
+		gyro_kp = 1;
+		gyro_ki = 0;
+		gyro_kd = 0;
+
+		mp_kp = 1;
+		mp_kd = 0;
+		mp_kv_left = 0;
+		mp_kv_right = 0;
+		mp_kAc = 0;
+		mp_kAn = 0;
 		dt = 0.02;
 		i = 0;
+
 	}
 
 	public void initDefaultCommand() {
@@ -70,7 +83,26 @@ public class Drivetrain extends Subsystem {
 		moveValue = highGear ? moveValue : moveValue * 0.5;
 		rotateValue = highGear ? rotateValue : rotateValue * 0.5;
 
-		robotDrive.arcadeDrive(moveValue, rotateValue);
+		if (rotateValue == 0)
+			driveStraight(moveValue);
+		else {
+			setpointIsSet = false;
+			robotDrive.arcadeDrive(moveValue, rotateValue);
+		}
+	}
+
+	public void driveStraight(double moveValue) {
+		if (!setpointIsSet)
+			setSetpoint();
+		double error = setpoint - gyro.getAngle();
+		gyroIntegral += error * dt;
+		double result = gyro_kp * error + gyro_ki * gyroIntegral + gyro_kd * (error - lastGyro);
+		robotDrive.tankDrive(moveValue + result, moveValue - result);
+	}
+
+	public void setSetpoint() {
+		setpoint = gyro.getAngle();
+		setpointIsSet = true;
 	}
 
 	public void shiftGearMode() {
@@ -78,7 +110,7 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void resetDriveMotors() {
-		robotDrive.drive(0, 0);
+		robotDrive.stopMotor();
 	}
 
 	// Acceleration Test
@@ -103,8 +135,8 @@ public class Drivetrain extends Subsystem {
 		rightEncoder.reset();
 		gyro.reset();
 
-		lastLeftError = 0;
-		lastRightError = 0;
+		lastLeft = 0;
+		lastRight = 0;
 		i = 0;
 	}
 
@@ -118,15 +150,15 @@ public class Drivetrain extends Subsystem {
 		double angleError = leftSeg.heading - Math.toRadians(gyro.getAngle());
 
 		// Term Calculation
-		double leftValue = kv * leftSeg.velocity + kAc * leftSeg.acceleration + kp * leftError
-				+ kd * (leftError - lastLeftError) / dt + kAn * angleError;
-		double rightValue = kv * rightSeg.velocity + kAc * rightSeg.acceleration + kp * rightError
-				+ kd * (rightError - lastRightError) / dt - kAn * angleError;
+		double leftValue = mp_kv_left * leftSeg.velocity + mp_kAc * leftSeg.acceleration + mp_kp * leftError
+				+ mp_kd * (leftError - lastLeft) / dt + mp_kAn * angleError;
+		double rightValue = mp_kv_right * rightSeg.velocity + mp_kAc * rightSeg.acceleration + mp_kp * rightError
+				+ mp_kd * (rightError - lastRight) / dt - mp_kAn * angleError;
 
 		robotDrive.tankDrive(leftValue, rightValue);
 
-		lastLeftError = leftError;
-		lastRightError = rightError;
+		lastLeft = leftError;
+		lastRight = rightError;
 
 		i++;
 	}
