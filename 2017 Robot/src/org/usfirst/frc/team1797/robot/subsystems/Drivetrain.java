@@ -80,8 +80,8 @@ public class Drivetrain extends Subsystem {
 		rotateValue = Math.abs(rotateValue) > 0.05 ? rotateValue : 0;
 
 		// "Gear" Mode
-		moveValue = highGear ? moveValue : moveValue * 0.5;
-		rotateValue = highGear ? rotateValue : rotateValue * 0.5;
+		moveValue = highGear ? moveValue : moveValue * 0.618;
+		rotateValue = highGear ? rotateValue : rotateValue * 0.618;
 
 		if (rotateValue == 0)
 			driveStraight(moveValue);

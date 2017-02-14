@@ -1,25 +1,24 @@
 package trajectories;
 
-import java.io.File;
-
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Trajectory.Config;
+import jaci.pathfinder.Trajectory.FitMethod;
 import jaci.pathfinder.Waypoint;
 
 public class Waypoints {
 
-	public static void main(String[] args) {
+	public static Waypoint AW_1 = new Waypoint(15.0, 269, 0);
+	public static Waypoint AS_1 = new Waypoint(107, 238, Math.PI / 3);
+	public static Waypoint[] RED_1 = { AW_1, AS_1 };
 
-		Waypoint RED_AW_1 = new Waypoint(15, 53.3, Math.toRadians(180));
-		Waypoint RED_AS_1 = new Waypoint(107.4, 86.71, Math.toRadians(-120));
+	public static Waypoint AW_2 = new Waypoint(15.0, 162, 0);
+	public static Waypoint AS_2 = new Waypoint(64.1, 162, 0);
+	public static Waypoint[] RED_2 = { AW_2, AS_2 };
 
-		Waypoint[] points = new Waypoint[] { RED_AW_1, RED_AS_1 };
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC,
-				Trajectory.Config.SAMPLES_HIGH, 0.02, 81.91756301, 1028.564955, 41323.18051);
+	public static Waypoint AW_3 = new Waypoint(15.0, 53.3, 0);
+	public static Waypoint AS_3 = new Waypoint(107, 86.7, -Math.PI / 3);
+	public static Waypoint[] RED_3 = { AW_3, AS_3};
 
-		Trajectory traj = Pathfinder.generate(points, config);
+	public static Waypoint[][] AUTO_PAIRS = { RED_1, RED_2, RED_3};
 
-		File myFile = new File("myfile.csv");
-		Pathfinder.writeToCSV(myFile, traj);
-	}
+	public static Config config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, 0.02, 81.9, 1030, 41300);
 }
