@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
+import java.io.File;
+
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainDefaultCommand;
 
@@ -10,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
 
@@ -59,8 +62,8 @@ public class Drivetrain extends Subsystem {
 
 		mp_kp = 1;
 		mp_kd = 0;
-		mp_kv_left = 0;
-		mp_kv_right = 0;
+		mp_kv_left = 0.00754;
+		mp_kv_right = 0.00657;
 		mp_kAc = 0;
 		mp_kAn = 0;
 		dt = 0.02;
@@ -80,8 +83,8 @@ public class Drivetrain extends Subsystem {
 		rotateValue = Math.abs(rotateValue) > 0.05 ? rotateValue : 0;
 
 		// "Gear" Mode
-		moveValue = highGear ? moveValue : moveValue * 0.5;
-		rotateValue = highGear ? rotateValue : rotateValue * 0.5;
+		moveValue = highGear ? moveValue : moveValue * 0.618;
+		rotateValue = highGear ? rotateValue : rotateValue * 0.618;
 
 		if (rotateValue == 0)
 			driveStraight(moveValue);
@@ -123,6 +126,14 @@ public class Drivetrain extends Subsystem {
 	}
 
 	// Motion Profile
+	public void stationTrajectory(int station) {
+		File left = new File("trajectories/station" + station + "_left.csv");
+		File right = new File("trajectories/station" + station + "_right.csv");
+		Trajectory leftTraj = Pathfinder.readFromCSV(left);
+		Trajectory rightTraj = Pathfinder.readFromCSV(right);
+		setTrajectories(leftTraj,rightTraj);
+	}
+
 	public void setTrajectories(Trajectory leftTraj, Trajectory rightTraj) {
 		this.leftTraj = leftTraj;
 		this.rightTraj = rightTraj;
@@ -151,9 +162,9 @@ public class Drivetrain extends Subsystem {
 
 		// Term Calculation
 		double leftValue = mp_kv_left * leftSeg.velocity + mp_kAc * leftSeg.acceleration + mp_kp * leftError
-				+ mp_kd * (leftError - lastLeft) / dt + mp_kAn * angleError;
+				+ mp_kd * (leftError - lastLeft) / dt - mp_kAn * angleError;
 		double rightValue = mp_kv_right * rightSeg.velocity + mp_kAc * rightSeg.acceleration + mp_kp * rightError
-				+ mp_kd * (rightError - lastRight) / dt - mp_kAn * angleError;
+				+ mp_kd * (rightError - lastRight) / dt + mp_kAn * angleError;
 
 		robotDrive.tankDrive(leftValue, rightValue);
 

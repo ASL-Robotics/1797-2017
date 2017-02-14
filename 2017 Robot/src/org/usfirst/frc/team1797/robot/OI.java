@@ -2,6 +2,9 @@ package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.DrivetrainAccelTest;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainShiftGearCommand;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainStation1Command;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainStation2Command;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainStation3Command;
 import org.usfirst.frc.team1797.util.XBox360;
 
 /**
@@ -9,8 +12,7 @@ import org.usfirst.frc.team1797.util.XBox360;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	
-	
+
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -38,19 +40,22 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	
+
 	public XBox360 driverController;
-	public XBox360 	 operatorController;
-	
-	public OI(){
+	public XBox360 operatorController;
+
+	public OI() {
 		driverController = new XBox360(0);
 		operatorController = new XBox360(1);
-		
-		//Driver
+
+		// Driver
 		driverController.getLeftStick().whenPressed(new DrivetrainShiftGearCommand());
-		
-		//Testing
+		driverController.getXButton().whenPressed(new DrivetrainStation1Command());
+		driverController.getYButton().whenPressed(new DrivetrainStation2Command());
+		driverController.getBButton().whenPressed(new DrivetrainStation3Command());
+
+		// Testing
 		driverController.getXButton().whileHeld(new DrivetrainAccelTest());
 	}
-	
+
 }
