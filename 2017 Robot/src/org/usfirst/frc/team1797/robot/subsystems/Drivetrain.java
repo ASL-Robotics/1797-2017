@@ -56,7 +56,7 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putBoolean("DRIVETRAIN: High Gear", highGear);
 
 		setpointIsSet = false;
-		gyro_kp = 1;
+		gyro_kp = 1 / 10;
 		gyro_ki = 0;
 		gyro_kd = 0;
 
@@ -76,20 +76,24 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void teleopDrive(double moveValue, double rotateValue) {
-		rotateValue *= 0.5;
 
 		// Dead Space
 		moveValue = Math.abs(moveValue) > 0.05 ? moveValue : 0;
 		rotateValue = Math.abs(rotateValue) > 0.05 ? rotateValue : 0;
 
 		// "Gear" Mode
-		moveValue = highGear ? moveValue : moveValue * 0.618;
-		rotateValue = highGear ? rotateValue : rotateValue * 0.618;
+		moveValue = highGear ? moveValue : moveValue * 0.5;
+		rotateValue = highGear ? rotateValue : rotateValue * 0.5;
 
-		if (rotateValue == 0)
-			driveStraight(moveValue);
-		else {
+		if (moveValue == 0) {
 			setpointIsSet = false;
+			rotateValue = highGear ? 0.5 * rotateValue : rotateValue;
+			robotDrive.arcadeDrive(0, rotateValue);
+		} else if (rotateValue == 0) {
+			driveStraight(moveValue);
+		} else {
+			setpointIsSet = false;
+			rotateValue = highGear ? rotateValue * 0.75 : rotateValue;
 			robotDrive.arcadeDrive(moveValue, rotateValue);
 		}
 	}
@@ -127,17 +131,17 @@ public class Drivetrain extends Subsystem {
 
 	// Motion Profile
 	public void stationTrajectory(int station) {
-		File left = new File("trajectories/station" + station + "_left.csv");
-		File right = new File("trajectories/station" + station + "_right.csv");
+		File left = new File("home//lvuser//station" + station + "_left.csv");
+		System.out.println(left.exists());
+		File right = new File("home//lvuser//station" + station + "_right.csv");
 		Trajectory leftTraj = Pathfinder.readFromCSV(left);
 		Trajectory rightTraj = Pathfinder.readFromCSV(right);
-		setTrajectories(leftTraj,rightTraj);
+		setTrajectories(leftTraj, rightTraj);
 	}
 
 	public void setTrajectories(Trajectory leftTraj, Trajectory rightTraj) {
 		this.leftTraj = leftTraj;
 		this.rightTraj = rightTraj;
-
 		trajLength = leftTraj.length();
 	}
 
@@ -154,6 +158,8 @@ public class Drivetrain extends Subsystem {
 	public void runProfile() {
 		Segment leftSeg = leftTraj.get(i);
 		Segment rightSeg = rightTraj.get(i);
+
+		System.out.println(leftEncoder.getDistance() + "\t" + rightEncoder.getDistance());
 
 		// Error Calculation
 		double leftError = leftSeg.position - leftEncoder.getDistance();
@@ -175,6 +181,6 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public boolean isDone() {
-		return i > trajLength;
+		return i >= trajLength;
 	}
 }

@@ -55,7 +55,7 @@ public class OI {
 		driverController.getBButton().whenPressed(new DrivetrainStation3Command());
 
 		// Testing
-		driverController.getXButton().whileHeld(new DrivetrainAccelTest());
+		driverController.getAButton().whileHeld(new DrivetrainAccelTest());
 	}
 
 }

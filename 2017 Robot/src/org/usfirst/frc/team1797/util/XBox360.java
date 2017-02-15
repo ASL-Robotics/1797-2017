@@ -39,7 +39,7 @@ public class XBox360 extends Joystick {
 	}
 
 	public JoystickButton getBButton() {
-		return new JoystickButton(this, 1);
+		return new JoystickButton(this, 2);
 	}
 
 	public JoystickButton getXButton() {

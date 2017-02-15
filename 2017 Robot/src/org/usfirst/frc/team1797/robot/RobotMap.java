@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -48,7 +47,6 @@ public class RobotMap {
 	public static NetworkTable NETWORKTABLE;
 
 	// Components necessary for Drivetrain
-	public static VictorSP DRIVETRAIN_LEFT_DRIVE, DRIVETRAIN_RIGHT_DRIVE;
 	public static RobotDrive DRIVETRAIN_ROBOT_DRIVE;
 
 	public static Encoder DRIVETRAIN_ENCODER_LEFT, DRIVETRAIN_ENCODER_RIGHT;
@@ -87,8 +85,7 @@ public class RobotMap {
 		SmartDashboard.putData("Auto mode", AUTO_CHOOSER);
 
 		// Drivetrain
-		DRIVETRAIN_LEFT_DRIVE = new VictorSP(0);
-		DRIVETRAIN_RIGHT_DRIVE = new VictorSP(1);
+		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0,1);
 
 		DRIVETRAIN_ENCODER_LEFT = new Encoder(0, 1);
 		DRIVETRAIN_ENCODER_LEFT.setDistancePerPulse(0.0481);
