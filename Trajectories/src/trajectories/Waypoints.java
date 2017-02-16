@@ -20,5 +20,5 @@ public class Waypoints {
 
 	public static Waypoint[][] AUTO_PAIRS = { RED_1, RED_2, RED_3};
 
-	public static Config config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, 0.02, 81.9, 1030, 41300);
+	public static Config config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, 0.02, 78, 18, 90);
 }

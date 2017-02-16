@@ -77,6 +77,7 @@ public class RobotMap {
 
 	// Components necessary for Vision
 	public static CameraServer VISION_SERVER;
+	public static int VISION_WIDTH = 640, VISION_HEIGHT = 360;
 	public static UsbCamera VISION_CAMERA;
 	public static GripPipeline VISION_PIPELINE;
 	public static CvSink VISION_SINK;
@@ -132,7 +133,7 @@ public class RobotMap {
 		VISION_SERVER = CameraServer.getInstance();
 		
 		VISION_CAMERA = VISION_SERVER.startAutomaticCapture("FRONT", 0);
-		VISION_CAMERA.setResolution(640, 480);
+		VISION_CAMERA.setResolution(VISION_WIDTH, VISION_HEIGHT);
 		VISION_CAMERA.getProperty("saturation").set(20);
 		VISION_CAMERA.getProperty("gain").set(0);
 		VISION_CAMERA.getProperty("exposure_auto").set(1);

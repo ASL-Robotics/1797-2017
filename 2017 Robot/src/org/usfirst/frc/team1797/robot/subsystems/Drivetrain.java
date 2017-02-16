@@ -93,7 +93,7 @@ public class Drivetrain extends Subsystem {
 			driveStraight(moveValue);
 		} else {
 			setpointIsSet = false;
-			rotateValue = highGear ? rotateValue * 0.75 : rotateValue;
+			rotateValue = highGear ? rotateValue * 0.71 : rotateValue;
 			robotDrive.arcadeDrive(moveValue, rotateValue);
 		}
 	}
