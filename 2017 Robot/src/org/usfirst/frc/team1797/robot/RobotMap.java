@@ -3,7 +3,9 @@ package org.usfirst.frc.team1797.robot;
 import org.usfirst.frc.team1797.robot.commands.AutoDefaultCommand;
 import org.usfirst.frc.team1797.util.AnalogForceResistor;
 import org.usfirst.frc.team1797.util.AnalogUltrasonicSensor;
+import org.usfirst.frc.team1797.vision.GripPipeline;
 
+import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -76,6 +78,8 @@ public class RobotMap {
 	// Components necessary for Vision
 	public static CameraServer VISION_SERVER;
 	public static UsbCamera VISION_CAMERA;
+	public static GripPipeline VISION_PIPELINE;
+	public static CvSink VISION_SINK;
 
 	public static void init() {
 
@@ -126,10 +130,20 @@ public class RobotMap {
 
 		// Vision
 		VISION_SERVER = CameraServer.getInstance();
+		
 		VISION_CAMERA = VISION_SERVER.startAutomaticCapture("FRONT", 0);
 		VISION_CAMERA.setResolution(640, 480);
-		VISION_CAMERA.setExposureManual(10);
+		VISION_CAMERA.getProperty("saturation").set(20);
+		VISION_CAMERA.getProperty("gain").set(0);
+		VISION_CAMERA.getProperty("exposure_auto").set(1);
+		VISION_CAMERA.getProperty("brightness").set(0);
+		VISION_CAMERA.getProperty("exposure_absolute").set(1);
+		VISION_CAMERA.getProperty("exposure_auto_priority").set(0);
 
+		VISION_PIPELINE = new GripPipeline();
+		
+		VISION_SINK = VISION_SERVER.getVideo();
+		
 		// Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");
 
