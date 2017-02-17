@@ -36,7 +36,7 @@ public class VisionProcessor {
 		targetRects.clear();
 
 		for (int i = 0; i < contours.size(); i++)
-			targetRects.set(i, Imgproc.boundingRect(contours.get(i)));
+			targetRects.add(Imgproc.boundingRect(contours.get(i)));
 	}
 
 	public double getTurnAngle() {
