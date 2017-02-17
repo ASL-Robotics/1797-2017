@@ -8,6 +8,6 @@
 	<classpathentry exported="true" kind="lib" path="include/Pathfinder-Java.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Kaito Arai/git/-Insert-Robot-Name-/2017 Robot/include/NetworkTables-3.1.6-20170209040313-1-ge665632-desktop.jar"/>
+	<classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
