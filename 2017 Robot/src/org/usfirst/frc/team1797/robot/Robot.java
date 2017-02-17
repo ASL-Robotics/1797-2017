@@ -41,18 +41,18 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		RobotMap.init();
-		
+
 		drivetrain = new Drivetrain();
 		floorgear = new FloorGear();
 		climber = new Climber();
 		slotgear = new SlotGear();
 		storage = new Storage();
 		shooter = new Shooter();
-
-
-		
 		
 		oi = new OI();
+		
+		RobotMap.auto();
+		
 	}
 
 	/**

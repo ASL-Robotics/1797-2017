@@ -23,6 +23,8 @@ mainClassName = 'Main'
 // Change the line below to change the name of the output jar
 def projectName = 'CameraVision'
 
+def projectDir = '/home/debian/output'
+
 // Shouldn't need to change anything below this point
 apply from: 'dependencies.gradle'
 
@@ -70,7 +72,7 @@ task writeExecuteScript() {
       runFile.write "java -Djava.library.path=. -jar ${projectName}-all.jar"
     } else {
       def runFile = new File("${buildDir}/run${projectName}")
-      runFile.write "java -Djava.library.path=. -jar ${projectName}-all.jar"
+      runFile.write "java -Djava.library.path=${projectDir} -jar ${projectDir}/${projectName}-all.jar"
     }
   }
 }
