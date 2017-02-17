@@ -12,13 +12,13 @@ import edu.wpi.first.wpilibj.AnalogInput;
  *         series of ultrasonic sensors. It reads the value in from an
  *         AnalogInput and then applies the proper scale factor when read.
  */
-public class AnalogUltrasonicSensor extends AnalogInput{
+public class Ultrasonic extends AnalogInput{
 
 	/**
 	 * @param port
 	 *            The analog in port that the ultrasonic sensor is plugged into
 	 */
-	public AnalogUltrasonicSensor(int channel) {
+	public Ultrasonic(int channel) {
 		super(channel);
 	}
 

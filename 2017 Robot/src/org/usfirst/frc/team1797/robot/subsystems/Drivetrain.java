@@ -1,9 +1,12 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainDefaultCommand;
+import org.usfirst.frc.team1797.util.Ultrasonic;
+import org.usfirst.frc.team1797.vision.VisionProcessor;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -23,18 +26,28 @@ public class Drivetrain extends Subsystem {
 	private RobotDrive robotDrive;
 	private Encoder leftEncoder, rightEncoder;
 	private Gyro gyro;
+	private Ultrasonic ultrasonic;
 	private NetworkTable networktable;
+	private VisionProcessor processor;
 
 	private boolean highGear;
 
 	private int i;
 
-	// Gyro
-	private final double gyro_kp, gyro_ki, gyro_kd;
-	private double gyroIntegral, lastGyro, setpoint;
-	private boolean setpointIsSet;
+	// Drive PID
+	private final double drive_kp;
+	private double driveSetpoint;
+	private boolean driveSetpointIsSet;
 
-	// Motion Profile
+	// Vision Controls
+	private double cv_kp;
+	private double angle;
+	private ArrayList<Double> lastTurnErrors = new ArrayList<Double>();
+	private double ultrasonic_kp;
+	private ArrayList<Double> lastDistErrors = new ArrayList<Double>();
+	private final double PEG_LENGTH = 10.5;
+
+	// Motion Profile PD/VA
 	private Trajectory leftTraj, rightTraj;
 
 	private final double mp_kp, mp_kd, mp_kv_left, mp_kv_right, mp_kAc, mp_kAn, dt;
@@ -52,18 +65,21 @@ public class Drivetrain extends Subsystem {
 
 		networktable = RobotMap.NETWORKTABLE;
 
+		processor = RobotMap.VISION_PROCESSOR;
+
 		highGear = true;
 		SmartDashboard.putBoolean("DRIVETRAIN: High Gear", highGear);
 
-		setpointIsSet = false;
-		gyro_kp = 1 / 10;
-		gyro_ki = 0;
-		gyro_kd = 0;
+		driveSetpointIsSet = false;
+		drive_kp = 0.1;
 
-		mp_kp = 1;
+		cv_kp = 0.1;
+		ultrasonic_kp = 0.01;
+
+		mp_kp = 0;
 		mp_kd = 0;
-		mp_kv_left = 0.00754;
-		mp_kv_right = 0.00657;
+		mp_kv_left = 0.00706;
+		mp_kv_right = 0.00685;
 		mp_kAc = 0;
 		mp_kAn = 0;
 		dt = 0.02;
@@ -75,6 +91,7 @@ public class Drivetrain extends Subsystem {
 		setDefaultCommand(new DrivetrainDefaultCommand());
 	}
 
+	// Driving
 	public void teleopDrive(double moveValue, double rotateValue) {
 
 		// Dead Space
@@ -86,30 +103,29 @@ public class Drivetrain extends Subsystem {
 		rotateValue = highGear ? rotateValue : rotateValue * 0.5;
 
 		if (moveValue == 0) {
-			setpointIsSet = false;
+			driveSetpointIsSet = false;
 			rotateValue = highGear ? 0.5 * rotateValue : rotateValue;
 			robotDrive.arcadeDrive(0, rotateValue);
 		} else if (rotateValue == 0) {
 			driveStraight(moveValue);
 		} else {
-			setpointIsSet = false;
+			driveSetpointIsSet = false;
 			rotateValue = highGear ? rotateValue * 0.71 : rotateValue;
 			robotDrive.arcadeDrive(moveValue, rotateValue);
 		}
 	}
 
-	public void driveStraight(double moveValue) {
-		if (!setpointIsSet)
+	private void driveStraight(double moveValue) {
+		if (!driveSetpointIsSet)
 			setSetpoint();
-		double error = setpoint - gyro.getAngle();
-		gyroIntegral += error * dt;
-		double result = gyro_kp * error + gyro_ki * gyroIntegral + gyro_kd * (error - lastGyro);
+		double error = driveSetpoint - gyro.getAngle();
+		double result = drive_kp * error;
 		robotDrive.tankDrive(moveValue + result, moveValue - result);
 	}
 
-	public void setSetpoint() {
-		setpoint = gyro.getAngle();
-		setpointIsSet = true;
+	private void setSetpoint() {
+		driveSetpoint = gyro.getAngle();
+		driveSetpointIsSet = true;
 	}
 
 	public void shiftGearMode() {
@@ -120,8 +136,63 @@ public class Drivetrain extends Subsystem {
 		robotDrive.stopMotor();
 	}
 
-	// Acceleration Test
+	// Vision
+	public void setAngle() {
+		resetDriveMotors();
+		lastTurnErrors.clear();
+		angle = gyro.getAngle() + processor.getTurnAngle();
+	}
 
+	public void turn() {
+		double error = angle - gyro.getAngle();
+		updateLastTurnErrors(error);
+		double result = cv_kp * error;
+		robotDrive.tankDrive(result, -result);
+	}
+
+	private void updateLastTurnErrors(double error) {
+		if (lastTurnErrors.size() > 10)
+			lastTurnErrors.remove(0);
+		lastTurnErrors.add(error);
+	}
+
+	public boolean turnIsDone() {
+		double average = 0;
+		for (int i = 0; i < lastTurnErrors.size(); i++) {
+			average += lastTurnErrors.get(i);
+		}
+		average /= lastTurnErrors.size();
+		return Math.abs(average) < 1;
+	}
+
+	public void resetDistDrive(){
+		lastDistErrors.clear();
+		driveSetpointIsSet = false;
+	}
+	
+	public void distDrive() {
+		double error = PEG_LENGTH - ultrasonic.getDistance();
+		updateLastDistErrors(error);
+		double moveValue = ultrasonic_kp * error;
+		driveStraight(moveValue);
+	}
+
+	private void updateLastDistErrors(double error) {
+		if (lastDistErrors.size() > 10)
+			lastDistErrors.remove(0);
+		lastDistErrors.add(error);
+	}
+
+	public boolean distDriveIsDone() {
+		double average = 0;
+		for (int i = 0; i < lastDistErrors.size(); i++) {
+			average += lastDistErrors.get(i);
+		}
+		average /= lastDistErrors.size();
+		return Math.abs(average) < 1;
+	}
+
+	// Acceleration Test
 	public void accel() {
 		robotDrive.tankDrive(1, 1);
 		networktable.putNumber("Time", Timer.getFPGATimestamp());
@@ -132,7 +203,6 @@ public class Drivetrain extends Subsystem {
 	// Motion Profile
 	public void stationTrajectory(int station) {
 		File left = new File("home//lvuser//station" + station + "_left.csv");
-		System.out.println(left.exists());
 		File right = new File("home//lvuser//station" + station + "_right.csv");
 		Trajectory leftTraj = Pathfinder.readFromCSV(left);
 		Trajectory rightTraj = Pathfinder.readFromCSV(right);
@@ -180,7 +250,7 @@ public class Drivetrain extends Subsystem {
 		i++;
 	}
 
-	public boolean isDone() {
+	public boolean profileIsDone() {
 		return i >= trajLength;
 	}
 }

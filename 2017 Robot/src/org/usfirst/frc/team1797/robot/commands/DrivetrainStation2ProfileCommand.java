@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DrivetrainStation2Command extends Command {
+public class DrivetrainStation2ProfileCommand extends Command {
 
-    public DrivetrainStation2Command() {
+    public DrivetrainStation2ProfileCommand() {
 		requires(Robot.drivetrain);
     }
 
@@ -26,7 +26,7 @@ public class DrivetrainStation2Command extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-		return Robot.drivetrain.isDone();
+		return Robot.drivetrain.profileIsDone();
     }
 
     // Called once after isFinished returns true

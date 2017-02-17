@@ -34,15 +34,15 @@ public class VisionProcessor {
 	}
 
 	public double getTurnAngle() {
+		if (targetRects.size() != 2)
+			return 0;
+
 		Vector v = new Vector(getR(), getPhi());
 		Vector q = Vector.add(RobotMap.VISION_CAMERA_VECTOR, v);
 		return q.getPhi();
 	}
 
 	public double getAvgX() {
-		if (targetRects.size() != 2)
-			return -1;
-
 		double rect0 = targetRects.get(0).x + targetRects.get(0).width / 2.0;
 		double rect1 = targetRects.get(1).x + targetRects.get(1).width / 2.0;
 		return (rect0 + rect1) / 2;
@@ -53,11 +53,7 @@ public class VisionProcessor {
 	}
 
 	public double getAvgHeight() {
-		if (targetRects.size() != 2)
-			return -1;
-
 		return (targetRects.get(0).height + targetRects.get(1).height) / 2;
-
 	}
 
 	public double getR() {

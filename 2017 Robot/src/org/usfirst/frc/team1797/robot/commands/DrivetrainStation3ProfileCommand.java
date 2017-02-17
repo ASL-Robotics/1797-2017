@@ -7,34 +7,36 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ClimberDefaultCommand extends Command {
+public class DrivetrainStation3ProfileCommand extends Command {
 
-	public ClimberDefaultCommand() {
-		requires(Robot.climber);
+	public DrivetrainStation3ProfileCommand() {
+		requires(Robot.drivetrain);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.drivetrain.stationTrajectory(3);
+		Robot.drivetrain.resetSensors();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.climber.climb(Robot.oi.driverController.getRightTrigger());
+		Robot.drivetrain.runProfile();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return Robot.drivetrain.profileIsDone();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.climber.stopClimb();
+		interrupted();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		interrupted();
+		Robot.drivetrain.resetDriveMotors();
 	}
 }

@@ -2,9 +2,9 @@ package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.DrivetrainAccelTest;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainShiftGearCommand;
-import org.usfirst.frc.team1797.robot.commands.DrivetrainStation1Command;
-import org.usfirst.frc.team1797.robot.commands.DrivetrainStation2Command;
-import org.usfirst.frc.team1797.robot.commands.DrivetrainStation3Command;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainStation1ProfileCommand;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainStation2ProfileCommand;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainStation3ProfileCommand;
 import org.usfirst.frc.team1797.util.XBox360;
 
 /**
@@ -50,9 +50,9 @@ public class OI {
 
 		// Driver
 		driverController.getLeftStick().whenPressed(new DrivetrainShiftGearCommand());
-		driverController.getXButton().whenPressed(new DrivetrainStation1Command());
-		driverController.getYButton().whenPressed(new DrivetrainStation2Command());
-		driverController.getBButton().whenPressed(new DrivetrainStation3Command());
+		driverController.getXButton().whenPressed(new DrivetrainStation1ProfileCommand());
+		driverController.getYButton().whenPressed(new DrivetrainStation2ProfileCommand());
+		driverController.getBButton().whenPressed(new DrivetrainStation3ProfileCommand());
 
 		// Testing
 		driverController.getAButton().whileHeld(new DrivetrainAccelTest());
