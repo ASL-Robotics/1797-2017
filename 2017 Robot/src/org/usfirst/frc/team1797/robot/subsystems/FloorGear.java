@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
 import org.usfirst.frc.team1797.robot.RobotMap;
-import org.usfirst.frc.team1797.util.AnalogForceResistor;
+import org.usfirst.frc.team1797.util.ForceResistor;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -17,7 +17,7 @@ public class FloorGear extends Subsystem {
 	private VictorSP intake;
 	private DoubleSolenoid liftPiston, blockPiston;
 
-	private AnalogForceResistor leftForce, rightForce;
+	private ForceResistor leftForce, rightForce;
 	
 	private long lastActuationLifter, lastActuationBlocker;
 

@@ -1,10 +1,11 @@
 package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.AutoDefaultCommand;
-import org.usfirst.frc.team1797.util.AnalogForceResistor;
-import org.usfirst.frc.team1797.util.AnalogUltrasonicSensor;
+import org.usfirst.frc.team1797.util.ForceResistor;
+import org.usfirst.frc.team1797.util.Ultrasonic;
 import org.usfirst.frc.team1797.util.Vector;
 import org.usfirst.frc.team1797.vision.GripPipeline;
+import org.usfirst.frc.team1797.vision.VisionProcessor;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
@@ -55,12 +56,12 @@ public class RobotMap {
 	public static Encoder DRIVETRAIN_ENCODER_LEFT, DRIVETRAIN_ENCODER_RIGHT;
 
 	public static ADXRS450_Gyro DRIVETRAIN_GYRO;
-	public static AnalogUltrasonicSensor DRIVETRAIN_ULTRASONIC;
+	public static Ultrasonic DRIVETRAIN_ULTRASONIC;
 
 	// Components necessary for Floor Gear
 	public static VictorSP FLOORGEAR_INTAKE;
 	public static DoubleSolenoid FLOORGEAR_LIFTER, FLOORGEAR_BLOCKER;
-	public static AnalogForceResistor FLOORGEAR_FORCE_LEFT, FLOORGEAR_FORCE_RIGHT;
+	public static ForceResistor FLOORGEAR_FORCE_LEFT, FLOORGEAR_FORCE_RIGHT;
 
 	// Components necessary for Climber
 	public static VictorSP CLIMBER;
@@ -80,11 +81,12 @@ public class RobotMap {
 	public static CameraServer VISION_SERVER;
 	public static int kVISION_WIDTH = 640, kVISION_HEIGHT = 360;
 	public static double kVISION_FOV = 60, kVISION_CENTER_X, kVISION_FOCAL_LENGTH;
-	//TODO: Define Vector
+	// TODO: Define Vector
 	public static Vector VISION_CAMERA_VECTOR;
 	public static UsbCamera VISION_CAMERA;
 	public static GripPipeline VISION_PIPELINE;
 	public static CvSink VISION_SINK;
+	public static VisionProcessor VISION_PROCESSOR;
 
 	public static void init() {
 
@@ -106,15 +108,15 @@ public class RobotMap {
 		DRIVETRAIN_GYRO.reset();
 		DRIVETRAIN_GYRO.calibrate();
 
-		DRIVETRAIN_ULTRASONIC = new AnalogUltrasonicSensor(0);
+		DRIVETRAIN_ULTRASONIC = new Ultrasonic(0);
 
 		// Floor Gear
 		FLOORGEAR_INTAKE = new VictorSP(2);
 		FLOORGEAR_LIFTER = new DoubleSolenoid(0, 1);
 		FLOORGEAR_BLOCKER = new DoubleSolenoid(2, 3);
 
-		FLOORGEAR_FORCE_LEFT = new AnalogForceResistor(1);
-		FLOORGEAR_FORCE_RIGHT = new AnalogForceResistor(2);
+		FLOORGEAR_FORCE_LEFT = new ForceResistor(1);
+		FLOORGEAR_FORCE_RIGHT = new ForceResistor(2);
 
 		// Climber
 		CLIMBER = new VictorSP(3);
@@ -132,8 +134,6 @@ public class RobotMap {
 		SHOOTER_ENCODER = new Encoder(4, 5);
 		SHOOTER_ENCODER.setPIDSourceType(PIDSourceType.kRate);
 		SHOOTER_PID = new PIDController(1, 0, 0, SHOOTER_ENCODER, SHOOTER_WHEELS);
-
-		// Field Dimensions
 
 		// Vision
 		VISION_SERVER = CameraServer.getInstance();
@@ -153,6 +153,8 @@ public class RobotMap {
 		VISION_PIPELINE = new GripPipeline();
 
 		VISION_SINK = VISION_SERVER.getVideo();
+
+		VISION_PROCESSOR = new VisionProcessor();
 
 		// Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");
