@@ -39,8 +39,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		RobotMap.init();
-
 		drivetrain = new Drivetrain();
 		floorgear = new FloorGear();
 		climber = new Climber();
@@ -49,6 +47,10 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 
 		oi = new OI();
+		
+		// NOTE: This should absolutely be the last thing initialized in the robotInit method.
+		// I was getting errors because the commands initialized in the RobotMap were requiring null subsystems.
+		RobotMap.init();
 	}
 
 	/**
