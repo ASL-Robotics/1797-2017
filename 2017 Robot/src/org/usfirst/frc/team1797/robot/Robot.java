@@ -39,8 +39,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		
 		RobotMap.init();
-
+		
 		drivetrain = new Drivetrain();
 		floorgear = new FloorGear();
 		climber = new Climber();
@@ -48,6 +49,9 @@ public class Robot extends IterativeRobot {
 		storage = new Storage();
 		shooter = new Shooter();
 
+
+		
+		
 		oi = new OI();
 	}
 

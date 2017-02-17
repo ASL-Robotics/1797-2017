@@ -35,7 +35,7 @@ public class Drivetrain extends Subsystem {
 	private int i;
 
 	// Drive PID
-	private final double drive_kp;
+	private double drive_kp;
 	private double driveSetpoint;
 	private boolean driveSetpointIsSet;
 
@@ -124,6 +124,7 @@ public class Drivetrain extends Subsystem {
 	}
 
 	private void setSetpoint() {
+		drive_kp = highGear ? 0.1 : 0.05;
 		driveSetpoint = gyro.getAngle();
 		driveSetpointIsSet = true;
 	}
@@ -165,11 +166,11 @@ public class Drivetrain extends Subsystem {
 		return Math.abs(average) < 1;
 	}
 
-	public void resetDistDrive(){
+	public void resetDistDrive() {
 		lastDistErrors.clear();
 		driveSetpointIsSet = false;
 	}
-	
+
 	public void distDrive() {
 		double error = PEG_LENGTH - ultrasonic.getDistance();
 		updateLastDistErrors(error);
@@ -202,8 +203,8 @@ public class Drivetrain extends Subsystem {
 
 	// Motion Profile
 	public void stationTrajectory(int station) {
-		File left = new File("home//lvuser//station" + station + "_left.csv");
-		File right = new File("home//lvuser//station" + station + "_right.csv");
+		File left = new File("home//lvuser//left_" + (station - 1) + ".csv");
+		File right = new File("home//lvuser//right_" + (station - 1) + ".csv");
 		Trajectory leftTraj = Pathfinder.readFromCSV(left);
 		Trajectory rightTraj = Pathfinder.readFromCSV(right);
 		setTrajectories(leftTraj, rightTraj);
@@ -229,7 +230,8 @@ public class Drivetrain extends Subsystem {
 		Segment leftSeg = leftTraj.get(i);
 		Segment rightSeg = rightTraj.get(i);
 
-		System.out.println(leftEncoder.getDistance() + "\t" + rightEncoder.getDistance());
+		// System.out.println(leftEncoder.getDistance() + "\t" +
+		// rightEncoder.getDistance());
 
 		// Error Calculation
 		double leftError = leftSeg.position - leftEncoder.getDistance();
@@ -241,6 +243,8 @@ public class Drivetrain extends Subsystem {
 				+ mp_kd * (leftError - lastLeft) / dt - mp_kAn * angleError;
 		double rightValue = mp_kv_right * rightSeg.velocity + mp_kAc * rightSeg.acceleration + mp_kp * rightError
 				+ mp_kd * (rightError - lastRight) / dt + mp_kAn * angleError;
+
+		System.out.println(leftValue + "\t" + rightValue);
 
 		robotDrive.tankDrive(leftValue, rightValue);
 
