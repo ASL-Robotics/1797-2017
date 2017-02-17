@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1797.udp.transmission;
 
+@Deprecated
 public class VisionInformation {
 	int x1, y1, x2, y2;
 	byte numTargetsFound;

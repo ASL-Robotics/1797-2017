@@ -1,42 +1,36 @@
 package org.usfirst.frc.team1797.vision;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.util.Vector;
 
-import edu.wpi.cscore.CvSink;
+import com.google.gson.Gson;
+
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class VisionProcessor {
 
 	private static final int LIFT_VISION_HEIGHT = 5;
 
-	private CvSink sink;
-	private GripPipeline pipeline;
-	private Mat mat;
-	private ArrayList<MatOfPoint> contours;
-	private ArrayList<Rect> targetRects;
+	private Gson gson;
+	private List<Rect> targetRects;
 
 	public VisionProcessor() {
-		sink = RobotMap.VISION_SINK;
-		pipeline = RobotMap.VISION_PIPELINE;
-
+		gson = new Gson();
+		
+		clearNetworkTable();
 		update();
 	}
 
 	public void update() {
-		sink.grabFrame(mat);
-		pipeline.process(mat);
-		contours = pipeline.filterContoursOutput();
-
-		targetRects.clear();
-
-		for (int i = 0; i < contours.size(); i++)
-			targetRects.set(i, Imgproc.boundingRect(contours.get(i)));
+		targetRects = Arrays.asList(gson.fromJson(NetworkTable.getTable("Vision").getString("Target Rectangles","[]"), Rect[].class));
+	}
+	
+	public void clearNetworkTable() {
+		NetworkTable.getTable("Vision").putString("Target Rectangles","[]");
 	}
 
 	public double getTurnAngle() {

@@ -1,10 +1,16 @@
 package org.usfirst.frc.team1797.robot;
 
-import org.usfirst.frc.team1797.robot.commands.autocommandgroups.*;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoDoNothing;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation1Baseline;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation1Stay;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation2Stay;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation3Baseline;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation3Stay;
 import org.usfirst.frc.team1797.util.ForceResistor;
 import org.usfirst.frc.team1797.util.Ultrasonic;
 import org.usfirst.frc.team1797.util.Vector;
-import org.usfirst.frc.team1797.vision.*;
+import org.usfirst.frc.team1797.vision.GripPipeline;
+import org.usfirst.frc.team1797.vision.VisionProcessor;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
@@ -78,7 +84,7 @@ public class RobotMap {
 
 	// Components necessary for Vision
 	public static CameraServer VISION_SERVER;
-	public static int kVISION_WIDTH = 640, kVISION_HEIGHT = 360;
+	public static int kVISION_WIDTH = 160, kVISION_HEIGHT = 90;
 	public static double kVISION_FOV = 60, kVISION_CENTER_X, kVISION_FOCAL_LENGTH;
 	// TODO: Define Vector
 	public static Vector VISION_CAMERA_VECTOR;
@@ -160,7 +166,7 @@ public class RobotMap {
 
 		VISION_PROCESSOR = new VisionProcessor();
 
-		// Network
+		//Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");
 
 	}
