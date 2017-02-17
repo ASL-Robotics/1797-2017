@@ -7,10 +7,13 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team1797.robot.RobotMap;
+import org.usfirst.frc.team1797.util.Vector;
 
 import edu.wpi.cscore.CvSink;
 
 public class VisionProcessor {
+
+	private static final int LIFT_VISION_HEIGHT = 5;
 
 	private CvSink sink;
 	private GripPipeline pipeline;
@@ -31,22 +34,40 @@ public class VisionProcessor {
 		contours = pipeline.filterContoursOutput();
 
 		targetRects.clear();
-		
+
 		for (int i = 0; i < contours.size(); i++)
 			targetRects.set(i, Imgproc.boundingRect(contours.get(i)));
 	}
 
-	public double averageX() {
+	public double getTurnAngle() {
+		Vector v = new Vector(getR(), getPhi());
+		Vector q = Vector.add(RobotMap.VISION_CAMERA_VECTOR, v);
+		return q.getPhi();
+	}
+
+	public double getAvgX() {
 		if (targetRects.size() != 2)
 			return -1;
 
-		double rect0centerx = targetRects.get(0).x + targetRects.get(0).width / 2.0;
-		double rect1centerx = targetRects.get(1).x + targetRects.get(1).width / 2.0;
-		return (rect0centerx + rect1centerx) / 2;
+		double rect0 = targetRects.get(0).x + targetRects.get(0).width / 2.0;
+		double rect1 = targetRects.get(1).x + targetRects.get(1).width / 2.0;
+		return (rect0 + rect1) / 2;
 	}
 
-	public double distance() {
+	public double getPhi() {
+		return (getAvgX() - RobotMap.kVISION_CENTER_X) / RobotMap.kVISION_FOCAL_LENGTH;
+	}
 
+	public double getAvgHeight() {
+		if (targetRects.size() != 2)
+			return -1;
+
+		return (targetRects.get(0).height + targetRects.get(1).height) / 2;
+
+	}
+
+	public double getR() {
+		return RobotMap.kVISION_FOCAL_LENGTH * LIFT_VISION_HEIGHT / getAvgHeight();
 	}
 
 }

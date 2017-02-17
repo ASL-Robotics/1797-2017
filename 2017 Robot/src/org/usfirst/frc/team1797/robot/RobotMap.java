@@ -3,6 +3,7 @@ package org.usfirst.frc.team1797.robot;
 import org.usfirst.frc.team1797.robot.commands.AutoDefaultCommand;
 import org.usfirst.frc.team1797.util.AnalogForceResistor;
 import org.usfirst.frc.team1797.util.AnalogUltrasonicSensor;
+import org.usfirst.frc.team1797.util.Vector;
 import org.usfirst.frc.team1797.vision.GripPipeline;
 
 import edu.wpi.cscore.CvSink;
@@ -77,7 +78,10 @@ public class RobotMap {
 
 	// Components necessary for Vision
 	public static CameraServer VISION_SERVER;
-	public static int VISION_WIDTH = 640, VISION_HEIGHT = 360;
+	public static int kVISION_WIDTH = 640, kVISION_HEIGHT = 360;
+	public static double kVISION_FOV = 60, kVISION_CENTER_X, kVISION_FOCAL_LENGTH;
+	//TODO: Define Vector
+	public static Vector VISION_CAMERA_VECTOR;
 	public static UsbCamera VISION_CAMERA;
 	public static GripPipeline VISION_PIPELINE;
 	public static CvSink VISION_SINK;
@@ -90,7 +94,7 @@ public class RobotMap {
 		SmartDashboard.putData("Auto mode", AUTO_CHOOSER);
 
 		// Drivetrain
-		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0,1);
+		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0, 1);
 
 		DRIVETRAIN_ENCODER_LEFT = new Encoder(0, 1);
 		DRIVETRAIN_ENCODER_LEFT.setDistancePerPulse(0.0481);
@@ -101,9 +105,9 @@ public class RobotMap {
 		DRIVETRAIN_GYRO = new ADXRS450_Gyro();
 		DRIVETRAIN_GYRO.reset();
 		DRIVETRAIN_GYRO.calibrate();
-		
+
 		DRIVETRAIN_ULTRASONIC = new AnalogUltrasonicSensor(0);
-		
+
 		// Floor Gear
 		FLOORGEAR_INTAKE = new VictorSP(2);
 		FLOORGEAR_LIFTER = new DoubleSolenoid(0, 1);
@@ -129,11 +133,16 @@ public class RobotMap {
 		SHOOTER_ENCODER.setPIDSourceType(PIDSourceType.kRate);
 		SHOOTER_PID = new PIDController(1, 0, 0, SHOOTER_ENCODER, SHOOTER_WHEELS);
 
+		// Field Dimensions
+
 		// Vision
 		VISION_SERVER = CameraServer.getInstance();
-		
+
 		VISION_CAMERA = VISION_SERVER.startAutomaticCapture("FRONT", 0);
-		VISION_CAMERA.setResolution(VISION_WIDTH, VISION_HEIGHT);
+		VISION_CAMERA.setResolution(kVISION_WIDTH, kVISION_HEIGHT);
+		kVISION_CENTER_X = kVISION_WIDTH / 2 - 0.5;
+		kVISION_FOCAL_LENGTH = kVISION_WIDTH / (2 * Math.tan(Math.toRadians(kVISION_FOV / 2)));
+
 		VISION_CAMERA.getProperty("saturation").set(20);
 		VISION_CAMERA.getProperty("gain").set(0);
 		VISION_CAMERA.getProperty("exposure_auto").set(1);
@@ -142,9 +151,9 @@ public class RobotMap {
 		VISION_CAMERA.getProperty("exposure_auto_priority").set(0);
 
 		VISION_PIPELINE = new GripPipeline();
-		
+
 		VISION_SINK = VISION_SERVER.getVideo();
-		
+
 		// Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");
 
