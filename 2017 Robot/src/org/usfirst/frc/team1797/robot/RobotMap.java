@@ -1,11 +1,10 @@
 package org.usfirst.frc.team1797.robot;
 
-import org.usfirst.frc.team1797.robot.commands.AutoDefaultCommand;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.*;
 import org.usfirst.frc.team1797.util.ForceResistor;
 import org.usfirst.frc.team1797.util.Ultrasonic;
 import org.usfirst.frc.team1797.util.Vector;
-import org.usfirst.frc.team1797.vision.GripPipeline;
-import org.usfirst.frc.team1797.vision.VisionProcessor;
+import org.usfirst.frc.team1797.vision.*;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
@@ -92,8 +91,13 @@ public class RobotMap {
 
 		// Auto Chooser
 		AUTO_CHOOSER = new SendableChooser<Command>();
-		AUTO_CHOOSER.addDefault("Default Auto", new AutoDefaultCommand());
-		SmartDashboard.putData("Auto mode", AUTO_CHOOSER);
+		AUTO_CHOOSER.addDefault("Default Auto", new AutoDoNothing());
+		AUTO_CHOOSER.addObject("Station 1 Baseline", new AutoStation1Baseline());
+		AUTO_CHOOSER.addObject("Station 1 Stay", new AutoStation1Stay());
+		AUTO_CHOOSER.addObject("Station 2", new AutoStation2Stay());
+		AUTO_CHOOSER.addObject("Station 3 Baseline", new AutoStation3Baseline());
+		AUTO_CHOOSER.addObject("Station 3 Stay", new AutoStation3Stay());
+		SmartDashboard.putData("Auto Mode:", AUTO_CHOOSER);
 
 		// Drivetrain
 		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0, 1);
