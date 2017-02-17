@@ -140,7 +140,7 @@ public class Drivetrain extends Subsystem {
 	public void setAngle() {
 		resetDriveMotors();
 		lastTurnErrors.clear();
-		angle = gyro.getAngle() + processor.getTurnAngle();
+		angle = (gyro.getAngle() + processor.getTurnAngle()) % 360;
 	}
 
 	public void turn() {
