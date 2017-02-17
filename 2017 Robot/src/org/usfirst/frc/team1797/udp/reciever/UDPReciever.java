@@ -10,6 +10,7 @@ import org.usfirst.frc.team1797.udp.transmission.VisionInformation;
 
 import com.google.gson.Gson;
 
+@Deprecated
 public class UDPReciever extends Thread {
 	public static String lastDataReceived = "";
 	public static VisionInformation message;

@@ -4,9 +4,8 @@ import org.usfirst.frc.team1797.robot.commands.AutoDefaultCommand;
 import org.usfirst.frc.team1797.util.AnalogForceResistor;
 import org.usfirst.frc.team1797.util.AnalogUltrasonicSensor;
 import org.usfirst.frc.team1797.util.Vector;
-import org.usfirst.frc.team1797.vision.GripPipeline;
+import org.usfirst.frc.team1797.vision.VisionProcessor;
 
-import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -78,13 +77,12 @@ public class RobotMap {
 
 	// Components necessary for Vision
 	public static CameraServer VISION_SERVER;
-	public static int kVISION_WIDTH = 640, kVISION_HEIGHT = 360;
+	public static int kVISION_WIDTH = 160, kVISION_HEIGHT = 90;
 	public static double kVISION_FOV = 60, kVISION_CENTER_X, kVISION_FOCAL_LENGTH;
 	//TODO: Define Vector
 	public static Vector VISION_CAMERA_VECTOR;
 	public static UsbCamera VISION_CAMERA;
-	public static GripPipeline VISION_PIPELINE;
-	public static CvSink VISION_SINK;
+	public static VisionProcessor VISION_PROCESSOR;
 
 	public static void init() {
 
@@ -150,10 +148,8 @@ public class RobotMap {
 		VISION_CAMERA.getProperty("exposure_absolute").set(1);
 		VISION_CAMERA.getProperty("exposure_auto_priority").set(0);
 
-		VISION_PIPELINE = new GripPipeline();
-
-		VISION_SINK = VISION_SERVER.getVideo();
-
+		VISION_PROCESSOR = new VisionProcessor();
+		
 		// Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");
 
