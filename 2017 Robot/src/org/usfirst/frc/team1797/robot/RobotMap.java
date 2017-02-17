@@ -93,7 +93,7 @@ public class RobotMap {
 	public static CvSink VISION_SINK;
 	public static VisionProcessor VISION_PROCESSOR;
 
-	public static void init() {
+	public static void auto() {
 
 		// Auto Chooser
 		AUTO_CHOOSER = new SendableChooser<Command>();
@@ -104,6 +104,10 @@ public class RobotMap {
 		AUTO_CHOOSER.addObject("Station 3 Baseline", new AutoStation3Baseline());
 		AUTO_CHOOSER.addObject("Station 3 Stay", new AutoStation3Stay());
 		SmartDashboard.putData("Auto Mode:", AUTO_CHOOSER);
+
+	}
+
+	public static void init() {
 
 		// Drivetrain
 		DRIVETRAIN_ROBOT_DRIVE = new RobotDrive(0, 1);
@@ -166,7 +170,7 @@ public class RobotMap {
 
 		VISION_PROCESSOR = new VisionProcessor();
 
-		//Network
+		// Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");
 
 	}

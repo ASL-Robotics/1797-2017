@@ -45,17 +45,23 @@ public class OI {
 	public XBox360 operatorController;
 
 	public OI() {
+		//Omar
 		driverController = new XBox360(0);
-		operatorController = new XBox360(1);
-
-		// Driver
+		
 		driverController.getLeftStick().whenPressed(new DrivetrainShiftGearCommand());
+		//Testing
 		driverController.getXButton().whenPressed(new DrivetrainStation1ProfileCommand());
 		driverController.getYButton().whenPressed(new DrivetrainStation2ProfileCommand());
 		driverController.getBButton().whenPressed(new DrivetrainStation3ProfileCommand());
+		
+		//Anna
+		operatorController = new XBox360(1);
 
-		// Testing
-		driverController.getAButton().whileHeld(new DrivetrainAccelTest());
+		// Driver
+
+		
+
+
 	}
 
 }
