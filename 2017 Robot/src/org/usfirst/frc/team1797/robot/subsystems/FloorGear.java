@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
 import org.usfirst.frc.team1797.robot.RobotMap;
+import org.usfirst.frc.team1797.robot.commands.FloorGearDefaultCommand;
 import org.usfirst.frc.team1797.util.ForceResistor;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -20,6 +21,8 @@ public class FloorGear extends Subsystem {
 	private ForceResistor leftForce, rightForce;
 	
 	private long lastActuationLifter, lastActuationBlocker;
+	
+	private DoubleSolenoid.Value lastActionLifter, lastActionBlocker;
 
 	public FloorGear() {
 		intake = RobotMap.FLOORGEAR_INTAKE;
@@ -53,35 +56,39 @@ public class FloorGear extends Subsystem {
 	//Claw
 	public void lifterUp() {
 		liftPiston.set(DoubleSolenoid.Value.kForward);
+		lastActionLifter = DoubleSolenoid.Value.kForward;
 		lastActuationLifter = System.currentTimeMillis();
 	}
 
 	public void lifterDown() {
 		liftPiston.set(DoubleSolenoid.Value.kReverse);
+		lastActionLifter = DoubleSolenoid.Value.kReverse;
 		lastActuationLifter = System.currentTimeMillis();
 	}
 
-	public void liftOff() {
+	public void stopLifter() {
 		liftPiston.set(DoubleSolenoid.Value.kOff);
 		lastActuationLifter = Long.MAX_VALUE;
 	}
 
 	public boolean lifterIsDone() {
-		return System.currentTimeMillis() + 1000 > lastActuationLifter;
+		return System.currentTimeMillis() - lastActuationLifter > 1000;
 	}
 
 	public boolean isLifting() {
-		return blockPiston.get() == DoubleSolenoid.Value.kForward;
+		return lastActionLifter == DoubleSolenoid.Value.kForward;
 	}
 	
 	// Blocker
 	public void blockerDown() {
 		blockPiston.set(DoubleSolenoid.Value.kForward);
+		lastActionBlocker = DoubleSolenoid.Value.kForward;
 		lastActuationBlocker = System.currentTimeMillis();
 	}
 
 	public void blockerUp() {
 		blockPiston.set(DoubleSolenoid.Value.kReverse);
+		lastActionBlocker = DoubleSolenoid.Value.kReverse;
 		lastActuationBlocker = System.currentTimeMillis();
 	}
 
@@ -91,16 +98,15 @@ public class FloorGear extends Subsystem {
 	}
 
 	public boolean blockerIsDone() {
-		return System.currentTimeMillis() + 1000 > lastActuationBlocker;
+		return System.currentTimeMillis() - lastActuationBlocker > 1000;
 	}
 
 	public boolean isBlocking() {
-		return blockPiston.get() == DoubleSolenoid.Value.kForward;
+		return lastActionBlocker == DoubleSolenoid.Value.kForward;
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+		this.setDefaultCommand(new FloorGearDefaultCommand());
 	}
 }

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
 import org.usfirst.frc.team1797.robot.RobotMap;
+import org.usfirst.frc.team1797.robot.commands.SlotGearDefaultCommand;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -14,6 +15,7 @@ public class SlotGear extends Subsystem {
 	// here. Call these from Commands.
 	private DoubleSolenoid holdPiston;
 	private long lastActuation;
+	private DoubleSolenoid.Value lastAction;
 
 	public SlotGear() {
 		holdPiston = RobotMap.SLOTGEAR_HOLDER;
@@ -21,10 +23,14 @@ public class SlotGear extends Subsystem {
 	}
 
 	public void toggleHolder() {
-		if (holdPiston.get() == DoubleSolenoid.Value.kReverse)
+		if (lastAction == DoubleSolenoid.Value.kReverse) {
 			holdPiston.set(DoubleSolenoid.Value.kForward);
-		else
+			lastAction = DoubleSolenoid.Value.kForward;
+		}
+		else {
 			holdPiston.set(DoubleSolenoid.Value.kReverse);
+			lastAction = DoubleSolenoid.Value.kReverse;
+		}
 		lastActuation = System.currentTimeMillis();
 	}
 
@@ -38,9 +44,10 @@ public class SlotGear extends Subsystem {
 	}
 
 	public boolean isHolding() {
-		return holdPiston.get() == DoubleSolenoid.Value.kReverse;
+		return lastAction == DoubleSolenoid.Value.kReverse;
 	}
 
 	public void initDefaultCommand() {
+		this.setDefaultCommand(new SlotGearDefaultCommand());
 	}
 }
