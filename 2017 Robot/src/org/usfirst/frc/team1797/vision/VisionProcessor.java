@@ -42,21 +42,21 @@ public class VisionProcessor {
 		return q.getPhi();
 	}
 
-	public double getAvgX() {
+	private double getAvgX() {
 		double rect0 = targetRects.get(0).x + targetRects.get(0).width / 2.0;
 		double rect1 = targetRects.get(1).x + targetRects.get(1).width / 2.0;
 		return (rect0 + rect1) / 2;
 	}
 
-	public double getPhi() {
+	private double getPhi() {
 		return (getAvgX() - RobotMap.kVISION_CENTER_X) / RobotMap.kVISION_FOCAL_LENGTH;
 	}
 
-	public double getAvgHeight() {
+	private double getAvgHeight() {
 		return (targetRects.get(0).height + targetRects.get(1).height) / 2;
 	}
 
-	public double getR() {
+	private double getR() {
 		return RobotMap.kVISION_FOCAL_LENGTH * LIFT_VISION_HEIGHT / getAvgHeight();
 	}
 
