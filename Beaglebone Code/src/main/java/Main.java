@@ -49,14 +49,16 @@ public class Main {
     // CameraServer.getInstance().startAutomaticCapture("YourCameraNameHere");
     // "USB Camera 0" is the default if no string is specified
     String cameraName = "FRONT";
-    HttpCamera camera = setHttpCamera(cameraName, inputStream);
+    HttpCamera camera;
+    while ((camera = setHttpCamera(cameraName, inputStream)) == null) {}
     // It is possible for the camera to be null. If it is, that means no camera could
     // be found using NetworkTables to connect to. Create an HttpCamera by giving a specified stream
     // Note if this happens, no restream will be created
-    if (camera == null) {
-      camera = new HttpCamera("CoprocessorCamera", "URL");
-      inputStream.setSource(camera);
-    }
+    
+    //if (camera == null) {
+    //  camera = new HttpCamera("CoprocessorCamera", "URL");
+    //  inputStream.setSource(camera);
+    //}
     
     
       
