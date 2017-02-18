@@ -7,6 +7,8 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Point;
 import com.google.gson.Gson;
 
 public class Main {
@@ -119,7 +121,11 @@ public class Main {
       NetworkTable.getTable("Vision").putString("Target Rectangles", gson.toJson(targetRects.toArray()));
       
       // debug code
-      imageSource.putFrame(pipeline.hsvThresholdOutput());
+      
+      for(Rect rect : targetRects) {
+        Imgproc.rectangle(inputImage, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),new Scalar(255, 255, 255));
+      }
+      imageSource.putFrame(inputImage);
       //System.out.println(pipeline.filterContoursOutput().size());
     }
   }
