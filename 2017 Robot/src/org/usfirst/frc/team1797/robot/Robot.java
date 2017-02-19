@@ -36,12 +36,12 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 
 	/**
-	 * This function is run when the robot is first started up and should be 
+	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
-		
+
 		RobotMap.init();
 
 		drivetrain = new Drivetrain();
@@ -51,11 +51,11 @@ public class Robot extends IterativeRobot {
 		storage = new Storage();
 		shooter = new Shooter();
 		processor = new VisionProcessor();
-		
+
 		oi = new OI();
-		
+
 		RobotMap.auto();
-		
+
 	}
 
 	/**
@@ -112,5 +112,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+	}
+
+	public void testPeriodic() {
+		System.out.println(RobotMap.DRIVETRAIN_ULTRASONIC.getDistance());
 	}
 }

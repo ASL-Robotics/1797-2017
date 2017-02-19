@@ -1,1 +1,0 @@
-java -Djava.library.path=/home/debian/output -jar /home/debian/output/CameraVision-all.jar
