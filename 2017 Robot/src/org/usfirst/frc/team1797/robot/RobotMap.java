@@ -152,27 +152,27 @@ public class RobotMap {
 		SHOOTER_PID = new PIDController(1, 0, 0, SHOOTER_ENCODER, SHOOTER_WHEELS);
 
 		// Vision
-		VISION_SERVER = CameraServer.getInstance();
+		//VISION_SERVER = CameraServer.getInstance();
 
-		VISION_CAMERA = VISION_SERVER.startAutomaticCapture("FRONT", 0);
-		VISION_CAMERA.setResolution(kVISION_WIDTH, kVISION_HEIGHT);
-		kVISION_CENTER_X = kVISION_WIDTH / 2 - 0.5;
-		kVISION_FOCAL_LENGTH = kVISION_WIDTH / (2 * Math.tan(Math.toRadians(kVISION_FOV / 2)));
+		//VISION_CAMERA = VISION_SERVER.startAutomaticCapture("FRONT", 0);
+		//VISION_CAMERA.setResolution(kVISION_WIDTH, kVISION_HEIGHT);
+		//kVISION_CENTER_X = kVISION_WIDTH / 2 - 0.5;
+		//kVISION_FOCAL_LENGTH = kVISION_WIDTH / (2 * Math.tan(Math.toRadians(kVISION_FOV / 2)));
 
-		VISION_CAMERA.getProperty("saturation").set(20);
-		VISION_CAMERA.getProperty("gain").set(0);
-		VISION_CAMERA.getProperty("exposure_auto").set(1);
-		VISION_CAMERA.getProperty("brightness").set(50);
-		VISION_CAMERA.getProperty("exposure_absolute").set(1);
-		VISION_CAMERA.getProperty("exposure_auto_priority").set(0);
+		//VISION_CAMERA.getProperty("saturation").set(20);
+		//VISION_CAMERA.getProperty("gain").set(0);
+		//VISION_CAMERA.getProperty("exposure_auto").set(1);
+		//VISION_CAMERA.getProperty("brightness").set(50);
+		//VISION_CAMERA.getProperty("exposure_absolute").set(1);
+		//VISION_CAMERA.getProperty("exposure_auto_priority").set(0);
 
-		VISION_PIPELINE = new GripPipeline();
+		//VISION_PIPELINE = new GripPipeline();
 
-		VISION_SINK = VISION_SERVER.getVideo();
+		//VISION_SINK = VISION_SERVER.getVideo();
 		
-		VISION_SOURCE = VISION_SERVER.putVideo("Annotated", 160, 90);
+		//VISION_SOURCE = VISION_SERVER.putVideo("Annotated", 160, 90);
 
-		VISION_PROCESSOR = new VisionProcessor();
+		//VISION_PROCESSOR = new VisionProcessor();
 
 		// Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");

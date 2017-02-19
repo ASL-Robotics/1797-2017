@@ -1,14 +1,23 @@
 
 package org.usfirst.frc.team1797.robot;
 
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team1797.robot.subsystems.Climber;
 import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1797.robot.subsystems.FloorGear;
 import org.usfirst.frc.team1797.robot.subsystems.Shooter;
 import org.usfirst.frc.team1797.robot.subsystems.SlotGear;
 import org.usfirst.frc.team1797.robot.subsystems.Storage;
-import org.usfirst.frc.team1797.vision.VisionAnnotator;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -56,8 +65,29 @@ public class Robot extends IterativeRobot {
 		
 		RobotMap.auto();
 		
-		timer = new java.util.Timer();
-		timer.schedule(new VisionAnnotator.AnnotatorTask(), 100);
+		new Thread(() -> {
+            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture("FRONT", 0);
+            camera.setResolution(160, 90);
+            CvSink cvSink = CameraServer.getInstance().getVideo("FRONT");
+            //CvSink cvSink = new CvSink("CV Input");
+            //cvSink.setSource(camera);
+            CvSource outputStream = new CvSource("CV Image Source", VideoMode.PixelFormat.kMJPEG, 160, 90, 30);
+    		MjpegServer cvStream = new MjpegServer("CV Image Stream", 1186);
+    		cvStream.setSource(outputStream);
+            
+            Mat source = new Mat();
+            
+            while(!Thread.interrupted()) {
+                long frameTime = cvSink.grabFrame(source);
+                if(frameTime == 0)
+                	continue;
+                //Imgproc.line(source, new Point(44, 0), new Point(44, 160), new Scalar(255, 255, 255));
+                outputStream.putFrame(source);
+            }
+        }).start();
+		
+		//timer = new java.util.Timer();
+		//timer.schedule(new VisionAnnotator.AnnotatorTask(), 100);
 	}
 
 	/**
