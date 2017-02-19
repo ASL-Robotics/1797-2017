@@ -7,6 +7,7 @@ import org.usfirst.frc.team1797.robot.subsystems.FloorGear;
 import org.usfirst.frc.team1797.robot.subsystems.Shooter;
 import org.usfirst.frc.team1797.robot.subsystems.SlotGear;
 import org.usfirst.frc.team1797.robot.subsystems.Storage;
+import org.usfirst.frc.team1797.vision.VisionProcessor;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -30,6 +31,7 @@ public class Robot extends IterativeRobot {
 	public static SlotGear slotgear;
 	public static Storage storage;
 	public static Shooter shooter;
+	public static VisionProcessor processor;
 
 	Command autonomousCommand;
 
@@ -48,6 +50,7 @@ public class Robot extends IterativeRobot {
 		slotgear = new SlotGear();
 		storage = new Storage();
 		shooter = new Shooter();
+		processor = new VisionProcessor();
 		
 		oi = new OI();
 		

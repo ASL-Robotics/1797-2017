@@ -3,6 +3,7 @@ package org.usfirst.frc.team1797.robot.subsystems;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.usfirst.frc.team1797.robot.Robot;
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainDefaultCommand;
 import org.usfirst.frc.team1797.util.Ultrasonic;
@@ -10,10 +11,8 @@ import org.usfirst.frc.team1797.vision.VisionProcessor;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
@@ -59,7 +58,7 @@ public class Drivetrain extends Subsystem {
 
 		gyro = RobotMap.DRIVETRAIN_GYRO;
 
-		processor = RobotMap.VISION_PROCESSOR;
+		processor = Robot.processor;
 
 		highGear = true;
 		SmartDashboard.putBoolean("DRIVETRAIN: High Gear", highGear);

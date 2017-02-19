@@ -87,12 +87,10 @@ public class RobotMap {
 	public static CameraServer VISION_SERVER;
 	public static int kVISION_WIDTH = 160, kVISION_HEIGHT = 90;
 	public static double kVISION_FOV = 60, kVISION_CENTER_X, kVISION_FOCAL_LENGTH;
-	// TODO: Define Vector
-	public static Vector VISION_CAMERA_VECTOR;
+	public static Vector VISION_CAMERA_VECTOR = new Vector(15, 40);
 	public static UsbCamera VISION_CAMERA;
 	public static GripPipeline VISION_PIPELINE;
 	public static CvSink VISION_SINK;
-	public static VisionProcessor VISION_PROCESSOR;
 
 	public static void auto() {
 
@@ -168,8 +166,6 @@ public class RobotMap {
 		VISION_PIPELINE = new GripPipeline();
 
 		VISION_SINK = VISION_SERVER.getVideo();
-
-		VISION_PROCESSOR = new VisionProcessor();
 
 		// Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");
