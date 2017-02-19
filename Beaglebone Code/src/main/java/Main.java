@@ -131,11 +131,12 @@ public class Main {
 			NetworkTable.getTable("Vision").putString("Target Rectangles", gson.toJson(targetRects.toArray()));
 
 			// debug code
-
+			/*
 			for (Rect rect : targetRects) {
 				Imgproc.rectangle(inputImage, new Point(rect.x, rect.y),
 						new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 255, 255));
 			}
+			/*/
 			
 			Imgproc.line(inputImage, new Point(44, 0), new Point(44, 160), new Scalar(255, 255, 255), 1, 8, 0);
 			
