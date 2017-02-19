@@ -1,14 +1,21 @@
 package org.usfirst.frc.team1797.vision;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.util.Vector;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class VisionProcessor {
@@ -17,16 +24,52 @@ public class VisionProcessor {
 
 	private Gson gson;
 	private List<Rect> targetRects;
+	
+	private GripPipeline pipeline;
+	private Mat inputImage;
+	private ArrayList<MatOfPoint> contours;
 
 	public VisionProcessor() {
 		gson = new Gson();
+		pipeline = new GripPipeline();
+		inputImage = new Mat();
+		contours = new ArrayList<MatOfPoint>();
 		
-		clearNetworkTable();
+		new Thread(() -> {
+            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+            camera.setResolution(640, 480);
+            
+            CvSink cvSink = CameraServer.getInstance().getVideo();
+            CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+            
+            Mat source = new Mat();
+            Mat output = new Mat();
+            
+            while(!Thread.interrupted()) {
+                cvSink.grabFrame(source);
+                Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+                outputStream.putFrame(output);
+            }
+        }).start();
+		
+		//clearNetworkTable();
 		update();
 	}
 
 	public void update() {
-		targetRects = Arrays.asList(gson.fromJson(NetworkTable.getTable("Vision").getString("Target Rectangles","[]"), Rect[].class));
+		long frameTime = RobotMap.VISION_SINK.grabFrame(inputImage);
+		if (frameTime == 0)
+			return;
+		pipeline.process(inputImage);
+		contours = pipeline.filterContoursOutput();
+
+		targetRects.clear();
+
+		for (int i = 0; i < contours.size(); i++) {
+			targetRects.add(Imgproc.boundingRect(contours.get(i)));
+		}
+		
+		//targetRects = Arrays.asList(gson.fromJson(NetworkTable.getTable("Vision").getString("Target Rectangles","[]"), Rect[].class));
 	}
 	
 	public void clearNetworkTable() {

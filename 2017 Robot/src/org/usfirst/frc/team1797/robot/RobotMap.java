@@ -13,12 +13,12 @@ import org.usfirst.frc.team1797.vision.GripPipeline;
 import org.usfirst.frc.team1797.vision.VisionProcessor;
 
 import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -93,6 +93,7 @@ public class RobotMap {
 	public static GripPipeline VISION_PIPELINE;
 	public static CvSink VISION_SINK;
 	public static VisionProcessor VISION_PROCESSOR;
+	public static CvSource VISION_SOURCE;
 
 	public static void auto() {
 
@@ -168,12 +169,14 @@ public class RobotMap {
 		VISION_PIPELINE = new GripPipeline();
 
 		VISION_SINK = VISION_SERVER.getVideo();
+		
+		VISION_SOURCE = VISION_SERVER.putVideo("Annotated", 160, 90);
 
 		VISION_PROCESSOR = new VisionProcessor();
 
 		// Network
 		NETWORKTABLE = NetworkTable.getTable("Network Table");
-
+		
 	}
 
 }

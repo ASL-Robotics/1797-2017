@@ -7,6 +7,7 @@ import org.usfirst.frc.team1797.robot.subsystems.FloorGear;
 import org.usfirst.frc.team1797.robot.subsystems.Shooter;
 import org.usfirst.frc.team1797.robot.subsystems.SlotGear;
 import org.usfirst.frc.team1797.robot.subsystems.Storage;
+import org.usfirst.frc.team1797.vision.VisionAnnotator;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -30,6 +31,8 @@ public class Robot extends IterativeRobot {
 	public static SlotGear slotgear;
 	public static Storage storage;
 	public static Shooter shooter;
+	
+	public static java.util.Timer timer;
 
 	Command autonomousCommand;
 
@@ -53,6 +56,8 @@ public class Robot extends IterativeRobot {
 		
 		RobotMap.auto();
 		
+		timer = new java.util.Timer();
+		timer.schedule(new VisionAnnotator.AnnotatorTask(), 100);
 	}
 
 	/**
