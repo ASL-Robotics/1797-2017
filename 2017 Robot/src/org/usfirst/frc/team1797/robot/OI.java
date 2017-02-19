@@ -1,10 +1,13 @@
 package org.usfirst.frc.team1797.robot;
 
-import org.usfirst.frc.team1797.robot.commands.DrivetrainAccelTest;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainShiftGearCommand;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainStation1ProfileCommand;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainStation2ProfileCommand;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainStation3ProfileCommand;
+import org.usfirst.frc.team1797.robot.commands.FloorGearIntakeCommand;
+import org.usfirst.frc.team1797.robot.commands.FloorGearOuttakeCommand;
+import org.usfirst.frc.team1797.robot.commands.ShooterCommand;
+import org.usfirst.frc.team1797.robot.commands.StorageIntakeCommand;
 import org.usfirst.frc.team1797.util.XBox360;
 
 /**
@@ -47,8 +50,8 @@ public class OI {
 	public OI() {
 		//Omar
 		driverController = new XBox360(0);
-		
 		driverController.getLeftStick().whenPressed(new DrivetrainShiftGearCommand());
+		
 		//Testing
 		driverController.getXButton().whenPressed(new DrivetrainStation1ProfileCommand());
 		driverController.getYButton().whenPressed(new DrivetrainStation2ProfileCommand());
@@ -56,9 +59,12 @@ public class OI {
 		
 		//Anna
 		operatorController = new XBox360(1);
-
-		// Driver
-
+		operatorController.getAButton().whenPressed(new FloorGearIntakeCommand());
+		operatorController.getYButton().whileHeld(new FloorGearOuttakeCommand());
+		operatorController.getLeftBumper().whileHeld(new StorageIntakeCommand());
+		operatorController.getNorthEast().whileHeld(new ShooterCommand());
+		operatorController.getNorth().whileHeld(new ShooterCommand());
+		operatorController.getNorthWest().whileHeld(new ShooterCommand());
 		
 
 

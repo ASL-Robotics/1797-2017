@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -160,7 +161,7 @@ public class RobotMap {
 		VISION_CAMERA.getProperty("saturation").set(20);
 		VISION_CAMERA.getProperty("gain").set(0);
 		VISION_CAMERA.getProperty("exposure_auto").set(1);
-		VISION_CAMERA.getProperty("brightness").set(0);
+		VISION_CAMERA.getProperty("brightness").set(50);
 		VISION_CAMERA.getProperty("exposure_absolute").set(1);
 		VISION_CAMERA.getProperty("exposure_auto_priority").set(0);
 

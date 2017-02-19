@@ -17,7 +17,8 @@ public class FloorGearIntakeCommand extends Command {
 	protected void initialize() {
 		Robot.floorgear.lifterDown();
 		Robot.floorgear.blockerUp();
-		Robot.floorgear.intake();
+		Robot.floorgear.intake(); 
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run

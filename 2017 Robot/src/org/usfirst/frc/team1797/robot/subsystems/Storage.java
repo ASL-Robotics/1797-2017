@@ -23,6 +23,10 @@ public class Storage extends Subsystem {
 		intake.set(1);
 	}
 	
+	public void outtake(){
+		intake.set(-1);
+	}
+	
 	public void stopIntake() {
 		intake.set(0);
 	}
