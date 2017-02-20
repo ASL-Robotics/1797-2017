@@ -6,19 +6,14 @@ import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation1Sta
 import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation2Stay;
 import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation3Baseline;
 import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation3Stay;
-import org.usfirst.frc.team1797.util.ForceResistor;
-import org.usfirst.frc.team1797.util.Ultrasonic;
 import org.usfirst.frc.team1797.util.Vector;
 import org.usfirst.frc.team1797.vision.GripPipeline;
-import org.usfirst.frc.team1797.vision.VisionProcessor;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -43,9 +38,6 @@ public class RobotMap {
 	 * 
 	 * DIO: 0,1 - DRIVETRAIN Encoder Left; 2,3 - DRIVETRAIN Encoder Right;
 	 * 
-	 * ANALOG:0 - FLOORGEAR Force Left; 1 -
-	 * FLOORGEAR Force Right
-	 * 
 	 * PCM: 0,1 - FLOORGEAR Lifter; 2,3 - FLOORGEAR Blocker; 4,5 - SLOTGEAR
 	 * Holder
 	 */
@@ -64,7 +56,6 @@ public class RobotMap {
 	// Components necessary for Floor Gear
 	public static VictorSP FLOORGEAR_INTAKE;
 	public static DoubleSolenoid FLOORGEAR_LIFTER, FLOORGEAR_BLOCKER;
-	public static ForceResistor FLOORGEAR_FORCE_LEFT, FLOORGEAR_FORCE_RIGHT;
 
 	// Components necessary for Climber
 	public static VictorSP CLIMBER;
@@ -119,9 +110,6 @@ public class RobotMap {
 		FLOORGEAR_LIFTER = new DoubleSolenoid(0, 1);
 		FLOORGEAR_BLOCKER = new DoubleSolenoid(2, 3);
 
-		FLOORGEAR_FORCE_LEFT = new ForceResistor(0);
-		FLOORGEAR_FORCE_RIGHT = new ForceResistor(1);
-
 		// Climber
 		CLIMBER = new VictorSP(3);
 
@@ -150,7 +138,7 @@ public class RobotMap {
 		VISION_CAMERA.getProperty("saturation").set(20);
 		VISION_CAMERA.getProperty("gain").set(0);
 		VISION_CAMERA.getProperty("exposure_auto").set(1);
-		VISION_CAMERA.getProperty("brightness").set(0);
+		VISION_CAMERA.getProperty("brightness").set(50);
 		VISION_CAMERA.getProperty("exposure_absolute").set(1);
 		VISION_CAMERA.getProperty("exposure_auto_priority").set(0);
 

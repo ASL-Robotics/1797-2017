@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team1797.robot;
 
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation2Stay;
 import org.usfirst.frc.team1797.robot.subsystems.Climber;
 import org.usfirst.frc.team1797.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1797.robot.subsystems.FloorGear;
@@ -87,7 +88,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = RobotMap.AUTO_CHOOSER.getSelected();
+		autonomousCommand = null;
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 	}

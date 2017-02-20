@@ -2,7 +2,6 @@ package org.usfirst.frc.team1797.robot.subsystems;
 
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.FloorGearDefaultCommand;
-import org.usfirst.frc.team1797.util.ForceResistor;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -17,8 +16,6 @@ public class FloorGear extends Subsystem {
 
 	private VictorSP intake;
 	private DoubleSolenoid liftPiston, blockPiston;
-
-	private ForceResistor leftForce, rightForce;
 	
 	private long lastActuationLifter, lastActuationBlocker;
 	
@@ -29,9 +26,6 @@ public class FloorGear extends Subsystem {
 		liftPiston = RobotMap.FLOORGEAR_LIFTER;
 		blockPiston = RobotMap.FLOORGEAR_BLOCKER;
 
-		leftForce = RobotMap.FLOORGEAR_FORCE_LEFT;
-		rightForce = RobotMap.FLOORGEAR_FORCE_RIGHT;
-		
 		lastActuationLifter = Long.MAX_VALUE;
 		lastActuationBlocker = Long.MAX_VALUE;
 	}
@@ -49,10 +43,6 @@ public class FloorGear extends Subsystem {
 		intake.set(0);
 	}
 
-	public boolean isIn(){
-		return (leftForce.getVoltage() >= 2.5 || rightForce.getVoltage() >= 2.5);
-	}
-	
 	//Claw
 	public void lifterUp() {
 		liftPiston.set(DoubleSolenoid.Value.kForward);

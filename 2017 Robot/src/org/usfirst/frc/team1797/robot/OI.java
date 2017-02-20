@@ -5,14 +5,12 @@ import org.usfirst.frc.team1797.robot.commands.DrivetrainShiftGearCommand;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainStation1ProfileCommand;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainStation2ProfileCommand;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainStation3ProfileCommand;
-import org.usfirst.frc.team1797.robot.commands.FloorGearIntakeCommand;
+import org.usfirst.frc.team1797.robot.commands.FloorGearDownCommand;
+import org.usfirst.frc.team1797.robot.commands.FloorGearUpCommand;
 import org.usfirst.frc.team1797.robot.commands.FloorGearOuttakeCommand;
-import org.usfirst.frc.team1797.robot.commands.FloorGearRumbleCommand;
 import org.usfirst.frc.team1797.robot.commands.ShooterCommand;
 import org.usfirst.frc.team1797.robot.commands.StorageIntakeCommand;
 import org.usfirst.frc.team1797.util.XBox360;
-
-import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -64,18 +62,16 @@ public class OI {
 
 		// Anna
 		operatorController = new XBox360(1);
-		new Trigger() {
-			@Override
-			public boolean get() {
-				return Robot.floorgear.isIn();
-			}
-		}.whenActive(new FloorGearRumbleCommand());
-		operatorController.getAButton().whileHeld(new FloorGearIntakeCommand());
 		operatorController.getYButton().whileHeld(new FloorGearOuttakeCommand());
 		operatorController.getLeftBumper().whileHeld(new StorageIntakeCommand());
-		operatorController.getNorthEast().whileHeld(new ShooterCommand());
-		operatorController.getNorth().whileHeld(new ShooterCommand());
-		operatorController.getNorthWest().whileHeld(new ShooterCommand());
+		
+		operatorController.getNorthEast().whenPressed(new FloorGearUpCommand());
+		operatorController.getNorth().whenPressed(new FloorGearUpCommand());
+		operatorController.getNorthWest().whenPressed(new FloorGearUpCommand());
+		
+		operatorController.getSouthEast().whenPressed(new FloorGearDownCommand());
+		operatorController.getSouth().whenPressed(new FloorGearDownCommand());
+		operatorController.getSouthWest().whenPressed(new FloorGearDownCommand());
 
 	}
 
