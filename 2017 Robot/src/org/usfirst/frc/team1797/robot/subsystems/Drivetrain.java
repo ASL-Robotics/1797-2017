@@ -6,13 +6,10 @@ import java.util.ArrayList;
 import org.usfirst.frc.team1797.robot.Robot;
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainDefaultCommand;
-import org.usfirst.frc.team1797.util.Ultrasonic;
-import org.usfirst.frc.team1797.vision.VisionProcessor;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
@@ -24,26 +21,21 @@ import jaci.pathfinder.Trajectory.Segment;
 public class Drivetrain extends Subsystem {
 	private RobotDrive robotDrive;
 	private Encoder leftEncoder, rightEncoder;
-	private Gyro gyro;
-	private Ultrasonic ultrasonic;
-	private VisionProcessor processor;
 
 	private boolean highGear;
 
 	private int i;
 
-	// Drive PID
+	// Drive P
 	private double drive_kp;
 
 	// Vision Controls
-	private double cv_kp;
-	private double angle;
-	private ArrayList<Double> lastTurnErrors = new ArrayList<Double>();
-	private double ultrasonic_kp;
-	private ArrayList<Double> lastDistErrors = new ArrayList<Double>();
+	private double phi_kp, r_kp;
+	private double phi, r;
+	private ArrayList<Double> lastPhiErrors = new ArrayList<Double>(), lastRErrors = new ArrayList<Double>();
 	private final double PEG_LENGTH = 10.5;
 
-	// Motion Profile PD/VA
+	// Motion Profile P/V
 	private Trajectory leftTraj, rightTraj;
 
 	private final double mp_kp, mp_kv_left, mp_kv_right;
@@ -56,17 +48,12 @@ public class Drivetrain extends Subsystem {
 		leftEncoder = RobotMap.DRIVETRAIN_ENCODER_LEFT;
 		rightEncoder = RobotMap.DRIVETRAIN_ENCODER_RIGHT;
 
-		gyro = RobotMap.DRIVETRAIN_GYRO;
-
-		processor = Robot.processor;
-
 		highGear = true;
-		SmartDashboard.putBoolean("DRIVETRAIN: High Gear", highGear);
 
 		drive_kp = 0.01;
 
-		cv_kp = 0.1;
-		ultrasonic_kp = 0.01;
+		phi_kp = 0.166;
+		r_kp = 0.01;
 
 		mp_kp = 0.2;
 		mp_kv_left = 0.00706;
@@ -81,8 +68,6 @@ public class Drivetrain extends Subsystem {
 
 	// Driving
 	public void teleopDrive(double moveValue, double rotateValue) {
-
-		System.out.println(gyro.getAngle());
 
 		// Dead Space
 		moveValue = Math.abs(moveValue) > 0.05 ? moveValue : 0;
@@ -106,8 +91,8 @@ public class Drivetrain extends Subsystem {
 	}
 
 	private void driveStraight(double moveValue) {
-		double left = RobotMap.DRIVETRAIN_ENCODER_LEFT.getRate();
-		double right = RobotMap.DRIVETRAIN_ENCODER_RIGHT.getRate();
+		double left = leftEncoder.getRate();
+		double right = rightEncoder.getRate();
 		double error = right - left;
 		double result = drive_kp * error;
 		robotDrive.tankDrive(moveValue + result, moveValue - result);
@@ -123,58 +108,60 @@ public class Drivetrain extends Subsystem {
 	}
 
 	// Vision
-	public void setAngle() {
+	public void setPhi() {
 		resetDriveMotors();
-		RobotMap.VISION_CAMERA.setBrightness(50);
-		lastTurnErrors.clear();
-		angle = (gyro.getAngle() + processor.getTurnAngle()) % 360;
+		resetSensors();
+		lastPhiErrors.clear();
+		phi = Robot.processor.getVector().getPhi() * 0.201;
 	}
 
 	public void turn() {
-		double error = angle - gyro.getAngle();
-		updateLastTurnErrors(error);
-		double result = cv_kp * error;
-		robotDrive.tankDrive(result, -result);
+		double leftError = phi - leftEncoder.getDistance();
+		double rightError = -phi - rightEncoder.getDistance();
+		updateLastPhiErrors((leftError - rightError) / 2);
+		robotDrive.tankDrive(phi_kp * leftError, phi_kp * rightError);
 	}
 
-	private void updateLastTurnErrors(double error) {
-		if (lastTurnErrors.size() > 10)
-			lastTurnErrors.remove(0);
-		lastTurnErrors.add(error);
+	private void updateLastPhiErrors(double error) {
+		if (lastPhiErrors.size() > 10)
+			lastPhiErrors.remove(0);
+		lastPhiErrors.add(Math.abs(error));
 	}
 
 	public boolean turnIsDone() {
 		double average = 0;
-		for (int i = 0; i < lastTurnErrors.size(); i++) {
-			average += lastTurnErrors.get(i);
+		for (int i = 0; i < lastPhiErrors.size(); i++) {
+			average += lastPhiErrors.get(i);
 		}
-		average /= lastTurnErrors.size();
+		average /= lastPhiErrors.size();
 		return Math.abs(average) < 1;
 	}
 
-	public void resetDistDrive() {
-		lastDistErrors.clear();
+	public void setR() {
+		resetSensors();
+		lastRErrors.clear();
+		r = Robot.processor.getVector().getR();
 	}
 
-	public void distDrive() {
-		double error = PEG_LENGTH - ultrasonic.getDistance();
-		updateLastDistErrors(error);
-		double moveValue = ultrasonic_kp * error;
+	public void rDrive() {
+		double error = PEG_LENGTH - r;
+		updateLastRErrors(error);
+		double moveValue = r_kp * error;
 		driveStraight(moveValue);
 	}
 
-	private void updateLastDistErrors(double error) {
-		if (lastDistErrors.size() > 10)
-			lastDistErrors.remove(0);
-		lastDistErrors.add(error);
+	private void updateLastRErrors(double error) {
+		if (lastRErrors.size() > 10)
+			lastRErrors.remove(0);
+		lastRErrors.add(Math.abs(error));
 	}
 
-	public boolean distDriveIsDone() {
+	public boolean rDriveIsDone() {
 		double average = 0;
-		for (int i = 0; i < lastDistErrors.size(); i++) {
-			average += lastDistErrors.get(i);
+		for (int i = 0; i < lastRErrors.size(); i++) {
+			average += lastRErrors.get(i);
 		}
-		average /= lastDistErrors.size();
+		average /= lastRErrors.size();
 		return Math.abs(average) < 1;
 	}
 
@@ -196,7 +183,6 @@ public class Drivetrain extends Subsystem {
 	public void resetSensors() {
 		leftEncoder.reset();
 		rightEncoder.reset();
-		gyro.reset();
 
 		i = 0;
 	}

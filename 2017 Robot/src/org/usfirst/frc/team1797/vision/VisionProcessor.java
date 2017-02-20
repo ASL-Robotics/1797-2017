@@ -37,13 +37,15 @@ public class VisionProcessor extends Subsystem {
 		NetworkTable.getTable("Vision").putString("Target Rectangles", "[]");
 	}
 
-	public double getTurnAngle() {
+	public Vector getVector() {
+		update();
+
 		if (targetRects.size() != 2)
-			return 0;
+			return new Vector(0, 0);
 
 		Vector v = new Vector(getR(), getPhi());
-		Vector q = Vector.add(RobotMap.VISION_CAMERA_VECTOR, v);
-		return q.getPhi();
+		return Vector.add(RobotMap.VISION_CAMERA_VECTOR, v);
+
 	}
 
 	private double getAvgX() {

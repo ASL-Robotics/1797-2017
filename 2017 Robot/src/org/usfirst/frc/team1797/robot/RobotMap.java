@@ -43,7 +43,7 @@ public class RobotMap {
 	 * 
 	 * DIO: 0,1 - DRIVETRAIN Encoder Left; 2,3 - DRIVETRAIN Encoder Right;
 	 * 
-	 * ANALOG: 0 - DRIVETRAIN Ultrasonic; 1 - FLOORGEAR Force Left; 2 -
+	 * ANALOG:0 - FLOORGEAR Force Left; 1 -
 	 * FLOORGEAR Force Right
 	 * 
 	 * PCM: 0,1 - FLOORGEAR Lifter; 2,3 - FLOORGEAR Blocker; 4,5 - SLOTGEAR
@@ -60,9 +60,6 @@ public class RobotMap {
 	public static RobotDrive DRIVETRAIN_ROBOT_DRIVE;
 
 	public static Encoder DRIVETRAIN_ENCODER_LEFT, DRIVETRAIN_ENCODER_RIGHT;
-
-	public static ADXRS450_Gyro DRIVETRAIN_GYRO;
-	public static Ultrasonic DRIVETRAIN_ULTRASONIC;
 
 	// Components necessary for Floor Gear
 	public static VictorSP FLOORGEAR_INTAKE;
@@ -96,7 +93,7 @@ public class RobotMap {
 
 		// Auto Chooser
 		AUTO_CHOOSER = new SendableChooser<Command>();
-		AUTO_CHOOSER.addDefault("Default Auto", new AutoDoNothing());
+		AUTO_CHOOSER.addDefault("Do Nothing", new AutoDoNothing());
 		AUTO_CHOOSER.addObject("Station 1 Baseline", new AutoStation1Baseline());
 		AUTO_CHOOSER.addObject("Station 1 Stay", new AutoStation1Stay());
 		AUTO_CHOOSER.addObject("Station 2", new AutoStation2Stay());
@@ -117,19 +114,13 @@ public class RobotMap {
 		DRIVETRAIN_ENCODER_RIGHT = new Encoder(2, 3, true);
 		DRIVETRAIN_ENCODER_RIGHT.setDistancePerPulse(0.0481);
 
-		DRIVETRAIN_GYRO = new ADXRS450_Gyro();
-		DRIVETRAIN_GYRO.reset();
-		DRIVETRAIN_GYRO.calibrate();
-
-		DRIVETRAIN_ULTRASONIC = new Ultrasonic(0);
-
 		// Floor Gear
 		FLOORGEAR_INTAKE = new VictorSP(2);
 		FLOORGEAR_LIFTER = new DoubleSolenoid(0, 1);
 		FLOORGEAR_BLOCKER = new DoubleSolenoid(2, 3);
 
-		FLOORGEAR_FORCE_LEFT = new ForceResistor(1);
-		FLOORGEAR_FORCE_RIGHT = new ForceResistor(2);
+		FLOORGEAR_FORCE_LEFT = new ForceResistor(0);
+		FLOORGEAR_FORCE_RIGHT = new ForceResistor(1);
 
 		// Climber
 		CLIMBER = new VictorSP(3);
@@ -159,7 +150,7 @@ public class RobotMap {
 		VISION_CAMERA.getProperty("saturation").set(20);
 		VISION_CAMERA.getProperty("gain").set(0);
 		VISION_CAMERA.getProperty("exposure_auto").set(1);
-		VISION_CAMERA.getProperty("brightness").set(50);
+		VISION_CAMERA.getProperty("brightness").set(0);
 		VISION_CAMERA.getProperty("exposure_absolute").set(1);
 		VISION_CAMERA.getProperty("exposure_auto_priority").set(0);
 

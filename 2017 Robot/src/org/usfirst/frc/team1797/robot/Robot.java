@@ -114,7 +114,4 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	public void testPeriodic() {
-		System.out.println(RobotMap.DRIVETRAIN_ULTRASONIC.getDistance());
-	}
 }

@@ -2,6 +2,7 @@ package org.usfirst.frc.team1797.robot.commands;
 
 import org.usfirst.frc.team1797.robot.Robot;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -32,14 +33,17 @@ public class FloorGearIntakeCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		interrupted();
+		Robot.oi.operatorController.setRumble(RumbleType.kRightRumble, 1.0);
+		Robot.floorgear.intakeOff();
+		Robot.floorgear.blockerDown();
+		Robot.floorgear.lifterUp();
+		Robot.oi.operatorController.setRumble(RumbleType.kRightRumble, 0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.floorgear.intakeOff();
-		Robot.floorgear.blockerDown();
-		Robot.floorgear.lifterUp();
+		end();
+		
 	}
 }
