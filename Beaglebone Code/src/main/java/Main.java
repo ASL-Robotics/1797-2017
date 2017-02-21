@@ -129,13 +129,6 @@ public class Main {
 			}
 
 			NetworkTable.getTable("Vision").putString("Target Rectangles", gson.toJson(targetRects.toArray()));
-
-			// debug code
-
-			Imgproc.line(inputImage, new Point(44, 0), new Point(44, 160), new Scalar(255, 255, 255), 1, 8, 0);
-
-			imageSource.putFrame(inputImage);
-			// System.out.println(pipeline.filterContoursOutput().size());
 		}
 	}
 

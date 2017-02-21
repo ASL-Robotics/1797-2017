@@ -137,12 +137,16 @@ public class Drivetrain extends Subsystem {
 		return Math.abs(average) < 1;
 	}
 
-	public void setR() {
+	public void setR(double r) {
 		resetSensors();
 		lastRErrors.clear();
-		r = Robot.processor.getVector().getR();
+		this.r = r;
 	}
-
+	
+	public void setR(){
+		setR(Robot.processor.getVector().getR());
+	}
+	
 	public void rDrive() {
 		double error = PEG_LENGTH - r;
 		updateLastRErrors(error);

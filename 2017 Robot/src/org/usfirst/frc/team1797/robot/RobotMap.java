@@ -1,11 +1,10 @@
 package org.usfirst.frc.team1797.robot;
 
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoBaseline;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoCenterGear;
 import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoDoNothing;
-import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation1Baseline;
-import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation1Stay;
-import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation2Stay;
-import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation3Baseline;
-import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoStation3Stay;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoLeftGear;
+import org.usfirst.frc.team1797.robot.commands.autocommandgroups.AutoRightGear;
 import org.usfirst.frc.team1797.util.Vector;
 import org.usfirst.frc.team1797.vision.GripPipeline;
 
@@ -75,7 +74,7 @@ public class RobotMap {
 	public static CameraServer VISION_SERVER;
 	public static int kVISION_WIDTH = 160, kVISION_HEIGHT = 90;
 	public static double kVISION_FOV = 60, kVISION_CENTER_X, kVISION_FOCAL_LENGTH;
-	public static Vector VISION_CAMERA_VECTOR = new Vector(15, 40);
+	public static Vector VISION_CAMERA_VECTOR = new Vector(4, 0);
 	public static UsbCamera VISION_CAMERA;
 	public static GripPipeline VISION_PIPELINE;
 	public static CvSink VISION_SINK;
@@ -85,11 +84,10 @@ public class RobotMap {
 		// Auto Chooser
 		AUTO_CHOOSER = new SendableChooser<Command>();
 		AUTO_CHOOSER.addDefault("Do Nothing", new AutoDoNothing());
-		AUTO_CHOOSER.addObject("Station 1 Baseline", new AutoStation1Baseline());
-		AUTO_CHOOSER.addObject("Station 1 Stay", new AutoStation1Stay());
-		AUTO_CHOOSER.addObject("Station 2", new AutoStation2Stay());
-		AUTO_CHOOSER.addObject("Station 3 Baseline", new AutoStation3Baseline());
-		AUTO_CHOOSER.addObject("Station 3 Stay", new AutoStation3Stay());
+		AUTO_CHOOSER.addObject("Baseline", new AutoBaseline());
+		AUTO_CHOOSER.addObject("Left Gear", new AutoLeftGear());
+		AUTO_CHOOSER.addObject("Center Gear", new AutoCenterGear());
+		AUTO_CHOOSER.addObject("Right Gear", new AutoRightGear());
 		SmartDashboard.putData("Auto Mode:", AUTO_CHOOSER);
 
 	}

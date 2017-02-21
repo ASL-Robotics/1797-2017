@@ -10,6 +10,6 @@ public class PlaceSlotGear extends CommandGroup {
     public PlaceSlotGear() {
     	addSequential(new DrivetrainAimCommand());
         addSequential(new DrivetrainDriveToWallCommand());
-        addSequential(new SlotGearToggleCommand());
+        addSequential(new FloorGearOuttakeCommand());
     }
 }
