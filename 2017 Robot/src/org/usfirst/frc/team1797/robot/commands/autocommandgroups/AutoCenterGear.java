@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1797.robot.commands.autocommandgroups;
 
-import org.usfirst.frc.team1797.robot.commands.DrivetrainStation2ProfileCommand;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainCenterCommand;
 import org.usfirst.frc.team1797.robot.commands.PlaceSlotGear;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoCenterGear extends CommandGroup {
 
     public AutoCenterGear() {
-    	addSequential(new DrivetrainStation2ProfileCommand());
+    	addSequential(new DrivetrainCenterCommand());
         addSequential(new PlaceSlotGear());
     }
 }

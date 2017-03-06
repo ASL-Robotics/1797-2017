@@ -1,9 +1,7 @@
 package org.usfirst.frc.team1797.robot.subsystems;
 
 import java.io.File;
-import java.util.ArrayList;
 
-import org.usfirst.frc.team1797.robot.Robot;
 import org.usfirst.frc.team1797.robot.RobotMap;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainDefaultCommand;
 
@@ -15,9 +13,6 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
 
-/**
- *
- */
 public class Drivetrain extends Subsystem {
 	private RobotDrive robotDrive;
 	private Encoder leftEncoder, rightEncoder;
@@ -28,12 +23,6 @@ public class Drivetrain extends Subsystem {
 
 	// Drive P
 	private double drive_kp;
-
-	// Vision Controls
-	private double phi_kp, r_kp;
-	private double phi, r;
-	private ArrayList<Double> lastPhiErrors = new ArrayList<Double>(), lastRErrors = new ArrayList<Double>();
-	private final double PEG_LENGTH = 10.5;
 
 	// Motion Profile P/V
 	private Trajectory leftTraj, rightTraj;
@@ -51,9 +40,6 @@ public class Drivetrain extends Subsystem {
 		highGear = true;
 
 		drive_kp = 0.01;
-
-		phi_kp = 0.166;
-		r_kp = 0.01;
 
 		mp_kp = 0.2;
 		mp_kv_left = 0.00706;
@@ -105,68 +91,6 @@ public class Drivetrain extends Subsystem {
 
 	public void resetDriveMotors() {
 		robotDrive.stopMotor();
-	}
-
-	// Vision
-	public void setPhi() {
-		resetDriveMotors();
-		resetSensors();
-		lastPhiErrors.clear();
-		phi = Robot.processor.getVector().getPhi() * 0.201;
-	}
-
-	public void turn() {
-		double leftError = phi - leftEncoder.getDistance();
-		double rightError = -phi - rightEncoder.getDistance();
-		updateLastPhiErrors((leftError - rightError) / 2);
-		robotDrive.tankDrive(phi_kp * leftError, phi_kp * rightError);
-	}
-
-	private void updateLastPhiErrors(double error) {
-		if (lastPhiErrors.size() > 10)
-			lastPhiErrors.remove(0);
-		lastPhiErrors.add(Math.abs(error));
-	}
-
-	public boolean turnIsDone() {
-		double average = 0;
-		for (int i = 0; i < lastPhiErrors.size(); i++) {
-			average += lastPhiErrors.get(i);
-		}
-		average /= lastPhiErrors.size();
-		return Math.abs(average) < 1;
-	}
-
-	public void setR(double r) {
-		resetSensors();
-		lastRErrors.clear();
-		this.r = r;
-	}
-
-	public void setR() {
-		setR(Robot.processor.getVector().getR());
-	}
-
-	public void rDrive() {
-		double error = PEG_LENGTH - r;
-		updateLastRErrors(error);
-		double moveValue = r_kp * error;
-		driveStraight(moveValue);
-	}
-
-	private void updateLastRErrors(double error) {
-		if (lastRErrors.size() > 10)
-			lastRErrors.remove(0);
-		lastRErrors.add(Math.abs(error));
-	}
-
-	public boolean rDriveIsDone() {
-		double average = 0;
-		for (int i = 0; i < lastRErrors.size(); i++) {
-			average += lastRErrors.get(i);
-		}
-		average /= lastRErrors.size();
-		return Math.abs(average) < 1;
 	}
 
 	// Motion Profile

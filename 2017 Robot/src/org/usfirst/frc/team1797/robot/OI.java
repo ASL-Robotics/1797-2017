@@ -2,9 +2,9 @@ package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.DrivetrainAimCommand;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainShiftGearCommand;
-import org.usfirst.frc.team1797.robot.commands.DrivetrainStation1ProfileCommand;
-import org.usfirst.frc.team1797.robot.commands.DrivetrainStation2ProfileCommand;
-import org.usfirst.frc.team1797.robot.commands.DrivetrainStation3ProfileCommand;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainRedLeftCommand;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainCenterCommand;
+import org.usfirst.frc.team1797.robot.commands.DrivetrainRedRightCommand;
 import org.usfirst.frc.team1797.robot.commands.FloorGearDownCommand;
 import org.usfirst.frc.team1797.robot.commands.FloorGearUpCommand;
 import org.usfirst.frc.team1797.robot.commands.FloorGearOuttakeCommand;
@@ -56,9 +56,9 @@ public class OI {
 		driverController.getRightBumper().whenPressed(new DrivetrainAimCommand());
 
 		// Testing
-		driverController.getXButton().whenPressed(new DrivetrainStation1ProfileCommand());
-		driverController.getYButton().whenPressed(new DrivetrainStation2ProfileCommand());
-		driverController.getBButton().whenPressed(new DrivetrainStation3ProfileCommand());
+		driverController.getXButton().whenPressed(new DrivetrainRedLeftCommand());
+		driverController.getYButton().whenPressed(new DrivetrainCenterCommand());
+		driverController.getBButton().whenPressed(new DrivetrainRedRightCommand());
 
 		// Anna
 		operatorController = new XBox360(1);

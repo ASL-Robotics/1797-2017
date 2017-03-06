@@ -9,8 +9,9 @@ public class Trajectories {
 
 	public static Trajectory[] returnTraj(Waypoint[][] pairs) {
 		Trajectory[] traj = new Trajectory[pairs.length];
-		for (int i = 0; i < traj.length; i++)
+		for (int i = 0; i < pairs.length; i++) {
 			traj[i] = Pathfinder.generate(pairs[i], Waypoints.config);
+		}
 		return traj;
 	}
 
@@ -26,6 +27,5 @@ public class Trajectories {
 		}
 		return tankTraj;
 	}
-	
-	
+
 }

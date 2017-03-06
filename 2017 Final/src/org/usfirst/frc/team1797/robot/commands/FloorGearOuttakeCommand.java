@@ -7,31 +7,32 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DrivetrainStation1ProfileCommand extends Command {
+public class FloorGearOuttakeCommand extends Command {
 
-	public DrivetrainStation1ProfileCommand() {
-		requires(Robot.drivetrain);
+	public FloorGearOuttakeCommand() {
+		requires(Robot.floorgear);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drivetrain.stationTrajectory(1);
-		Robot.drivetrain.resetSensors();
+		Robot.floorgear.outtake();
+		Robot.floorgear.lifterDown();
+		setTimeout(1);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drivetrain.runProfile();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.drivetrain.profileIsDone();
+		return isTimedOut();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.drivetrain.resetDriveMotors();
+		Robot.floorgear.intakeOff();
+		Robot.floorgear.lifterUp();
 	}
 
 	// Called when another command which requires one or more of the same
