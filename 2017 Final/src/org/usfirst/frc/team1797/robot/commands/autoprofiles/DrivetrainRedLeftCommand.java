@@ -15,7 +15,7 @@ public class DrivetrainRedLeftCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.drivetrain.stationTrajectory(1,true);
+		Robot.drivetrain.trajectory(1,true);
 		Robot.drivetrain.resetSensors();
 	}
 

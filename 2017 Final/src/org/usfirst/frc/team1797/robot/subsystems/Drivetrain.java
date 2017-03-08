@@ -27,7 +27,7 @@ public class Drivetrain extends Subsystem {
 	// Motion Profile P/V
 	private Trajectory leftTraj, rightTraj;
 
-	private final double mp_kp, mp_kv_left, mp_kv_right;
+	private double mp_kp, mp_kv_left, mp_kv_right;
 
 	private double trajLength;
 
@@ -94,18 +94,26 @@ public class Drivetrain extends Subsystem {
 	}
 
 	// Motion Profile
-	public void stationTrajectory(int station, boolean isRed) {
+	public void trajectory(int number, boolean isRed) {
 		File left, right;
 		if (isRed) {
-			left = new File("home//lvuser//left_" + (station - 1) + ".csv");
-			right = new File("home//lvuser//right_" + (station - 1) + ".csv");
+			left = new File("home//lvuser//left_" + (number - 1) + ".csv");
+			right = new File("home//lvuser//right_" + (number - 1) + ".csv");
 		} else {
-			left = new File("home//lvuser//right_" + (station - 1) + ".csv");
-			right = new File("home//lvuser//left_" + (station - 1) + ".csv");
+			left = new File("home//lvuser//right_" + (number - 1) + ".csv");
+			right = new File("home//lvuser//left_" + (number - 1) + ".csv");
 		}
 		Trajectory leftTraj = Pathfinder.readFromCSV(left);
 		Trajectory rightTraj = Pathfinder.readFromCSV(right);
 		setTrajectories(leftTraj, rightTraj);
+	}
+
+	public void invertEncoders() {
+		leftEncoder.setReverseDirection(!leftEncoder.getDirection());
+		rightEncoder.setReverseDirection(!rightEncoder.getDirection());
+
+		mp_kv_left *= -1;
+		mp_kv_right *= -1;
 	}
 
 	public void setTrajectories(Trajectory leftTraj, Trajectory rightTraj) {

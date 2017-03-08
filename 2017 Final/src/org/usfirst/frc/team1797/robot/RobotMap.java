@@ -1,11 +1,18 @@
 package org.usfirst.frc.team1797.robot;
 
 import org.usfirst.frc.team1797.robot.commands.autocommands.AutoBlueLeftGear;
+import org.usfirst.frc.team1797.robot.commands.autocommands.AutoBlueLeftGearHC;
+import org.usfirst.frc.team1797.robot.commands.autocommands.AutoBlueLeftHCReverse;
 import org.usfirst.frc.team1797.robot.commands.autocommands.AutoBlueRightGear;
+import org.usfirst.frc.team1797.robot.commands.autocommands.AutoBlueRightGearHC;
 import org.usfirst.frc.team1797.robot.commands.autocommands.AutoCenterGear;
 import org.usfirst.frc.team1797.robot.commands.autocommands.AutoDoNothing;
 import org.usfirst.frc.team1797.robot.commands.autocommands.AutoRedLeftGear;
+import org.usfirst.frc.team1797.robot.commands.autocommands.AutoRedLeftGearHC;
 import org.usfirst.frc.team1797.robot.commands.autocommands.AutoRedRightGear;
+import org.usfirst.frc.team1797.robot.commands.autocommands.AutoRedRightGearHC;
+import org.usfirst.frc.team1797.robot.commands.autocommands.AutoRedRightHCReverse;
+import org.usfirst.frc.team1797.robot.commands.autocommands.AutoStraightHCReverse;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -61,6 +68,7 @@ public class RobotMap {
 
 		// Auto Chooser
 		AUTO_CHOOSER = new SendableChooser<Command>();
+		
 		AUTO_CHOOSER.addDefault("Do Nothing", new AutoDoNothing());
 		
 		AUTO_CHOOSER.addObject("Center Gear", new AutoCenterGear());
@@ -71,7 +79,15 @@ public class RobotMap {
 		AUTO_CHOOSER.addObject("Blue Alliance Left Gear", new AutoBlueLeftGear());
 		AUTO_CHOOSER.addObject("Blue Alliance Right Gear", new AutoBlueRightGear());
 		
+		AUTO_CHOOSER.addObject("Red Alliance Left/Blue Alliance Right Half Court Reverse", new AutoStraightHCReverse());
 		
+		AUTO_CHOOSER.addObject("Red Alliance Right Half Court Reverse", new AutoRedRightHCReverse());
+		AUTO_CHOOSER.addObject("Blue Alliance Left Half Court Reverse", new AutoBlueLeftHCReverse());
+		
+		AUTO_CHOOSER.addObject("Red Alliance Left Gear + Half Court", new AutoRedLeftGearHC());
+		AUTO_CHOOSER.addObject("Red Alliance Right Gear + Half Court", new AutoRedRightGearHC());
+		AUTO_CHOOSER.addObject("Blue Alliance Left Gear + Half Court", new AutoBlueLeftGearHC());
+		AUTO_CHOOSER.addObject("Blue Alliance Right Gear + Half Court", new AutoBlueRightGearHC());
 		
 		SmartDashboard.putData("Auto Mode:", AUTO_CHOOSER);
 
