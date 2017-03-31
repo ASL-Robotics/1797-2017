@@ -3,6 +3,7 @@ package org.usfirst.frc.team1797.robot;
 import org.usfirst.frc.team1797.robot.commands.DrivetrainShiftGearCommand;
 import org.usfirst.frc.team1797.robot.commands.FloorGearDownCommand;
 import org.usfirst.frc.team1797.robot.commands.FloorGearOuttakeCommand;
+import org.usfirst.frc.team1797.robot.commands.FloorGearStopIntake;
 import org.usfirst.frc.team1797.robot.commands.FloorGearUpCommand;
 import org.usfirst.frc.team1797.util.XBox360;
 
@@ -31,6 +32,8 @@ public class OI {
 		operatorController.getSouthEast().whenPressed(new FloorGearDownCommand());
 		operatorController.getSouth().whenPressed(new FloorGearDownCommand());
 		operatorController.getSouthWest().whenPressed(new FloorGearDownCommand());
+
+		operatorController.getRightBumper().whileHeld(new FloorGearStopIntake());
 
 	}
 

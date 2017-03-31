@@ -42,12 +42,13 @@ public class Drivetrain extends Subsystem {
 		drive_kp = 0.01;
 
 		mp_kp = 0.2;
-		mp_kv_left = 0.00706;
-		mp_kv_right = 0.00685;
+		mp_kv_left = 0.00700;
+		mp_kv_right = 0.00750;
 		i = 0;
 
 	}
 
+	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new DrivetrainDefaultCommand());
 	}
@@ -60,8 +61,8 @@ public class Drivetrain extends Subsystem {
 		rotateValue = Math.abs(rotateValue) > 0.05 ? rotateValue : 0;
 
 		// "Gear" Mode
-		moveValue = highGear ? moveValue : moveValue * 0.5;
-		rotateValue = highGear ? rotateValue : rotateValue * 0.5;
+		moveValue = highGear ? moveValue : moveValue * 0.67;
+		rotateValue = highGear ? rotateValue : rotateValue * 0.67;
 
 		if (moveValue == 0 && rotateValue == 0) {
 			robotDrive.arcadeDrive(0, 0);

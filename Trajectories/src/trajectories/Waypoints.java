@@ -5,6 +5,8 @@ import jaci.pathfinder.Trajectory.FitMethod;
 import jaci.pathfinder.Waypoint;
 
 public class Waypoints {
+	
+	// w: 31.5, l:29.5
 
 	public static Waypoint RED_AW_1 = new Waypoint(14.8, 269, 0);
 	public static Waypoint RED_AS_1 = new Waypoint(124, 206, -Math.PI / 3);

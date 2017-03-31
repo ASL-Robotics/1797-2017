@@ -121,7 +121,7 @@ public class RobotMap {
 		VISION_CAMERA = VISION_SERVER.startAutomaticCapture("FRONT", 0);
 
 		VISION_CAMERA.getProperty("saturation").set(20);
-		VISION_CAMERA.getProperty("gain").set(0);
+		VISION_CAMERA.getProperty("gain").set(50);
 		VISION_CAMERA.getProperty("exposure_auto").set(1);
 		VISION_CAMERA.getProperty("brightness").set(50);
 		VISION_CAMERA.getProperty("exposure_absolute").set(1);
